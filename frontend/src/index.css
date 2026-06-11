@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:  "Geist", "Inter", "Arial", system-ui, sans-serif;
+  --font-mono:  "Geist Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  --font-brand: "Poppins", system-ui, sans-serif;
+}
+
+/* ── Light theme (default) ───────────────────────────────────────── */
+:root {
+  --font-sans:     "Geist", "Inter", system-ui, sans-serif;
+  --font-mono:     "Geist Mono", ui-monospace, monospace;
+  --bg:            #ffffff;
+  --bg-surface:    #fafafa;
+  --bg-hover:      #f5f5f5;
+  --bg-input:      #ffffff;
+
+  --text-primary:  #171717;
+  --text-body:     #4d4d4d;
+  --text-muted:    #666666;
+  --text-placeholder: #808080;
+
+  --border-color:  #ebebeb;
+
+  /* Shadow-as-border — Vercel's signature technique */
+  --sh-ring:    rgba(0,0,0,0.08)  0px 0px 0px 1px;
+  --sh-ring-lt: rgb(235,235,235)  0px 0px 0px 1px;
+  --sh-card:    rgba(0,0,0,0.08)  0px 0px 0px 1px,
+                rgba(0,0,0,0.04)  0px 2px 2px,
+                #fafafa           0px 0px 0px 1px;
+  --sh-card-lg: rgba(0,0,0,0.08)  0px 0px 0px 1px,
+                rgba(0,0,0,0.04)  0px 2px 2px,
+                rgba(0,0,0,0.04)  0px 8px 8px -8px,
+                #fafafa           0px 0px 0px 1px;
+  --sh-modal:   rgba(0,0,0,0.12)  0px 0px 0px 1px,
+                rgba(0,0,0,0.08)  0px 8px 32px;
+  /* Directional hairlines */
+  --sh-div-t:   rgba(0,0,0,0.08) 0px  1px 0px 0px;
+  --sh-div-b:   rgba(0,0,0,0.08) 0px -1px 0px 0px;
+  --sh-div-r:   rgba(0,0,0,0.08)  1px 0px 0px 0px;
+  --sh-div-l:   rgba(0,0,0,0.08) -1px 0px 0px 0px;
+
+  /* Badge / pill */
+  --badge-blue-bg:    #ebf5ff;
+  --badge-blue-text:  #0068d6;
+  --badge-green-bg:   #f0faf5;
+  --badge-green-text: #1a7f4b;
+  --badge-red-bg:     #fff5f4;
+  --badge-red-text:   #c53030;
+  --badge-pink-bg:    #fef0f9;
+  --badge-pink-text:  #a81d78;
+  --badge-neutral-bg: rgba(0,0,0,0.06);
+  --badge-neutral-text: #4d4d4d;
+
+  /* Nav active state */
+  --nav-active-bg:   #171717;
+  --nav-active-text: #ffffff;
+
+  /* Overlay */
+  --overlay: hsla(0, 0%, 98%, 0.85);
+
+  /* Focus */
+  --focus-ring: 0 0 0 2px hsla(212, 100%, 48%, 1);
+
+  /* Button primary */
+  --btn-primary-bg:    #171717;
+  --btn-primary-text:  #ffffff;
+  --btn-primary-hover: #000000;
+
+  /* Button secondary */
+  --btn-secondary-bg:    #ffffff;
+  --btn-secondary-text:  #171717;
+  --btn-secondary-hover: #fafafa;
+  --btn-secondary-shadow: rgb(235,235,235) 0px 0px 0px 1px;
+}
+
+/* ── Dark theme ──────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --font-sans:     "Geist", "Inter", system-ui, sans-serif;
+  --font-mono:     "Geist Mono", ui-monospace, monospace;
+  --bg:            #0a0a0a;
+  --bg-surface:    #111111;
+  --bg-hover:      #1a1a1a;
+  --bg-input:      #0f0f0f;
+
+  --text-primary:  #ededed;
+  --text-body:     #a1a1a1;
+  --text-muted:    #6b6b6b;
+  --text-placeholder: #404040;
+
+  --border-color:  #2e2e2e;
+
+  --sh-ring:    rgba(255,255,255,0.09) 0px 0px 0px 1px;
+  --sh-ring-lt: rgba(255,255,255,0.06) 0px 0px 0px 1px;
+  --sh-card:    rgba(255,255,255,0.07) 0px 0px 0px 1px,
+                rgba(255,255,255,0.02) 0px 2px 2px,
+                #1a1a1a               0px 0px 0px 1px;
+  --sh-card-lg: rgba(255,255,255,0.07) 0px 0px 0px 1px,
+                rgba(255,255,255,0.02) 0px 2px 2px,
+                rgba(255,255,255,0.02) 0px 8px 8px -8px,
+                #1a1a1a               0px 0px 0px 1px;
+  --sh-modal:   rgba(255,255,255,0.08) 0px 0px 0px 1px,
+                rgba(0,0,0,0.6)        0px 8px 32px;
+  --sh-div-t:   rgba(255,255,255,0.08) 0px  1px 0px 0px;
+  --sh-div-b:   rgba(255,255,255,0.08) 0px -1px 0px 0px;
+  --sh-div-r:   rgba(255,255,255,0.08)  1px 0px 0px 0px;
+  --sh-div-l:   rgba(255,255,255,0.08) -1px 0px 0px 0px;
+
+  --badge-blue-bg:    #0a1929;
+  --badge-blue-text:  #60a5fa;
+  --badge-green-bg:   #0a1f14;
+  --badge-green-text: #4ade80;
+  --badge-red-bg:     #1f0a0a;
+  --badge-red-text:   #f87171;
+  --badge-pink-bg:    #1f0a17;
+  --badge-pink-text:  #f472b6;
+  --badge-neutral-bg: rgba(255,255,255,0.08);
+  --badge-neutral-text: #a1a1a1;
+
+  --nav-active-bg:   #ededed;
+  --nav-active-text: #0a0a0a;
+
+  --overlay: rgba(0,0,0,0.75);
+
+  --focus-ring: 0 0 0 2px hsla(212, 100%, 48%, 1);
+
+  --btn-primary-bg:    #ededed;
+  --btn-primary-text:  #0a0a0a;
+  --btn-primary-hover: #ffffff;
+
+  --btn-secondary-bg:    #1a1a1a;
+  --btn-secondary-text:  #ededed;
+  --btn-secondary-hover: #222222;
+  --btn-secondary-shadow: rgba(255,255,255,0.08) 0px 0px 0px 1px;
+}
+
+/* ── Base ────────────────────────────────────────────────────────── */
+@layer base {
+  :focus-visible {
+    outline: 2px solid hsla(212, 100%, 48%, 1);
+    outline-offset: 2px;
+  }
+
+  h1 {
+    font-size: 48px; font-weight: 600; line-height: 1.0;
+    letter-spacing: -2.4px; color: var(--text-primary);
+    font-feature-settings: "liga"; margin-bottom: 0;
+  }
+  h2 {
+    font-size: 32px; font-weight: 600; line-height: 1.2;
+    letter-spacing: -1.28px; color: var(--text-primary);
+    font-feature-settings: "liga"; margin-bottom: 0;
+  }
+  h3 {
+    font-size: 24px; font-weight: 600; line-height: 1.33;
+    letter-spacing: -0.96px; color: var(--text-primary);
+    font-feature-settings: "liga"; margin-bottom: 0;
+  }
+  h4 {
+    font-size: 16px; font-weight: 600; line-height: 1.5;
+    letter-spacing: -0.32px; color: var(--text-primary);
+    font-feature-settings: "liga"; margin-bottom: 0;
+  }
+
+  button, a { transition: all 0.15s ease; cursor: pointer; }
+
+  .btn-primary {
+    background: var(--btn-primary-bg);
+    color:      var(--btn-primary-text);
+    padding: 7px 14px; border-radius: 6px;
+    font-size: 14px; font-weight: 500; line-height: 1.43;
+    display: inline-flex; align-items: center; border: none;
+    font-feature-settings: "liga";
+  }
+  .btn-primary:hover   { background: var(--btn-primary-hover); }
+  .btn-primary:active  { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  .btn-secondary {
+    background:  var(--btn-secondary-bg);
+    color:       var(--btn-secondary-text);
+    box-shadow:  var(--btn-secondary-shadow);
+    padding: 7px 14px; border-radius: 6px;
+    font-size: 14px; font-weight: 500; line-height: 1.43;
+    display: inline-flex; align-items: center; border: none;
+    font-feature-settings: "liga";
+  }
+  .btn-secondary:hover  { background: var(--btn-secondary-hover); }
+  .btn-secondary:active { transform: scale(0.98); }
+  .btn-secondary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  label {
+    display: block; font-size: 12px; font-weight: 500;
+    color: var(--text-primary); margin-bottom: 6px;
+    font-feature-settings: "liga";
+  }
+
+  input[type="text"], input[type="email"], input[type="number"], input[type="password"], textarea {
+    width: 100%;
+    background:  var(--bg-input);
+    color:       var(--text-primary);
+    box-shadow:  var(--sh-ring);
+    border: none; outline: none; border-radius: 6px;
+    padding: 8px 12px; font-size: 14px; font-weight: 400;
+    transition: box-shadow 0.15s; font-feature-settings: "liga";
+    font-family: inherit;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="password"]:focus,
+  textarea:focus {
+    box-shadow: var(--sh-ring), var(--focus-ring);
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-placeholder); }
+}
+
+/* ── Body ────────────────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar       { width: 4px; height: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 99px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── Mono label ──────────────────────────────────────────────────── */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+/* ── Theme transition ────────────────────────────────────────────── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, box-shadow, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+/* Disable transition on elements that shouldn't animate */
+.no-transition, .no-transition * {
+  transition: none !important;
+}
