@@ -1,0 +1,138 @@
+/* ── Picket Landing — accent tokens ─────────────────────────────────── */
+:root {
+  --picket-cyan:      #26C6DA;
+  --picket-blue:      #1565C0;
+  --picket-mid:       #1E88E5;
+  --picket-gradient:  linear-gradient(135deg, #26C6DA 0%, #1565C0 100%);
+  --picket-glow:      rgba(38, 198, 218, 0.08);
+
+  /* Pipeline step accent colors — exact from plan */
+  --step-ingest:  #0a72ef;
+  --step-analyze: #de1d8d;
+  --step-signal:  #1a7f4b;
+}
+
+/* ── Gradient text utility ────────────────────────────────────────────── */
+.gradient-text {
+  background: var(--picket-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Entry animation ──────────────────────────────────────────────────── */
+[data-pk-animate] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-pk-animate].pk-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scale-in for hero screenshot */
+[data-pk-scale] {
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-pk-scale].pk-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delays */
+[data-pk-delay="1"] { transition-delay: 0.1s; }
+[data-pk-delay="2"] { transition-delay: 0.2s; }
+[data-pk-delay="3"] { transition-delay: 0.3s; }
+[data-pk-delay="4"] { transition-delay: 0.45s; }
+[data-pk-delay="5"] { transition-delay: 0.6s; }
+
+/* ── Pipeline connector line ──────────────────────────────────────────── */
+.pk-connector {
+  height: 2px;
+  background: var(--picket-gradient);
+  width: 0;
+  flex: 1;
+  transition: width 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 120px;
+}
+.pk-connector.pk-visible {
+  width: 100%;
+}
+
+/* ── CTA logo spinner ─────────────────────────────────────────────────── */
+@keyframes pk-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.pk-spin-logo {
+  animation: pk-spin 20s linear infinite;
+}
+
+/* ── Processing badge pulse ───────────────────────────────────────────── */
+@keyframes pk-badge-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.pk-badge-pulse {
+  animation: pk-badge-pulse 2s ease-in-out infinite;
+}
+
+/* ── Live dot blink ───────────────────────────────────────────────────── */
+@keyframes pk-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+.pk-live-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #1a7f4b;
+  animation: pk-blink 1.4s ease-in-out infinite;
+}
+
+/* ── Marquee (trust bar mobile) ───────────────────────────────────────── */
+@keyframes pk-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.pk-marquee-track {
+  animation: pk-marquee 22s linear infinite;
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+}
+.pk-marquee-wrap {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* ── Card hover lift ──────────────────────────────────────────────────── */
+.pk-card-hover {
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.pk-card-hover:hover {
+  box-shadow: rgba(0,0,0,0.10) 0px 0px 0px 1px,
+              rgba(0,0,0,0.06) 0px 4px 8px,
+              rgba(0,0,0,0.04) 0px 12px 24px -8px,
+              #fafafa 0px 0px 0px 1px !important;
+  transform: translateY(-2px);
+}
+.pk-card-hover:hover .pk-agent-icon {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* ── Demo table row stagger ───────────────────────────────────────────── */
+@keyframes pk-row-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.pk-row-1 { animation: pk-row-in 0.4s 0.2s both ease-out; }
+.pk-row-2 { animation: pk-row-in 0.4s 0.45s both ease-out; }
+.pk-row-3 { animation: pk-row-in 0.4s 0.7s both ease-out; }
+.pk-row-4 { animation: pk-row-in 0.4s 0.95s both ease-out; }
