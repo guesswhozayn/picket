@@ -10,8 +10,11 @@ async function runOsintAgent(candidate, userApiKeys = {}) {
     timestamp: new Date()
   });
 
-  const geminiKey = userApiKeys?.gemini || config.GEMINI_API_KEY;
-  const tavilyKey = userApiKeys?.tavily || config.TAVILY_API_KEY;
+  const geminiKey = userApiKeys?.gemini;
+  const tavilyKey = userApiKeys?.tavily;
+  if (!geminiKey || !tavilyKey) {
+    throw new Error('Gemini and Tavily API keys are required for OSINT Fact-Checker');
+  }
   let socialSearchContext = 'No external search data retrieved.';
 
   if (tavilyKey) {

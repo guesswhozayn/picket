@@ -10,7 +10,10 @@ async function runDetectorAgent(candidate, userApiKeys = {}) {
     timestamp: new Date()
   });
 
-  const geminiKey = userApiKeys?.gemini || config.GEMINI_API_KEY;
+  const geminiKey = userApiKeys?.gemini;
+  if (!geminiKey) {
+    throw new Error('Gemini API key is required for Detector Agent');
+  }
 
   // 1. Try Gemini 2.5 Flash for high-accuracy analysis
   if (geminiKey) {

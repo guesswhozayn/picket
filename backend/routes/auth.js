@@ -59,7 +59,7 @@ router.post('/login', async (req, res, next) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }

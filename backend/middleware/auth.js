@@ -12,7 +12,8 @@ async function requireAuth(req, res, next) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(payload.userId).select('-passwordHash');
+    const user = await User.findById(payload.userId)
+      .select('-passwordHash +settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
     
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
