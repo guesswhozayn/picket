@@ -13,13 +13,20 @@ import SettingsPage from './components/SettingsPage';
 import {
   Users, LayoutDashboard, Settings, Search,
   Bell, Activity, Briefcase, Menu, X,
-  Sun, Moon
+  Sun, Moon, BookOpen
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 import AuthPages from './components/auth/AuthPages';
 import SplashScreen from './components/auth/SplashScreen';
 import ProfileMenu from './components/auth/ProfileMenu';
 import LandingPage from './components/landing/LandingPage';
+import DocsPage from './components/landing/DocsPage';
+import HowItWorksPage from './components/landing/HowItWorksPage';
+import AIAgentsPage from './components/landing/AIAgentsPage';
+import FeaturesPage from './components/landing/FeaturesPage';
+import DemoPage from './components/landing/DemoPage';
+import LegalPage from './components/landing/LegalPage';
+
 
 const queryClient = new QueryClient();
 const socket = io(BASE_URL);
@@ -128,6 +135,10 @@ function Dashboard() {
   const goToAnalytics  = () => { setView('analytics'); };
   const goToSettings   = () => { setView('settings'); };
 
+  if (view === 'docs') {
+    return <DocsPage onBack={() => setView('projects')} />;
+  }
+
   return (
     <div
       className="flex h-screen overflow-hidden"
@@ -229,6 +240,7 @@ function Dashboard() {
             onClick={goToCandidates}
           />
           <NavLink icon={Activity} label="Analytics" active={view === 'analytics'} onClick={goToAnalytics} />
+          <NavLink icon={BookOpen} label="Documentation" active={view === 'docs'} onClick={() => setView('docs')} />
           {projects.length > 0 && (
             <div className="pt-3">
               <p className="mono-label px-3 py-2">Recent</p>
@@ -364,6 +376,9 @@ function Dashboard() {
 function App() {
   const { user, loading } = useAuth();
   const [authMode, setAuthMode] = useState('landing'); // 'landing' | 'login' | 'register'
+  const [docsSection, setDocsSection] = useState('welcome');
+  const [legalTab, setLegalTab] = useState('privacy');
+
   const [assessCandidateId] = useState(() => {
     if (typeof window === 'undefined') return null;
     const params = new URLSearchParams(window.location.search);
@@ -401,7 +416,25 @@ function App() {
           <LandingPage 
             onStartHiring={() => setAuthMode('register')} 
             onLogin={() => setAuthMode('login')} 
+            onDocs={(section) => { setDocsSection(section || 'welcome'); setAuthMode('docs'); }}
+            onHowItWorks={() => setAuthMode('how-it-works')}
+            onAIAgents={() => setAuthMode('ai-agents')}
+            onFeatures={() => setAuthMode('features')}
+            onDemo={() => setAuthMode('demo')}
+            onLegal={(tab) => { setLegalTab(tab || 'privacy'); setAuthMode('legal'); }}
           />
+        ) : authMode === 'docs' ? (
+          <DocsPage initialSection={docsSection} onBack={() => setAuthMode('landing')} />
+        ) : authMode === 'how-it-works' ? (
+          <HowItWorksPage onBack={() => setAuthMode('landing')} />
+        ) : authMode === 'ai-agents' ? (
+          <AIAgentsPage onBack={() => setAuthMode('landing')} />
+        ) : authMode === 'features' ? (
+          <FeaturesPage onBack={() => setAuthMode('landing')} />
+        ) : authMode === 'demo' ? (
+          <DemoPage onBack={() => setAuthMode('landing')} />
+        ) : authMode === 'legal' ? (
+          <LegalPage initialTab={legalTab} onBack={() => setAuthMode('landing')} />
         ) : (
           <AuthPages 
             initialView={authMode} 
