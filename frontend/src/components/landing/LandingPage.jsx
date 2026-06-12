@@ -171,8 +171,6 @@ export default function LandingPage({ onStartHiring, onLogin }) {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-8 border border-cyan-500/20 backdrop-blur-md shadow-[0_0_15px_rgba(38,198,218,0.2)]" 
             style={{ background: 'rgba(38, 198, 218, 0.05)', color: '#26C6DA', fontSize: '11px', fontWeight: 600, letterSpacing: '-0.1px' }}
           >
-            <Sparkles size={12} className="animate-pulse text-cyan-400" />
-            <span>Dual-Engine AI Candidate Audit Logs Now Live</span>
           </div>
           
           {/* Headline */}
