@@ -5,7 +5,6 @@ import {
   CheckCircle, AlertCircle, Trash2, Users,
 } from 'lucide-react';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-import PoWChallenge from './PoWChallenge';
 
 const fetchProjects = () =>
   api.get('/api/projects').then(r => r.data);
@@ -14,7 +13,7 @@ const fetchProjects = () =>
 function guessName(filename) {
   return filename
     .replace(/\.(pdf|docx?|txt)$/i, '')
-    .replace(/[_\-]+/g, ' ')
+    .replace(/[_-]+/g, ' ')
     .replace(/\b(resume|cv|curriculum|vitae)\b/gi, '')
     .replace(/\s+/g, ' ')
     .trim()
@@ -72,7 +71,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
   const [name, setName]   = useState('');
   const [email, setEmail] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  const [candidateId, setCandidateId] = useState(null);
   const [showChallenge, setShowChallenge] = useState(false);
 
   /* ── Bulk-upload state ────────────────────────────────── */
@@ -131,10 +129,9 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
       fd.append('email', email);
       if (singleFile) fd.append('resume', singleFile);
       fd.append('projectId', roleId);
-      const res = await api.post('/api/candidates/upload', fd, {
+      await api.post('/api/candidates/upload', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setCandidateId(res.data._id);
       setShowChallenge(true);
       invalidate();
     } catch (err) {

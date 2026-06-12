@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { 
   ArrowRight, Shield, Globe, Brain, UploadCloud, CheckCircle, 
-  ChevronRight, Users, Play, Sparkles, Terminal, Activity, Zap, Check, ExternalLink
+  ChevronRight, Users, Play, Terminal, Activity, Zap, Check, ExternalLink
 } from 'lucide-react';
 import '../../landing.css';
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import api, { BASE_URL } from './api';
@@ -10,8 +11,8 @@ import CandidatesPage from './components/CandidatesPage';
 import AnalyticsPage from './components/AnalyticsPage';
 import SettingsPage from './components/SettingsPage';
 import {
-  Plus, Users, LayoutDashboard, Settings, Search,
-  Bell, ChevronDown, Activity, Briefcase, Menu, X,
+  Users, LayoutDashboard, Settings, Search,
+  Bell, Activity, Briefcase, Menu, X,
   Sun, Moon
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
@@ -363,15 +364,11 @@ function Dashboard() {
 function App() {
   const { user, loading } = useAuth();
   const [authMode, setAuthMode] = useState('landing'); // 'landing' | 'login' | 'register'
-  const [assessCandidateId, setAssessCandidateId] = useState(null);
-
-  useEffect(() => {
+  const [assessCandidateId] = useState(() => {
+    if (typeof window === 'undefined') return null;
     const params = new URLSearchParams(window.location.search);
-    const candidateId = params.get('assess');
-    if (candidateId) {
-      setAssessCandidateId(candidateId);
-    }
-  }, []);
+    return params.get('assess');
+  });
 
   if (loading) return <SplashScreen />;
 

@@ -9,7 +9,7 @@ module.exports = {
   TAVILY_API_KEY: process.env.TAVILY_API_KEY,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   GROQ_API_KEY: process.env.GROQ_API_KEY,
-  FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
+  FRONTEND_URL: (process.env.FRONTEND_URL || 'http://localhost:5173'),
   REDIS_HOST: process.env.REDIS_HOST || '127.0.0.1',
   REDIS_PORT: process.env.REDIS_PORT || 6379,
   REDIS_URL: process.env.REDIS_URL,

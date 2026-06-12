@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from 'react';
 import api from '../api';
 
@@ -5,15 +6,15 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return !!localStorage.getItem('picket_token');
+  });
 
   // Restore session on mount
   useEffect(() => {
     const token = localStorage.getItem('picket_token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
+    if (!token) return;
 
     api.get('/api/auth/me')
     .then(r => {

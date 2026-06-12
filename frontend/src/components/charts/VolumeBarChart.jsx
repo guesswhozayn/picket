@@ -47,7 +47,7 @@ export default function VolumeBarChart({ volumeByDay, days }) {
           key={i}
           className="flex-1 rounded-t-sm animate-pulse"
           style={{
-            height: `${20 + Math.random() * 60}%`,
+            height: `${20 + ((i * 17) % 61)}%`,
             background: 'var(--bg-hover)',
           }}
         />

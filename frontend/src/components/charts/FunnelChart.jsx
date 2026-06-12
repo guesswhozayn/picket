@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+  import React, { useEffect, useRef } from 'react';
 
 const STEPS = [
   { key: 'total',           label: 'Received',          color: '#0068d6', bg: 'var(--badge-blue-bg)',    text: 'var(--badge-blue-text)' },
@@ -18,15 +18,16 @@ export default function FunnelChart({ summary }) {
   const barsRef = useRef([]);
 
   // Compute values for each step
-  const screened = (summary?.strong_match ?? 0) + (summary?.needs_attention ?? 0) + (summary?.poor_match ?? 0);
-  const values = [
-    summary?.total          ?? 0,
-    screened,
-    summary?.needs_attention ?? 0,
-    summary?.strong_match    ?? 0,
-  ];
-
-  const max = values[0] || 1;
+  const { values, max } = React.useMemo(() => {
+    const screened = (summary?.strong_match ?? 0) + (summary?.needs_attention ?? 0) + (summary?.poor_match ?? 0);
+    const vals = [
+      summary?.total          ?? 0,
+      screened,
+      summary?.needs_attention ?? 0,
+      summary?.strong_match    ?? 0,
+    ];
+    return { values: vals, max: vals[0] || 1 };
+  }, [summary]);
 
   // Animate bars in on mount
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function FunnelChart({ summary }) {
         });
       });
     });
-  }, [summary]);
+  }, [values, max]);
 
   if (!summary) return (
     <div className="flex flex-col gap-3">

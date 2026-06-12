@@ -7,13 +7,12 @@ export default function PoWChallenge({ candidateId, candidate: initialCandidate,
   const [loading, setLoading] = useState(!initialCandidate);
   const [step, setStep] = useState('intro');
   const [answer, setAnswer] = useState('');
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
   const [logs, setLogs] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   React.useEffect(() => {
     if (!initialCandidate && candidateId) {
-      setLoading(true);
       api.get(`/api/candidates/public-assessment/${candidateId}`)
         .then(res => {
           setCandidate(res.data);
