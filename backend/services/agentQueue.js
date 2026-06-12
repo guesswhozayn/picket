@@ -6,11 +6,17 @@ const IORedis = require('ioredis');
 
 dotenv.config();
 
-const connection = new IORedis({
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  port: process.env.REDIS_PORT || 6379,
+const redisOptions = {
   maxRetriesPerRequest: null,
-});
+};
+
+const connection = process.env.REDIS_URL
+  ? new IORedis(process.env.REDIS_URL, redisOptions)
+  : new IORedis({
+      host: process.env.REDIS_HOST || '127.0.0.1',
+      port: process.env.REDIS_PORT || 6379,
+      ...redisOptions
+    });
 
 // Optional: Handle Redis connection errors gracefully instead of crashing
 connection.on('error', (err) => {
