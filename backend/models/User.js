@@ -37,10 +37,27 @@ userSchema.methods.comparePassword = function (plain) {
   return bcrypt.compareSync(plain, this.passwordHash);
 };
 
-// Never expose password hash
+// Never expose password hash or raw API keys
 userSchema.set('toJSON', {
   transform: (_, obj) => {
     delete obj.passwordHash;
+    if (obj.settings) {
+      const apiKeys = obj.settings.apiKeys || {};
+      obj.settings.apiKeysStatus = {
+        gemini: !!apiKeys.gemini,
+        groq: !!apiKeys.groq,
+        tavily: !!apiKeys.tavily
+      };
+      delete obj.settings.apiKeys;
+    } else {
+      obj.settings = {
+        apiKeysStatus: {
+          gemini: false,
+          groq: false,
+          tavily: false
+        }
+      };
+    }
     return obj;
   },
 });

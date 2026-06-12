@@ -23,7 +23,14 @@ async function seed() {
       name: 'Admin Recruiter',
       email: 'admin@picket.ai',
       passwordHash: 'password', // will be hashed by user pre-save hook
-      role: 'admin'
+      role: 'admin',
+      settings: {
+        apiKeys: {
+          gemini: process.env.GEMINI_API_KEY || '',
+          groq: process.env.GROQ_API_KEY || '',
+          tavily: process.env.TAVILY_API_KEY || ''
+        }
+      }
     });
     console.log('Created default user:', user.email);
 

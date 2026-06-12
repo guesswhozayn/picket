@@ -21,8 +21,11 @@ const fallbackChallenges = [
 async function generatePoWChallenge(project, userApiKeys = {}) {
   const roleName = project?.title || 'Software Developer';
 
-  const groqKey = userApiKeys?.groq || config.GROQ_API_KEY;
-  const geminiKey = userApiKeys?.gemini || config.GEMINI_API_KEY;
+  const groqKey = userApiKeys?.groq;
+  const geminiKey = userApiKeys?.gemini;
+  if (!groqKey && !geminiKey) {
+    throw new Error('Groq or Gemini API key is required for Proof of Work challenge generation');
+  }
 
   // 1. Try Groq (Llama 3.3 / DeepSeek-R1 Distill)
   if (groqKey) {
