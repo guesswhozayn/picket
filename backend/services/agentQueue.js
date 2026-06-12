@@ -10,6 +10,14 @@ const redisOptions = {
   maxRetriesPerRequest: null,
 };
 
+// If using a secure rediss:// connection, ensure TLS options are configured.
+// Managed Redis providers (like Render or Upstash) often require TLS/SSL.
+if (process.env.REDIS_URL && process.env.REDIS_URL.startsWith('rediss://')) {
+  redisOptions.tls = {
+    rejectUnauthorized: false
+  };
+}
+
 const connection = process.env.REDIS_URL
   ? new IORedis(process.env.REDIS_URL, redisOptions)
   : new IORedis({
@@ -24,6 +32,10 @@ connection.on('error', (err) => {
 });
 
 const candidateQueue = new Queue('candidateAnalysis', { connection });
+
+candidateQueue.on('error', (err) => {
+  console.warn('Queue Redis connection error:', err.message);
+});
 
 async function addCandidateJob(data) {
   try {
@@ -100,6 +112,10 @@ try {
       console.error(`DB Error while processing candidate ${candidateId}:`, dbError);
     }
   }, { connection });
+
+  worker.on('error', (err) => {
+    console.warn('Worker Redis connection error:', err.message);
+  });
 
   worker.on('failed', (job, err) => {
     console.error(`Job ${job.id} failed with error ${err.message}`);
