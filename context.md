@@ -3,7 +3,7 @@
 > [!NOTE]
 > This file serves as the single source of truth for the project's structure, tech stack, and workflows. **AI Coding Assistants should read this file first** to avoid scanning the entire project, which conserves token usage.
 
-*Last Refactored / Updated:* 2026-06-12 17:13:22 UTC
+*Last Refactored / Updated:* 2026-06-12 17:37:53 UTC
 *Automated Update Script:* Run `node scripts/update-context.js` to refresh the directory map and timestamp.
 
 ---
@@ -62,7 +62,6 @@ Below is the directory map. This tree is automatically generated and updated.
 │   │   │   └── powAgent.js
 │   │   ├── agentQueue.js
 │   │   └── emailService.js
-│   ├── Dockerfile
 │   ├── package.json
 │   ├── seed.js
 │   └── server.js
@@ -110,10 +109,8 @@ Below is the directory map. This tree is automatically generated and updated.
 │   │   ├── index.css
 │   │   ├── landing.css
 │   │   └── main.jsx
-│   ├── Dockerfile
 │   ├── eslint.config.js
 │   ├── index.html
-│   ├── nginx.conf
 │   ├── package.json
 │   ├── postcss.config.js
 │   ├── tailwind.config.js

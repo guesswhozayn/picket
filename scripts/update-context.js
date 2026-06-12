@@ -11,7 +11,6 @@ const EXCLUDES = [
   'dist',
   'package-lock.json',
   '.DS_Store',
-  'docker-compose.yml', // manually included in the main layout if needed, or we can let it be processed
 ];
 
 function buildTree(dir, prefix = '') {
