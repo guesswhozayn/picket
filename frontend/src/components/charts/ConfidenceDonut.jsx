@@ -17,7 +17,7 @@ export default function ConfidenceDonut({ confidence }) {
     if (!total) return [];
     const counts = [confidence.high, confidence.moderate, confidence.low];
     let offset = 0;
-    return counts.map((count, i) => {
+    return counts.map(count => {
       const pct  = count / total;
       const dash = pct * CIRC;
       const gap  = CIRC - dash;

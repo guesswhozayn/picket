@@ -160,8 +160,6 @@ function ProfileSettings({ user }) {
 }
 
 function SecuritySettings() {
-  const [isUpdating, setIsUpdating] = useState(false);
-
   return (
     <div className="p-6">
       <h4 className="mb-6">Security & Password</h4>

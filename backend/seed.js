@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Candidate = require('./models/Candidate');
 const Project   = require('./models/Project');
+const User      = require('./models/User');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -14,7 +15,17 @@ async function seed() {
 
     await Candidate.deleteMany({});
     await Project.deleteMany({});
+    await User.deleteMany({});
     console.log('Cleared existing data');
+
+    // Create a default admin user
+    const user = await User.create({
+      name: 'Admin Recruiter',
+      email: 'admin@picket.ai',
+      passwordHash: 'password', // will be hashed by user pre-save hook
+      role: 'admin'
+    });
+    console.log('Created default user:', user.email);
 
     // Create a default project
     const project = await Project.create({
@@ -24,12 +35,14 @@ async function seed() {
       headcount: 3,
       description: 'Looking for an experienced React engineer to lead frontend architecture.',
       status: 'active',
+      createdBy: user._id,
     });
     console.log('Created default project:', project.title);
 
     const mockCandidates = [
       {
         projectId: project._id,
+        uploadedBy: user._id,
         name: 'Alice Johnson',
         email: 'alice@example.com',
         raw_resume_text: 'Experienced React developer with 5 years of experience at TechCorp.',
@@ -50,6 +63,7 @@ async function seed() {
       },
       {
         projectId: project._id,
+        uploadedBy: user._id,
         name: 'Bob Smith',
         email: 'bob.synthetic@example.com',
         raw_resume_text: 'As an AI language model, I have extensively developed scalable microservices in Rust...',
@@ -70,6 +84,7 @@ async function seed() {
       },
       {
         projectId: project._id,
+        uploadedBy: user._id,
         name: 'Charlie Davis',
         email: 'charlie.d@example.com',
         raw_resume_text: 'Full stack developer. Claimed 10 years experience in Next.js (framework released 2016).',
@@ -85,6 +100,7 @@ async function seed() {
       },
       {
         projectId: project._id,
+        uploadedBy: user._id,
         name: 'Diana Prince',
         email: 'diana@example.com',
         raw_resume_text: 'Junior developer looking for first role.',

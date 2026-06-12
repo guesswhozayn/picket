@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../api';
 import {
   ChevronLeft, MapPin, Users2, Zap,
-  ArrowRight, TrendingUp, CheckCircle, AlertTriangle, Activity, Trash2, Plus,
+  ArrowRight, TrendingUp, CheckCircle, AlertTriangle, Trash2, Plus,
 } from 'lucide-react';
 import PipelineTable from './PipelineTable';
 

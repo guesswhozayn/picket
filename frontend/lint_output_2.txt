@@ -1,0 +1,75 @@
+
+> frontend@0.0.0 lint
+> eslint .
+
+
+/home/zayn/development/picket/frontend/src/App.jsx
+   1:8   error  'React' is defined but never used                                                                           no-unused-vars
+  13:3   error  'Plus' is defined but never used                                                                            no-unused-vars
+  14:9   error  'ChevronDown' is defined but never used                                                                     no-unused-vars
+  27:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file  react-refresh/only-export-components
+
+/home/zayn/development/picket/frontend/src/components/AnalyticsPage.jsx
+  1:8   error  'React' is defined but never used    no-unused-vars
+  1:27  error  'useMemo' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/CandidateDrawer.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/CandidatesToolbar.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/NewProjectModal.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/ProjectDetailView.jsx
+  1:8   error  'React' is defined but never used     no-unused-vars
+  1:17  error  'useMemo' is defined but never used   no-unused-vars
+  6:55  error  'Activity' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/ProjectsView.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/SettingsPage.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/UploadModal.jsx
+  132:13  error  'res' is assigned a value but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/auth/AuthLayout.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/auth/AuthPages.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/auth/LoginPage.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/auth/ProfileMenu.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/auth/RegisterPage.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/auth/SplashScreen.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/charts/ConfidenceDonut.jsx
+   1:8   error  'React' is defined but never used  no-unused-vars
+  20:31  error  'i' is defined but never used      no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/charts/ProjectComparison.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/charts/VolumeBarChart.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/components/landing/LandingPage.jsx
+  1:8   error  'React' is defined but never used     no-unused-vars
+  4:30  error  'Sparkles' is defined but never used  no-unused-vars
+
+/home/zayn/development/picket/frontend/src/context/AuthContext.jsx
+  71:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+✖ 28 problems (28 errors, 0 warnings)
+
