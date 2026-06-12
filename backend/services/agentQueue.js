@@ -26,6 +26,18 @@ const connection = process.env.REDIS_URL
       ...redisOptions
     });
 
+if (process.env.REDIS_URL) {
+  try {
+    const parsed = new URL(process.env.REDIS_URL);
+    const maskedUrl = `${parsed.protocol}//${parsed.username ? parsed.username + ':***@' : ''}${parsed.host}`;
+    console.log(`[Redis] Connecting to database at: ${maskedUrl}`);
+  } catch (err) {
+    console.log('[Redis] Connecting using REDIS_URL (failed to parse URL for logging)');
+  }
+} else {
+  console.log(`[Redis] Connecting to local Redis at ${process.env.REDIS_HOST || '127.0.0.1'}:${process.env.REDIS_PORT || 6379}`);
+}
+
 // Optional: Handle Redis connection errors gracefully instead of crashing
 connection.on('error', (err) => {
   console.warn('Redis connection failed, queue processing will be disabled:', err.message);
