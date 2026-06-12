@@ -3,7 +3,7 @@
 > [!NOTE]
 > This file serves as the single source of truth for the project's structure, tech stack, and workflows. **AI Coding Assistants should read this file first** to avoid scanning the entire project, which conserves token usage.
 
-*Last Refactored / Updated:* 2026-06-12 17:37:53 UTC
+*Last Refactored / Updated:* 2026-06-12 17:53:47 UTC
 *Automated Update Script:* Run `node scripts/update-context.js` to refresh the directory map and timestamp.
 
 ---
@@ -90,6 +90,10 @@ Below is the directory map. This tree is automatically generated and updated.
 │   │   │   │   ├── ProjectComparison.jsx
 │   │   │   │   └── VolumeBarChart.jsx
 │   │   │   ├── landing
+│   │   │   │   ├── AIAgentsPage.jsx
+│   │   │   │   ├── DocsPage.jsx
+│   │   │   │   ├── FeaturesPage.jsx
+│   │   │   │   ├── HowItWorksPage.jsx
 │   │   │   │   └── LandingPage.jsx
 │   │   │   ├── AnalyticsPage.jsx
 │   │   │   ├── CandidateDrawer.jsx

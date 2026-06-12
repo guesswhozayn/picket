@@ -29,7 +29,7 @@ function useIntersectionObserver() {
   return containerRef;
 }
 
-export default function LandingPage({ onStartHiring, onLogin }) {
+export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWorks, onAIAgents, onFeatures, onDemo, onLegal }) {
   const containerRef = useIntersectionObserver();
   const [scrollY, setScrollY] = useState(0);
 
@@ -43,17 +43,35 @@ export default function LandingPage({ onStartHiring, onLogin }) {
     status: 'idle', // 'idle' | 'typing' | 'pasted'
   });
   const lastKeyTimeRef = useRef(null);
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const handleTrySandbox = () => {
+    const textarea = document.getElementById('live-sandbox-textarea');
+    if (textarea) {
+      textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      textarea.focus();
+    }
+  };
+
 
   const handleSandboxChange = (e) => {
     const val = e.target.value;
     const isPaste = Math.abs(val.length - typedText.length) > 4 && val.length > 0;
     
     if (isPaste) {
-      setTelemetry(prev => ({
-        ...prev,
-        pasteCount: prev.pasteCount + 1,
-        status: 'pasted'
-      }));
+      setTelemetry(prev => {
+        const nextList = [...prev.latencyList, -1].slice(-20);
+        return {
+          ...prev,
+          pasteCount: prev.pasteCount + 1,
+          latencyList: nextList,
+          status: 'pasted'
+        };
+      });
     } else if (val.length > 0) {
       const now = Date.now();
       let latency = 0;
@@ -135,14 +153,19 @@ export default function LandingPage({ onStartHiring, onLogin }) {
           </div>
           
           <div className="hidden md:flex items-center gap-1 bg-neutral-100/50 p-1 rounded-xl border border-neutral-200/50">
-            {['How it works', 'AI Agents', 'Features', 'Metrics'].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} 
-                className="text-neutral-600 hover:text-neutral-900 hover:bg-white text-[13px] font-medium px-4 py-1.5 rounded-lg transition-all duration-200 hover:shadow-[0_1px_3px_rgba(0,0,0,0.05)]"
+            {[
+              { label: 'How it works', onClick: onHowItWorks },
+              { label: 'AI Agents', onClick: onAIAgents },
+              { label: 'Features', onClick: onFeatures },
+              { label: 'Docs', onClick: onDocs }
+            ].map((item) => (
+              <button 
+                key={item.label} 
+                onClick={item.onClick}
+                className="text-neutral-600 hover:text-neutral-900 hover:bg-white text-[13px] font-medium px-4 py-1.5 rounded-lg transition-all duration-200 hover:shadow-[0_1px_3px_rgba(0,0,0,0.05)] cursor-pointer"
               >
-                {item}
-              </a>
+                {item.label}
+              </button>
             ))}
           </div>
 
@@ -204,13 +227,14 @@ export default function LandingPage({ onStartHiring, onLogin }) {
             >
               Start Hiring Free
             </button>
-            <a 
-              href="#how-it-works"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/80 backdrop-blur-md text-neutral-800 hover:text-neutral-900 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200 border border-neutral-200 shadow-sm hover:border-neutral-300 hover:bg-white"
+            <button 
+              onClick={onDemo}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/80 backdrop-blur-md text-neutral-800 hover:text-neutral-900 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200 border border-neutral-200 shadow-sm hover:border-neutral-300 hover:bg-white cursor-pointer"
             >
               <Play size={14} className="fill-current" />
               Watch Demo
-            </a>
+            </button>
+
           </div>
           
           {/* Social Proof Labels */}
@@ -248,10 +272,12 @@ export default function LandingPage({ onStartHiring, onLogin }) {
             </p>
             
             <textarea
+              id="live-sandbox-textarea"
               value={typedText}
               onChange={handleSandboxChange}
               placeholder="Start typing or copy-paste text here..."
               rows={3}
+
               style={{
                 width: '100%',
                 background: 'var(--bg-input)',
@@ -280,6 +306,31 @@ export default function LandingPage({ onStartHiring, onLogin }) {
               <div className="bg-neutral-50 p-2.5 rounded border border-neutral-100 flex flex-col justify-between">
                 <span className="text-neutral-400 uppercase tracking-widest text-[8px] font-bold">AVG INTERVAL</span>
                 <span className="font-extrabold text-neutral-900 text-xs mt-0.5">{telemetry.avgLatency ? `${telemetry.avgLatency}ms` : '—'}</span>
+              </div>
+            </div>
+
+            <div className="mt-4 border-t border-neutral-100 pt-3">
+              <span className="text-[8px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-2">Live Keystroke Rhythm Cadence</span>
+              <div className="h-10 flex items-end gap-[2px] bg-neutral-50 rounded-lg p-2 border border-neutral-150">
+                {telemetry.latencyList.length === 0 ? (
+                  <span className="text-[9px] text-neutral-400 font-mono italic m-auto">Start typing to draw graph...</span>
+                ) : (
+                  <div className="flex items-end gap-[3px] w-full h-full justify-start overflow-hidden">
+                    {telemetry.latencyList.map((lat, idx) => {
+                      const isPaste = lat === -1;
+                      const maxVal = 400; // Cap height scaling at 400ms
+                      const percent = isPaste ? 100 : Math.min(100, Math.max(15, (lat / maxVal) * 100));
+                      return (
+                        <div 
+                          key={idx}
+                          className={`w-1.5 rounded-t-sm transition-all duration-150 shrink-0 ${isPaste ? 'bg-red-500 animate-pulse' : 'bg-cyan-500'}`}
+                          style={{ height: `${percent}%` }}
+                          title={isPaste ? 'Paste Event' : `${lat}ms`}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -527,11 +578,12 @@ export default function LandingPage({ onStartHiring, onLogin }) {
               ))}
             </ul>
             <button 
-              onClick={onStartHiring} 
+              onClick={handleTrySandbox} 
               className="flex items-center gap-1 bg-white hover:bg-neutral-50 text-neutral-900 font-semibold px-4 py-2.5 rounded-lg text-xs border border-neutral-200 shadow-sm transition-all"
             >
               Try Picket Sandbox <ChevronRight size={14} />
             </button>
+
           </div>
 
           <div data-pk-animate data-pk-delay="2" className="bg-white/40 backdrop-blur-md border border-neutral-200/60 p-5 rounded-2xl" style={{ boxShadow: 'var(--sh-card-lg)' }}>
@@ -626,6 +678,160 @@ export default function LandingPage({ onStartHiring, onLogin }) {
         </div>
       </section>
 
+      {/* ── 8.5. Comparison & Problem Statement ── */}
+      <section className="py-24 px-6 border-t border-neutral-100 bg-neutral-50/50 relative z-10">
+        <div className="max-w-[1000px] mx-auto space-y-24">
+          
+          {/* Problem Statement Card */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white border border-neutral-200/80 rounded-3xl p-8 lg:p-12 shadow-sm">
+            <div className="lg:col-span-7 space-y-4">
+              <span className="text-[10px] font-mono font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-widest">
+                The AI Spam Crisis
+              </span>
+              <h3 className="text-3xl font-extrabold tracking-tight text-neutral-900 leading-tight" style={{ letterSpacing: '-0.8px' }}>
+                Hiring pipelines are being flooded by AI-generated submissions.
+              </h3>
+              <p className="text-xs text-neutral-600 leading-relaxed font-medium">
+                Generative models can auto-tailor thousands of resumes to match your job descriptions perfectly, bypassing legacy keyword scanners. This creates massive administrative overhead for screening teams.
+              </p>
+            </div>
+            <div className="lg:col-span-5 flex flex-col items-center justify-center bg-neutral-900 text-white rounded-2xl p-6 text-center border border-neutral-800 relative overflow-hidden h-[180px]">
+              {/* Decorative radial background */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15),transparent_70%)] pointer-events-none" />
+              <span className="text-6xl font-black text-red-500 tracking-tighter relative z-10 leading-none">74%</span>
+              <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 mt-2 relative z-10 font-bold">OF JOB APPLICATIONS</span>
+              <p className="text-[11px] text-neutral-300 mt-2 font-medium max-w-[200px] relative z-10 leading-relaxed">
+                are now synthesized or heavily augmented by AI agents.
+              </p>
+            </div>
+          </div>
+
+          {/* Comparison Matrix Table */}
+          <div className="space-y-6">
+            <div className="text-center max-w-xl mx-auto">
+              <span className="text-[10px] font-mono font-bold text-cyan-600 bg-cyan-50 px-2.5 py-1 rounded-full uppercase tracking-widest">
+                A New Paradigm
+              </span>
+              <h3 className="text-3xl font-extrabold tracking-tight text-neutral-900 mt-4" style={{ letterSpacing: '-0.8px' }}>
+                Picket vs. Traditional Screening
+              </h3>
+              <p className="text-xs text-neutral-500 mt-2 leading-relaxed font-medium">
+                Why biometric verification and telemetry sandboxing outperform legacy keyword parsers and heavy take-home exams.
+              </p>
+            </div>
+
+            <div className="border border-neutral-200/85 rounded-2xl bg-white overflow-hidden shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-[11px]">
+                  <thead>
+                    <tr className="bg-neutral-50 border-b border-neutral-200 font-mono text-[9px] text-neutral-400 font-bold uppercase tracking-wider">
+                      <th className="p-4 w-[28%]">Screening Aspect</th>
+                      <th className="p-4 w-[36%] border-l border-neutral-100">Legacy Methods (ATS / Take-homes)</th>
+                      <th className="p-4 w-[36%] border-l border-neutral-150 bg-cyan-50/20 text-cyan-950">Picket Telemetry Pipeline</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-neutral-100 font-medium text-neutral-600">
+                    <tr>
+                      <td className="p-4 font-bold text-neutral-900">Application Filter</td>
+                      <td className="p-4 border-l border-neutral-100">Static keyword matching (leads to keyword stuffing and candidate gaming).</td>
+                      <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
+                        Sentence entropy analysis, synthetic signature matching, and prompt injection defense.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-bold text-neutral-900">Candidate Drop-off</td>
+                      <td className="p-4 border-l border-neutral-100">High drop-offs due to demanding 3-to-4 hour assessment tests.</td>
+                      <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
+                        Zero friction for clear applicants; 60-second telemetry checks only for uncertain profiles.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-bold text-neutral-900">Cheating Detection</td>
+                      <td className="p-4 border-l border-neutral-100">Intrusive screen recordings and tab-locking that frustrate candidates.</td>
+                      <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
+                        Passive keyboard biometric entropy (typing rhythm intervals) and instant paste telemetry.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-bold text-neutral-900">Platform Cost</td>
+                      <td className="p-4 border-l border-neutral-100">High markups on API execution and fixed per-candidate pricing tiers.</td>
+                      <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
+                        Bring Your Own Key (BYOK) database isolation—pay only for the exact token usage of your models.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── 8.7. FAQ Section ── */}
+      <section className="py-24 px-6 border-t border-neutral-100 bg-white relative z-10">
+        <div className="max-w-[800px] mx-auto space-y-10">
+          <div className="text-center max-w-xl mx-auto">
+            <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-widest block">
+              Technical Details
+            </span>
+            <h3 className="text-3xl font-extrabold tracking-tight text-neutral-900 mt-3" style={{ letterSpacing: '-0.8px' }}>
+              Frequently Asked Questions
+            </h3>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "Does Picket record candidate keystroke content?",
+                a: "No. Picket never captures or transmits the characters entered by candidates. We only measure the time intervals between keypresses (typing rhythm latency) and paste events. Your candidates' sensitive typing contents remain 100% private."
+              },
+              {
+                q: "How does Bring Your Own Key (BYOK) work?",
+                a: "You supply your own API keys for Google Gemini, Tavily, or Groq. These keys are client-side encrypted before being written to our database. When background pipeline workers execute, they query keys securely to process requests, so you pay only for raw token usage."
+              },
+              {
+                q: "How does the telemetry check detect scripts and cheating?",
+                a: "Automated scripts paste text instantly or type with mathematically uniform delays (e.g. exactly 50ms between characters). Organic human typing exhibits natural entropy, speed adjustments, and backspace trends. Picket analyzes this cadence to calculate a Bot Index."
+              },
+              {
+                q: "What integrations does Picket support?",
+                a: "Picket supports standard webhooks and API integrations that can link to modern applicant tracking systems (ATS) like Greenhouse, Lever, and Ashby, triggering screening tasks automatically when a resume is uploaded."
+              }
+            ].map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div 
+                  key={idx} 
+                  className="border border-neutral-200 rounded-2xl overflow-hidden transition-all duration-200 bg-neutral-50/20 hover:bg-neutral-50/50"
+                >
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full flex justify-between items-center p-5 text-left text-xs font-bold text-neutral-900 transition-colors cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <span className={`text-[9px] transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                      ▼
+                    </span>
+                  </button>
+                  <div 
+                    className="transition-all duration-355 ease-in-out overflow-hidden"
+                    style={{ 
+                      maxHeight: isOpen ? '150px' : '0px',
+                      opacity: isOpen ? 1 : 0
+                    }}
+                  >
+                    <p className="px-5 pb-5 text-xs text-neutral-600 leading-relaxed font-medium">
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ── 9. CTA Banner ── */}
       <section className="py-32 px-6 text-center relative border-t border-neutral-200 bg-white/50 backdrop-blur-md z-10" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(38,198,218,0.06) 0%, transparent 60%)' }}>
         <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 leading-none mb-6">
@@ -638,9 +844,10 @@ export default function LandingPage({ onStartHiring, onLogin }) {
           <button onClick={onStartHiring} className="w-full sm:w-auto bg-neutral-900 hover:bg-black text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all shadow-md">
             Start Hiring Free
           </button>
-          <a href="#pow" className="w-full sm:w-auto bg-white text-neutral-800 border border-neutral-200 hover:border-neutral-300 hover:text-neutral-900 px-6 py-3 rounded-lg text-sm font-semibold shadow-sm transition-all hover:bg-neutral-50">
+          <button onClick={() => onDocs('pow')} className="w-full sm:w-auto bg-white text-neutral-800 border border-neutral-200 hover:border-neutral-300 hover:text-neutral-900 px-6 py-3 rounded-lg text-sm font-semibold shadow-sm transition-all hover:bg-neutral-50 cursor-pointer">
             Proof of Work Specs
-          </a>
+          </button>
+
         </div>
         
         <div className="pk-spin-logo mx-auto w-14 h-14 flex items-center justify-center bg-white rounded-full border border-neutral-200 shadow-sm">
@@ -669,35 +876,51 @@ export default function LandingPage({ onStartHiring, onLogin }) {
           <div>
             <h4 className="text-[11px] font-mono font-bold text-neutral-500 uppercase tracking-widest mb-4">Product</h4>
             <ul className="space-y-2.5 text-xs font-medium text-neutral-600">
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Projects</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Candidates</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Analytics</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Proof of Work</li>
+              <li onClick={() => onDocs('workspaces')} className="hover:text-neutral-900 cursor-pointer transition-colors">Projects</li>
+              <li onClick={() => onDocs('screening')} className="hover:text-neutral-900 cursor-pointer transition-colors">Candidates</li>
+              <li onClick={() => onDocs('statuses')} className="hover:text-neutral-900 cursor-pointer transition-colors">Analytics</li>
+              <li onClick={() => onDocs('pow')} className="hover:text-neutral-900 cursor-pointer transition-colors">Proof of Work</li>
             </ul>
           </div>
           <div>
             <h4 className="text-[11px] font-mono font-bold text-neutral-500 uppercase tracking-widest mb-4">Platform</h4>
             <ul className="space-y-2.5 text-xs font-medium text-neutral-600">
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">API Docs</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Agent Queue</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">WebSockets</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">GitHub</li>
+              <li onClick={() => onDocs('welcome')} className="hover:text-neutral-900 cursor-pointer transition-colors">Docs</li>
+              <li onClick={onHowItWorks} className="hover:text-neutral-900 cursor-pointer transition-colors">Agent Queue</li>
+              <li onClick={() => onDocs('screening')} className="hover:text-neutral-900 cursor-pointer transition-colors">WebSockets</li>
+              <li>
+                <a 
+                  href="https://github.com/guesswhozayn/picket" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-neutral-900 transition-colors"
+                >
+                  GitHub
+                </a>
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="text-[11px] font-mono font-bold text-neutral-500 uppercase tracking-widest mb-4">Legal</h4>
             <ul className="space-y-2.5 text-xs font-medium text-neutral-600">
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Privacy</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Terms</li>
-              <li className="hover:text-neutral-900 cursor-pointer transition-colors">Security</li>
+              <li onClick={() => onLegal('privacy')} className="hover:text-neutral-900 cursor-pointer transition-colors">Privacy</li>
+              <li onClick={() => onLegal('terms')} className="hover:text-neutral-900 cursor-pointer transition-colors">Terms</li>
+              <li onClick={() => onLegal('security')} className="hover:text-neutral-900 cursor-pointer transition-colors">Security</li>
             </ul>
           </div>
+
         </div>
         <div className="max-w-[1200px] mx-auto mt-16 pt-8 border-t border-neutral-100 flex justify-between items-center text-[10px] text-neutral-500 font-mono">
           <span>© 2026 Picket Inc. All rights reserved.</span>
-          <span className="flex items-center gap-1 hover:text-neutral-800 cursor-pointer transition-colors">
+          <a 
+            href="https://bullmq.io" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center gap-1 hover:text-neutral-800 cursor-pointer transition-colors"
+          >
             VERIFICATION SYSTEM POWERED BY BULLMQ <ExternalLink size={10} />
-          </span>
+          </a>
+
         </div>
       </footer>
     </div>
