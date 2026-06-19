@@ -20,11 +20,8 @@ async function parsePdfBuffer(buffer) {
 const { requireAuth } = require('../middleware/auth');
 const { addCandidateJob } = require('../services/agentQueue');
 
-// Configure multer for PDF uploads (in-memory for now)
 const upload = multer({ storage: multer.memoryStorage() });
 
-/* ── Helpers ─────────────────────────────────────────────────────────── */
-/** Guess a display name from a filename like "John_Doe_Resume.pdf" */
 function guessName(filename) {
   return filename
     .replace(/\.(pdf|docx?|txt)$/i, '')
@@ -37,7 +34,7 @@ function guessName(filename) {
     .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
     .join(' ') || 'Unknown Applicant';
 }
-/* ── POST /upload (single) ───────────────────────────────────────────── */
+
 router.post('/upload', requireAuth, upload.single('resume'), async (req, res) => {
   try {
     const { name, email, projectId } = req.body;
@@ -63,7 +60,7 @@ router.post('/upload', requireAuth, upload.single('resume'), async (req, res) =>
     const { generatePoWChallenge } = require('../services/agents/powAgent');
     const Project = require('../models/Project');
     const User = require('../models/User');
-    
+
     const dbUser = await User.findById(req.user._id).select('+settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
     const userApiKeys = dbUser?.settings?.apiKeys || {};
 
@@ -99,7 +96,6 @@ router.post('/upload', requireAuth, upload.single('resume'), async (req, res) =>
   }
 });
 
-/* ── POST /bulk-upload (up to 20 files) ─────────────────────────────── */
 router.post('/bulk-upload', requireAuth, upload.array('resumes', 20), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -107,7 +103,7 @@ router.post('/bulk-upload', requireAuth, upload.array('resumes', 20), async (req
     }
 
     const { projectId } = req.body;
-    // names / emails may arrive as comma-separated string or array
+
     const rawNames  = req.body.names  || [];
     const rawEmails = req.body.emails || [];
     const names  = Array.isArray(rawNames)  ? rawNames  : rawNames.split('|||');
@@ -158,12 +154,10 @@ router.post('/bulk-upload', requireAuth, upload.array('resumes', 20), async (req
   }
 });
 
-
-// Get all candidates (optionally scoped to a project)
 router.get('/', requireAuth, async (req, res) => {
   try {
     const Project = require('../models/Project');
-    // Find projects owned by the user
+
     const userProjects = await Project.find({ createdBy: req.user._id }).select('_id');
     const projectIds = userProjects.map(p => p._id);
 
@@ -173,16 +167,16 @@ router.get('/', requireAuth, async (req, res) => {
         { uploadedBy: req.user._id }
       ]
     };
-    
+
     if (req.query.projectId) {
-      // If project specified, ensure user owns it
+
       if (!projectIds.some(id => id.toString() === req.query.projectId)) {
         return res.status(403).json({ error: 'Access denied' });
       }
       filter.projectId = req.query.projectId;
-      delete filter.$or; // Use direct filter instead
+      delete filter.$or;
     }
-    
+
     const candidates = await Candidate.find(filter).sort({ createdAt: -1 });
     res.json(candidates);
   } catch (error) {
@@ -191,7 +185,6 @@ router.get('/', requireAuth, async (req, res) => {
   }
 });
 
-// Get candidate by ID
 router.get('/:id', requireAuth, async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.params.id);
@@ -204,7 +197,6 @@ router.get('/:id', requireAuth, async (req, res) => {
   }
 });
 
-// Submit PoW results (Public route)
 router.patch('/:id/pow', async (req, res) => {
   try {
     const { answer, interaction_logs, time_taken } = req.body;
@@ -213,7 +205,6 @@ router.patch('/:id/pow', async (req, res) => {
       return res.status(404).json({ error: 'Candidate not found' });
     }
 
-    // Backend validation of the answer
     const expected = (candidate.pow_data?.expected_answer || '').trim().toLowerCase();
     const submitted = (answer || '').trim().toLowerCase();
     const isCorrect = expected && submitted === expected;
@@ -224,10 +215,8 @@ router.patch('/:id/pow', async (req, res) => {
     candidate.pow_data.time_taken = time_taken;
     candidate.pow_data.completed = true;
 
-    // Telemetry anomaly check
     const pasteDetected = (interaction_logs || []).some(log => log.event === 'paste_detected');
 
-    // Update pipeline status based on score
     if (!isCorrect || pasteDetected) {
       candidate.pipeline_status = 'high_noise';
       candidate.agent_audit_trail.push({
@@ -259,7 +248,6 @@ router.patch('/:id/pow', async (req, res) => {
   }
 });
 
-// GET /public-assessment/:id (Public route)
 router.get('/public-assessment/:id', async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.params.id).select('name pow_data.question pow_data.challenge_type pow_data.completed');
@@ -280,7 +268,6 @@ router.get('/public-assessment/:id', async (req, res) => {
   }
 });
 
-/* ── POST /:id/screen — re-trigger AI screening ─────────────────────── */
 router.post('/:id/screen', requireAuth, async (req, res) => {
   try {
     const candidate = await Candidate.findByIdAndUpdate(
@@ -305,7 +292,6 @@ router.post('/:id/screen', requireAuth, async (req, res) => {
   }
 });
 
-/* ── DELETE /orphans — remove candidates with no projectId ───────────── */
 router.delete('/orphans', requireAuth, async (req, res) => {
   try {
     const { deletedCount } = await Candidate.deleteMany({

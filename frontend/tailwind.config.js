@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -12,11 +11,11 @@ export default {
         'g400': '#808080',
         'g100': '#ebebeb',
         'g50':  '#fafafa',
-        // Workflow accents
+
         'ship':    '#ff5b4f',
         'preview': '#de1d8d',
         'develop': '#0a72ef',
-        // Badge
+
         'badge-bg':   '#ebf5ff',
         'badge-text': '#0068d6',
         'badge-green-bg':  '#f0faf5',
@@ -29,10 +28,10 @@ export default {
         mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       letterSpacing: {
-        'display':  '-0.15em',   // ~-2.4px at 16px base
-        'tight-xl': '-0.06em',   // -1.28px at 20px
-        'tight-lg': '-0.04em',   // -0.96px at 24px
-        'tight-sm': '-0.02em',   // -0.32px at 16px
+        'display':  '-0.15em',
+        'tight-xl': '-0.06em',
+        'tight-lg': '-0.04em',
+        'tight-sm': '-0.02em',
       },
       boxShadow: {
         'ring':    'rgba(0,0,0,0.08) 0px 0px 0px 1px',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { 
-  ArrowLeft, UploadCloud, Cpu, Mail, Zap, Shield, Info 
+import {
+  ArrowLeft, UploadCloud, Cpu, Mail, Zap, Shield, Info
 } from 'lucide-react';
 
 export default function HowItWorksPage({ onBack }) {
@@ -49,10 +49,10 @@ export default function HowItWorksPage({ onBack }) {
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col" style={{ fontFamily: 'var(--font-sans)' }}>
-      {/* Header */}
+
       <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-neutral-100 sticky top-0 bg-white/90 backdrop-blur-md z-40">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-600 hover:text-neutral-900 transition-colors"
             aria-label="Back to home"
@@ -85,7 +85,6 @@ export default function HowItWorksPage({ onBack }) {
         </button>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 max-w-[900px] mx-auto w-full px-6 py-16">
         <div className="text-center max-w-xl mx-auto mb-16">
           <span className="text-xs font-mono font-bold text-blue-600 uppercase tracking-wider">Operational Pipeline</span>
@@ -97,14 +96,13 @@ export default function HowItWorksPage({ onBack }) {
           </p>
         </div>
 
-        {/* Timeline List */}
         <div className="relative border-l border-neutral-100 ml-4 md:ml-6 space-y-12 pb-12">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
               <div key={idx} className="relative pl-8 md:pl-12">
-                {/* Step indicator circle */}
-                <div 
+
+                <div
                   className="absolute -left-[18px] top-0.5 w-9 h-9 rounded-full border border-white flex items-center justify-center shadow-sm"
                   style={{ backgroundColor: step.bg, color: step.color }}
                 >
@@ -119,7 +117,7 @@ export default function HowItWorksPage({ onBack }) {
                   </div>
                   <h3 className="text-lg font-bold tracking-tight text-neutral-900">{step.title}</h3>
                   <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">{step.desc}</p>
-                  
+
                   <div className="bg-neutral-50 p-3 rounded-lg border border-neutral-100 max-w-2xl mt-3 flex gap-2">
                     <Info size={14} className="text-neutral-400 shrink-0 mt-0.5" />
                     <span className="text-xs text-neutral-500 leading-relaxed">{step.detail}</span>
@@ -130,15 +128,14 @@ export default function HowItWorksPage({ onBack }) {
           })}
         </div>
 
-        {/* CTA section */}
         <div className="mt-16 p-8 rounded-2xl border border-neutral-200 bg-neutral-50 text-center space-y-4">
           <h2 className="text-xl font-bold text-neutral-900">Ready to start hiring?</h2>
           <p className="text-xs text-neutral-600 max-w-md mx-auto">
             Configure your first job opening, upload resume drafts, and watch the verification dashboard sort signals in real time.
           </p>
           <div className="pt-2">
-            <button 
-              onClick={onBack} 
+            <button
+              onClick={onBack}
               className="bg-neutral-900 hover:bg-black text-white px-5 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition-all"
             >
               Back to Homepage

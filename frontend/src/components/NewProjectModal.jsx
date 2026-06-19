@@ -47,7 +47,7 @@ export default function NewProjectModal({ onClose, onCreated }) {
         className="w-full max-w-lg rounded-xl overflow-hidden"
         style={{ background: 'var(--bg)', boxShadow: 'var(--sh-modal)' }}
       >
-        {/* Header */}
+
         <div
           className="flex items-center justify-between px-6 py-4"
           style={{ boxShadow: 'var(--sh-div-t)' }}
@@ -72,10 +72,8 @@ export default function NewProjectModal({ onClose, onCreated }) {
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
 
-          {/* Role title */}
           <div>
             <label htmlFor="proj-title">Role Title <span style={{ color: 'var(--badge-red-text)' }}>*</span></label>
             <input
@@ -88,7 +86,6 @@ export default function NewProjectModal({ onClose, onCreated }) {
             />
           </div>
 
-          {/* Department + Location row */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="proj-dept">Department</label>
@@ -125,7 +122,6 @@ export default function NewProjectModal({ onClose, onCreated }) {
             </div>
           </div>
 
-          {/* Headcount */}
           <div>
             <label htmlFor="proj-headcount">Headcount (seats to fill)</label>
             <input
@@ -138,7 +134,6 @@ export default function NewProjectModal({ onClose, onCreated }) {
             />
           </div>
 
-          {/* Description */}
           <div>
             <label htmlFor="proj-desc">
               Job Description
@@ -156,7 +151,6 @@ export default function NewProjectModal({ onClose, onCreated }) {
             />
           </div>
 
-          {/* Actions */}
           <div className="flex justify-end gap-3 pt-1">
             <button type="button" onClick={onClose} className="btn-secondary text-sm">
               Cancel

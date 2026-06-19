@@ -4,7 +4,6 @@ import {
   Clock, Calendar, Briefcase, Shield,
 } from 'lucide-react';
 
-/* ── Stage meta ─────────────────────────────────────────────────────── */
 const STAGE_META = {
   processing:     { label: 'Pending Audit',  bg: 'var(--badge-blue-bg)',    text: 'var(--badge-blue-text)',    Icon: Activity,      animate: true  },
   high_signal:    { label: 'High Signal',    bg: 'var(--badge-green-bg)',   text: 'var(--badge-green-text)',   Icon: CheckCircle,   animate: false },
@@ -13,14 +12,12 @@ const STAGE_META = {
   rejected:       { label: 'Rejected',       bg: 'var(--badge-neutral-bg)', text: 'var(--badge-neutral-text)', Icon: XCircle,       animate: false },
 };
 
-/* ── Score colour logic ─────────────────────────────────────────────── */
 function scoreTheme(score) {
   if (score < 30) return { bar: 'var(--badge-green-text)', bg: 'var(--badge-green-bg)', text: 'var(--badge-green-text)', label: 'High Confidence' };
   if (score < 70) return { bar: '#0068d6',                 bg: 'var(--badge-blue-bg)',  text: 'var(--badge-blue-text)',  label: 'Moderate Confidence' };
   return           { bar: 'var(--badge-red-text)',          bg: 'var(--badge-red-bg)',   text: 'var(--badge-red-text)',   label: 'Low Confidence' };
 }
 
-/* ── Meta grid row ──────────────────────────────────────────────────── */
 function MetaRow({ icon: Icon, label, value }) {
   if (value === undefined || value === null) return null;
   return (
@@ -67,7 +64,7 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
 
   return (
     <>
-      {/* Backdrop */}
+
       <div
         className="fixed inset-0 z-40"
         style={{ background: 'var(--overlay)' }}
@@ -75,7 +72,6 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
         aria-hidden="true"
       />
 
-      {/* Drawer panel */}
       <div
         ref={drawerRef}
         tabIndex={-1}
@@ -89,7 +85,7 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
           animation: 'drawer-slide-in 0.2s ease-out',
         }}
       >
-        {/* Header */}
+
         <div
           className="flex items-start justify-between px-6 py-5 shrink-0"
           style={{ boxShadow: 'var(--sh-div-t)' }}
@@ -125,10 +121,8 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
           </button>
         </div>
 
-        {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto custom-scrollbar px-6 py-5 flex flex-col gap-6">
 
-          {/* Score card */}
           <div className="rounded-lg p-5" style={{ background: theme.bg, boxShadow: 'var(--sh-ring)' }}>
             <p className="mono-label mb-3" style={{ color: theme.text }}>AI Content Risk</p>
             <div className="flex items-end justify-between mb-3">
@@ -151,7 +145,7 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
                 {theme.label}
               </span>
             </div>
-            {/* Bar */}
+
             <div className="h-1.5 rounded-full" style={{ background: 'rgba(0,0,0,0.1)' }}>
               <div
                 className="h-1.5 rounded-full"
@@ -160,11 +154,10 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
             </div>
           </div>
 
-          {/* Meta grid */}
           <div>
             <p className="mono-label mb-1" style={{ color: 'var(--text-placeholder)' }}>Details</p>
             <div>
-              {/* Stage */}
+
               <div className="flex items-start gap-3 py-2.5" style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <StageIcon
                   size={13}
@@ -192,7 +185,6 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
             </div>
           </div>
 
-          {/* Agent audit trail */}
           {candidate.agent_audit_trail?.length > 0 && (
             <div>
               <p className="mono-label mb-3" style={{ color: 'var(--text-placeholder)' }}>
@@ -233,7 +225,6 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
             </div>
           )}
 
-          {/* Raw resume text (collapsed) */}
           {candidate.raw_resume_text && candidate.raw_resume_text !== 'No resume provided' && (
             <details className="group">
               <summary
@@ -260,7 +251,6 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
         </div>
       </div>
 
-      {/* Slide-in animation */}
       <style>{`
         @keyframes drawer-slide-in {
           from { transform: translateX(100%); opacity: 0.6; }

@@ -28,11 +28,9 @@ import FeaturesPage from './components/landing/FeaturesPage';
 import DemoPage from './components/landing/DemoPage';
 import LegalPage from './components/landing/LegalPage';
 
-
 const queryClient = new QueryClient();
 const socket = io(BASE_URL);
 
-/* ── Theme context ──────────────────────────────────────────────── */
 export const ThemeContext = createContext({ dark: false, toggle: () => {} });
 
 function ThemeProvider({ children }) {
@@ -89,8 +87,6 @@ function NavLink({ icon: Icon, label, active, badge, onClick }) {
   );
 }
 
-
-
 /* ── Theme toggle button ─────────────────────────────────────────── */
 function ThemeToggle() {
   const { dark, toggle } = useContext(ThemeContext);
@@ -145,7 +141,7 @@ function Dashboard() {
       className="flex h-screen overflow-hidden"
       style={{ background: 'var(--bg)', color: 'var(--text-primary)', fontFeatureSettings: '"liga"' }}
     >
-      {/* Mobile overlay */}
+
       {isMobileSidebarOpen && (
         <div
           className="fixed inset-0 z-40 lg:hidden"
@@ -154,19 +150,18 @@ function Dashboard() {
         />
       )}
 
-      {/* ── Sidebar ─────────────────────────────────────── */}
       <aside
         className={`${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0 w-[220px] shrink-0 fixed lg:static inset-y-0 left-0 z-50
           flex flex-col transition-transform duration-300`}
         style={{ background: 'var(--bg)', boxShadow: 'var(--sh-div-r)' }}
       >
-        {/* Logo */}
+
         <div
           className="h-16 shrink-0 flex items-center px-5 gap-2.5"
           style={{ boxShadow: 'var(--sh-div-t)' }}
         >
-          {/* Logomark — dual-pill "P" */}
+
           <svg
             width="26" height="32" viewBox="0 0 44 54" fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -174,26 +169,24 @@ function Dashboard() {
             className="shrink-0"
           >
             <defs>
-              {/* Back pill gradient: dark blue → medium blue */}
+
               <linearGradient id="pk-g-back" x1="6" y1="6" x2="20" y2="48" gradientUnits="userSpaceOnUse">
                 <stop offset="0%"   stopColor="#1565C0" />
                 <stop offset="100%" stopColor="#1E88E5" />
               </linearGradient>
-              {/* Front pill gradient: cyan → blue */}
+
               <linearGradient id="pk-g-front" x1="22" y1="2" x2="34" y2="46" gradientUnits="userSpaceOnUse">
                 <stop offset="0%"   stopColor="#26C6DA" />
                 <stop offset="100%" stopColor="#1565C0" />
               </linearGradient>
             </defs>
 
-            {/* Back pill — tilted clockwise ~14° */}
             <rect
               x="4" y="6" width="17" height="40" rx="8.5"
               fill="url(#pk-g-back)"
               transform="rotate(14 12.5 26)"
             />
 
-            {/* Front pill — slight counter-clockwise tilt ~−6° */}
             <rect
               x="20" y="3" width="15" height="38" rx="7.5"
               fill="url(#pk-g-front)"
@@ -201,7 +194,6 @@ function Dashboard() {
             />
           </svg>
 
-          {/* Wordmark */}
           <span
             style={{
               fontFamily: 'var(--font-sans)',
@@ -224,7 +216,6 @@ function Dashboard() {
           </button>
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 overflow-y-auto p-3 space-y-0.5 custom-scrollbar">
           <p className="mono-label px-3 py-2">Overview</p>
           <NavLink
@@ -258,21 +249,18 @@ function Dashboard() {
           )}
         </nav>
 
-        {/* Settings footer */}
         <div className="p-3" style={{ boxShadow: 'var(--sh-div-b)' }}>
-          <NavLink 
-            icon={Settings} 
-            label="Settings" 
-            active={view === 'settings'} 
-            onClick={goToSettings} 
+          <NavLink
+            icon={Settings}
+            label="Settings"
+            active={view === 'settings'}
+            onClick={goToSettings}
           />
         </div>
       </aside>
 
-      {/* ── Main ────────────────────────────────────────── */}
       <main className="flex-1 flex flex-col min-w-0" style={{ background: 'var(--bg)' }}>
 
-        {/* Header */}
         <header
           className="h-16 shrink-0 flex items-center justify-between px-6 sticky top-0 z-30"
           style={{ background: 'var(--bg)', boxShadow: 'var(--sh-div-t)' }}
@@ -318,7 +306,6 @@ function Dashboard() {
           </div>
         </header>
 
-        {/* ── Page content ──────────────────────────────── */}
         <div className="flex-1 overflow-y-auto custom-scrollbar">
           <div className="max-w-[1200px] mx-auto w-full px-6 py-10">
 
@@ -373,7 +360,6 @@ function Dashboard() {
   );
 }
 
-
 function App() {
   const { user, loading } = useAuth();
   const [authMode, setAuthMode] = useState('landing'); // 'landing' | 'login' | 'register'
@@ -397,9 +383,9 @@ function App() {
               <div className="px-6 py-4 flex items-center gap-2 border-b border-[var(--bg-hover)]">
                 <span className="mono-label" style={{ color: 'var(--badge-blue-text)' }}>Picket Candidate Verification</span>
               </div>
-              <PoWChallenge 
-                candidateId={assessCandidateId} 
-                onComplete={() => {}} 
+              <PoWChallenge
+                candidateId={assessCandidateId}
+                onComplete={() => {}}
               />
             </div>
           </div>
@@ -418,9 +404,9 @@ function App() {
             <Dashboard />
           )
         ) : authMode === 'landing' ? (
-          <LandingPage 
-            onStartHiring={() => setAuthMode('register')} 
-            onLogin={() => setAuthMode('login')} 
+          <LandingPage
+            onStartHiring={() => setAuthMode('register')}
+            onLogin={() => setAuthMode('login')}
             onDocs={(section) => { setDocsSection(section || 'welcome'); setAuthMode('docs'); }}
             onHowItWorks={() => setAuthMode('how-it-works')}
             onAIAgents={() => setAuthMode('ai-agents')}
@@ -441,9 +427,9 @@ function App() {
         ) : authMode === 'legal' ? (
           <LegalPage initialTab={legalTab} onBack={() => setAuthMode('landing')} />
         ) : (
-          <AuthPages 
-            initialView={authMode} 
-            onBack={() => setAuthMode('landing')} 
+          <AuthPages
+            initialView={authMode}
+            onBack={() => setAuthMode('landing')}
           />
         )}
       </QueryClientProvider>

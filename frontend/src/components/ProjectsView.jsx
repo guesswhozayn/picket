@@ -10,7 +10,6 @@ import NewProjectModal from './NewProjectModal';
 const fetchProjects = () =>
   api.get('/api/projects').then(r => r.data);
 
-/* ── Status badge ─────────────────────────────────────────────────────── */
 const STATUS_STYLE = {
   active: { bg: 'var(--badge-green-bg)', text: 'var(--badge-green-text)' },
   paused: { bg: 'var(--badge-blue-bg)',  text: 'var(--badge-blue-text)' },
@@ -59,7 +58,6 @@ function HeadcountBar({ filled, total }) {
   );
 }
 
-/* ── Stat pill ────────────────────────────────────────────────────────── */
 function MiniStat({ icon: Icon, value, colorVar }) {
   return (
     <div className="flex items-center gap-1">
@@ -71,7 +69,6 @@ function MiniStat({ icon: Icon, value, colorVar }) {
   );
 }
 
-/* ── Project card ─────────────────────────────────────────────────────── */
 function ProjectCard({ project, onSelect }) {
   const [hovered, setHovered] = useState(false);
   const { stats = {} } = project;
@@ -90,7 +87,7 @@ function ProjectCard({ project, onSelect }) {
         cursor: 'pointer',
       }}
     >
-      {/* Title row */}
+
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-3 min-w-0">
           <div
@@ -123,7 +120,6 @@ function ProjectCard({ project, onSelect }) {
         </div>
       </div>
 
-      {/* Meta: location + headcount */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="flex items-center gap-1">
           <MapPin size={11} style={{ color: 'var(--text-placeholder)' }} />
@@ -137,7 +133,6 @@ function ProjectCard({ project, onSelect }) {
         </div>
       </div>
 
-      {/* Pipeline mini-stats */}
       <div
         className="flex items-center justify-between pt-3"
         style={{ borderTop: '1px solid var(--border-color)' }}
@@ -153,7 +148,6 @@ function ProjectCard({ project, onSelect }) {
         </span>
       </div>
 
-      {/* Progress bar */}
       <HeadcountBar filled={stats.high_signal ?? 0} total={project.headcount} />
     </button>
   );
@@ -186,7 +180,6 @@ function EmptyState({ onNew }) {
   );
 }
 
-/* ── Projects view ────────────────────────────────────────────────────── */
 export default function ProjectsView({ onSelectProject }) {
   const [showModal, setShowModal] = useState(false);
   const [showWelcome, setShowWelcome] = useState(() => {
@@ -206,7 +199,7 @@ export default function ProjectsView({ onSelectProject }) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header */}
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
           <p className="mono-label mb-2">Workspace</p>
@@ -252,7 +245,6 @@ export default function ProjectsView({ onSelectProject }) {
         </div>
       )}
 
-      {/* Grid or empty state */}
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3].map(i => (

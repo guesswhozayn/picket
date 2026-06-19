@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Hash password before save
 userSchema.pre('save', async function () {
   if (!this.isModified('passwordHash')) {
     console.log('[User] passwordHash not modified, skipping hash');
@@ -37,7 +36,6 @@ userSchema.methods.comparePassword = function (plain) {
   return bcrypt.compareSync(plain, this.passwordHash);
 };
 
-// Never expose password hash or raw API keys
 userSchema.set('toJSON', {
   transform: (_, obj) => {
     delete obj.passwordHash;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { 
-  ArrowLeft, Shield, Globe, Brain, Check 
+import {
+  ArrowLeft, Shield, Globe, Brain, Check
 } from 'lucide-react';
 
 export default function AIAgentsPage({ onBack }) {
@@ -51,10 +51,10 @@ export default function AIAgentsPage({ onBack }) {
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col" style={{ fontFamily: 'var(--font-sans)' }}>
-      {/* Header */}
+
       <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-neutral-100 sticky top-0 bg-white/90 backdrop-blur-md z-40">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-600 hover:text-neutral-900 transition-colors"
             aria-label="Back to home"
@@ -87,7 +87,6 @@ export default function AIAgentsPage({ onBack }) {
         </button>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 max-w-[1000px] mx-auto w-full px-6 py-16">
         <div className="text-center max-w-xl mx-auto mb-16">
           <span className="text-xs font-mono font-bold text-emerald-600 uppercase tracking-wider">Verification Engines</span>
@@ -99,19 +98,18 @@ export default function AIAgentsPage({ onBack }) {
           </p>
         </div>
 
-        {/* Agents Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {agents.map((agent) => {
             const Icon = agent.icon;
             return (
-              <div 
-                key={agent.id} 
+              <div
+                key={agent.id}
                 className="bg-white p-6 rounded-2xl border border-neutral-200 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-200"
               >
                 <div>
-                  {/* Icon & Label */}
+
                   <div className="flex justify-between items-center mb-6">
-                    <span 
+                    <span
                       className="w-10 h-10 rounded-xl flex items-center justify-center"
                       style={{ backgroundColor: agent.bg, color: agent.color }}
                     >
@@ -145,7 +143,6 @@ export default function AIAgentsPage({ onBack }) {
           })}
         </div>
 
-        {/* Biometrics Comparison Visualizer */}
         <div className="mt-16 bg-neutral-950 text-white rounded-2xl p-6 md:p-8 border border-neutral-900 space-y-6">
           <div>
             <h3 className="text-lg font-bold tracking-tight text-white mb-2">Analyzing Interaction Telemetry</h3>
@@ -155,7 +152,7 @@ export default function AIAgentsPage({ onBack }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-neutral-900">
-            {/* Human pattern */}
+
             <div className="space-y-3 bg-neutral-900/50 p-4 rounded-xl border border-neutral-900">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-semibold text-emerald-400 font-mono">ORGANIC HUMAN BEHAVIOR</span>
@@ -171,7 +168,6 @@ export default function AIAgentsPage({ onBack }) {
               </p>
             </div>
 
-            {/* Script pattern */}
             <div className="space-y-3 bg-neutral-900/50 p-4 rounded-xl border border-neutral-900">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-semibold text-red-400 font-mono">AUTOMATED BOT BEHAVIOR</span>

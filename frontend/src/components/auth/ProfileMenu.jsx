@@ -21,13 +21,13 @@ export default function ProfileMenu() {
 
   return (
     <div className="relative" ref={menuRef}>
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 p-1.5 rounded-full hover:bg-[var(--bg-hover)] transition-colors px-2.5"
         style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}
       >
-        <img 
-          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.avatarSeed || user.email}`} 
+        <img
+          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.avatarSeed || user.email}`}
           alt={user.name}
           className="w-8 h-8 rounded-full border border-[var(--bg-hover)]"
         />
@@ -40,10 +40,10 @@ export default function ProfileMenu() {
       </button>
 
       {isOpen && (
-        <div 
+        <div
           className="absolute right-0 mt-2 w-56 rounded-xl py-2 z-[100] border border-[var(--border-color)]"
-          style={{ 
-            background: 'var(--bg)', 
+          style={{
+            background: 'var(--bg)',
             boxShadow: 'var(--sh-modal)',
           }}
         >

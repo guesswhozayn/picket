@@ -6,8 +6,8 @@ const SEGMENTS = [
   { key: 'low',      label: 'Low Confidence',       color: 'var(--badge-red-text)',   bg: 'var(--badge-red-bg)' },
 ];
 
-const R = 52;        // circle radius
-const STROKE = 14;   // stroke width
+const R = 52;
+const STROKE = 14;
 const CIRC = 2 * Math.PI * R;
 
 export default function ConfidenceDonut({ confidence }) {
@@ -59,10 +59,10 @@ export default function ConfidenceDonut({ confidence }) {
 
   return (
     <div className="flex items-center gap-6 flex-wrap">
-      {/* SVG Donut */}
+
       <div className="relative shrink-0" style={{ width: SIZE, height: SIZE }}>
         <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}>
-          {/* Background track */}
+
           <circle
             cx={CENTER} cy={CENTER} r={R}
             fill="none"
@@ -70,7 +70,6 @@ export default function ConfidenceDonut({ confidence }) {
             strokeWidth={STROKE}
           />
 
-          {/* Segments */}
           {total === 0 ? (
             <circle cx={CENTER} cy={CENTER} r={R} fill="none"
               stroke="var(--bg-hover)" strokeWidth={STROKE} />
@@ -92,7 +91,6 @@ export default function ConfidenceDonut({ confidence }) {
           )}
         </svg>
 
-        {/* Centre label */}
         <div
           className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none"
         >
@@ -108,7 +106,6 @@ export default function ConfidenceDonut({ confidence }) {
         </div>
       </div>
 
-      {/* Legend */}
       <div className="flex flex-col gap-3">
         {SEGMENTS.map(seg => {
           const count = confidence?.[seg.key] ?? 0;

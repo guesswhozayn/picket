@@ -19,7 +19,6 @@ const io = new Server(httpServer, {
 app.use(cors());
 app.use(express.json());
 
-// Socket.io integration
 io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
   socket.on('disconnect', () => {
@@ -27,7 +26,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// Import routes
 const { requireAuth } = require('./middleware/auth');
 const authRoutes      = require('./routes/auth');
 const candidateRoutes = require('./routes/candidates');
@@ -39,22 +37,19 @@ app.use('/api/candidates', candidateRoutes);
 app.use('/api/projects',   requireAuth, projectRoutes);
 app.use('/api/analytics',  requireAuth, analyticsRoutes);
 
-
 app.get('/', (req, res) => {
   res.send('Picket API is running');
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled Server Error:', err);
-  res.status(500).json({ 
-    error: 'Internal Server Error', 
+  res.status(500).json({
+    error: 'Internal Server Error',
     message: err.message,
     stack: err.stack
   });
 });
 
-// Database connection
 const PORT = config.PORT;
 const MONGO_URI = config.MONGO_URI || 'mongodb://127.0.0.1:27017/picket';
 
@@ -69,6 +64,5 @@ mongoose.connect(MONGO_URI)
     console.error('MongoDB connection error:', err);
   });
 
-// Make io accessible globally for the worker
 global.io = io;
 app.set('io', io);

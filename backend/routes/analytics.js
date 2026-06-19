@@ -4,17 +4,10 @@ const mongoose = require('mongoose');
 const Candidate = require('../models/Candidate');
 const Project = require('../models/Project');
 
-/**
- * GET /api/analytics
- * Query params:
- *   projectId  — (optional) scope to a single project
- *   days       — (optional, default 30) time window for volume chart
- */
 router.get('/', async (req, res) => {
   try {
     const { projectId, days = 30 } = req.query;
 
-    // Find projects owned by the user to scope global analytics
     const userProjects = await Project.find({ createdBy: req.user._id }).select('_id');
     const projectIds = userProjects.map(p => p._id);
 
@@ -26,7 +19,7 @@ router.get('/', async (req, res) => {
     };
 
     if (projectId) {
-      // If project specified, ensure user owns it
+
       if (!projectIds.some(id => id.toString() === projectId)) {
         return res.status(403).json({ error: 'Access denied' });
       }
@@ -35,7 +28,6 @@ router.get('/', async (req, res) => {
 
     const since = new Date(Date.now() - Number(days) * 86_400_000);
 
-    // ── 1. Status counts ────────────────────────────────────────────
     const statusGroups = await Candidate.aggregate([
       { $match: matchFilter },
       { $group: { _id: '$pipeline_status', count: { $sum: 1 } } },
@@ -53,10 +45,6 @@ router.get('/', async (req, res) => {
       declined:        statusMap.rejected       ?? 0,
     };
 
-    // ── 2. Confidence buckets ────────────────────────────────────────
-    // high = synthetic_probability < 0.30 (low AI-generated risk)
-    // moderate = 0.30–0.70
-    // low = > 0.70
     const confGroups = await Candidate.aggregate([
       { $match: matchFilter },
       {
@@ -73,12 +61,11 @@ router.get('/', async (req, res) => {
       ? { high: confGroups[0].high, moderate: confGroups[0].moderate, low: confGroups[0].low }
       : { high: 0, moderate: 0, low: 0 };
 
-    // ── 3. Average time to screen (ms) ─────────────────────────────
     const screenTimeGroups = await Candidate.aggregate([
       {
         $match: {
           ...matchFilter,
-          'agent_audit_trail.0': { $exists: true }, // has at least one entry
+          'agent_audit_trail.0': { $exists: true },
         },
       },
       {
@@ -96,7 +83,6 @@ router.get('/', async (req, res) => {
 
     const avg_time_to_screen_ms = screenTimeGroups[0]?.avg ?? null;
 
-    // ── 4. Volume by day ─────────────────────────────────────────────
     const volumeGroups = await Candidate.aggregate([
       { $match: { ...matchFilter, createdAt: { $gte: since } } },
       {
@@ -110,7 +96,6 @@ router.get('/', async (req, res) => {
 
     const volume_by_day = volumeGroups.map(({ _id, count }) => ({ date: _id, count }));
 
-    // ── 5. Cross-project comparison (global mode only) ──────────────
     let projects = [];
     if (!projectId) {
       projects = await Project.aggregate([

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api';
-import { 
-  Eye, EyeOff, BookOpen, ExternalLink, 
-  CheckCircle2, XCircle, LogOut, ArrowRight, Loader 
+import {
+  Eye, EyeOff, BookOpen, ExternalLink,
+  CheckCircle2, XCircle, LogOut, ArrowRight, Loader
 } from 'lucide-react';
 
 export default function ApiKeyOnboarding() {
@@ -22,7 +22,6 @@ export default function ApiKeyOnboarding() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Local validation helper
   const validateKey = (name, val) => {
     if (!val) return null;
     if (name === 'gemini') return val.startsWith('AIzaSy') && val.length >= 30;
@@ -31,7 +30,7 @@ export default function ApiKeyOnboarding() {
     return true;
   };
 
-  const isFormValid = 
+  const isFormValid =
     validateKey('gemini', keys.gemini) &&
     validateKey('groq', keys.groq) &&
     validateKey('tavily', keys.tavily);
@@ -39,7 +38,7 @@ export default function ApiKeyOnboarding() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     if (!isFormValid) {
       setError('Please provide valid API keys. See the guides on the right.');
       return;
@@ -61,10 +60,10 @@ export default function ApiKeyOnboarding() {
 
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row bg-[var(--bg)]" style={{ color: 'var(--text-primary)' }}>
-      {/* Left side: Form Panel */}
+
       <div className="flex-1 flex flex-col justify-between p-8 md:p-12 lg:p-16 max-w-xl border-r border-[var(--border-color)]">
         <div>
-          {/* Logo / Header */}
+
           <div className="flex items-center gap-2 mb-8">
             <svg
               width="24" height="30" viewBox="0 0 44 54" fill="none"
@@ -95,7 +94,7 @@ export default function ApiKeyOnboarding() {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             {error && (
-              <div 
+              <div
                 className="flex items-center gap-2 p-3.5 rounded-lg text-xs font-medium"
                 style={{ background: 'var(--badge-red-bg)', color: 'var(--badge-red-text)' }}
               >
@@ -104,14 +103,13 @@ export default function ApiKeyOnboarding() {
               </div>
             )}
 
-            {/* Gemini Input */}
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
                 <label className="text-[12px] font-semibold flex items-center gap-1.5">
                   Gemini API Key
                 </label>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setActiveGuideTab('gemini')}
                   className="text-[11px] font-semibold text-[var(--badge-blue-text)] hover:underline bg-transparent border-none cursor-pointer"
                 >
@@ -134,20 +132,19 @@ export default function ApiKeyOnboarding() {
                   {showKeys.gemini ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-              <KeyValidationStatus 
-                isValid={validateKey('gemini', keys.gemini)} 
+              <KeyValidationStatus
+                isValid={validateKey('gemini', keys.gemini)}
                 formatText="Should start with 'AIzaSy' (30+ characters)"
               />
             </div>
 
-            {/* Groq Input */}
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
                 <label className="text-[12px] font-semibold flex items-center gap-1.5">
                   Groq API Key
                 </label>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setActiveGuideTab('groq')}
                   className="text-[11px] font-semibold text-[var(--badge-blue-text)] hover:underline bg-transparent border-none cursor-pointer"
                 >
@@ -170,20 +167,19 @@ export default function ApiKeyOnboarding() {
                   {showKeys.groq ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-              <KeyValidationStatus 
-                isValid={validateKey('groq', keys.groq)} 
+              <KeyValidationStatus
+                isValid={validateKey('groq', keys.groq)}
                 formatText="Should start with 'gsk_' (30+ characters)"
               />
             </div>
 
-            {/* Tavily Input */}
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
                 <label className="text-[12px] font-semibold flex items-center gap-1.5">
                   Tavily API Key
                 </label>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setActiveGuideTab('tavily')}
                   className="text-[11px] font-semibold text-[var(--badge-blue-text)] hover:underline bg-transparent border-none cursor-pointer"
                 >
@@ -206,8 +202,8 @@ export default function ApiKeyOnboarding() {
                   {showKeys.tavily ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-              <KeyValidationStatus 
-                isValid={validateKey('tavily', keys.tavily)} 
+              <KeyValidationStatus
+                isValid={validateKey('tavily', keys.tavily)}
                 formatText="Should start with 'tvly-' (20+ characters)"
               />
             </div>
@@ -230,10 +226,9 @@ export default function ApiKeyOnboarding() {
           </form>
         </div>
 
-        {/* Footer actions */}
         <div className="pt-8 border-t border-[var(--border-color)] mt-12 flex justify-between items-center text-xs">
           <span className="text-[var(--text-muted)]">Locked Workspace Session</span>
-          <button 
+          <button
             onClick={logout}
             className="flex items-center gap-1.5 text-[var(--badge-red-text)] font-semibold hover:underline bg-transparent border-none"
           >
@@ -242,7 +237,6 @@ export default function ApiKeyOnboarding() {
         </div>
       </div>
 
-      {/* Right side: Interactive Keys Guide */}
       <div className="flex-1 bg-[var(--bg-surface)] p-8 md:p-12 lg:p-16 flex flex-col justify-center">
         <div className="max-w-md w-full mx-auto">
           <div className="flex items-center gap-2.5 mb-6">
@@ -255,34 +249,32 @@ export default function ApiKeyOnboarding() {
             </div>
           </div>
 
-          {/* Guide Tabs */}
           <div className="flex gap-2 mb-6 border-b border-[var(--border-color)] pb-2">
-            <GuideTabButton 
-              active={activeGuideTab === 'gemini'} 
+            <GuideTabButton
+              active={activeGuideTab === 'gemini'}
               onClick={() => setActiveGuideTab('gemini')}
               label="Gemini"
             />
-            <GuideTabButton 
-              active={activeGuideTab === 'groq'} 
+            <GuideTabButton
+              active={activeGuideTab === 'groq'}
               onClick={() => setActiveGuideTab('groq')}
               label="Groq"
             />
-            <GuideTabButton 
-              active={activeGuideTab === 'tavily'} 
+            <GuideTabButton
+              active={activeGuideTab === 'tavily'}
               onClick={() => setActiveGuideTab('tavily')}
               label="Tavily"
             />
           </div>
 
-          {/* Guide Tab Contents */}
           <div className="min-h-[260px]">
             {activeGuideTab === 'gemini' && (
               <div className="animate-fadeIn">
                 <h5 className="font-semibold text-sm mb-3 flex items-center justify-between">
                   <span>Google AI Studio (Gemini API)</span>
-                  <a 
-                    href="https://aistudio.google.com/" 
-                    target="_blank" 
+                  <a
+                    href="https://aistudio.google.com/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-[var(--badge-blue-text)] flex items-center gap-1 hover:underline"
                   >
@@ -306,9 +298,9 @@ export default function ApiKeyOnboarding() {
               <div className="animate-fadeIn">
                 <h5 className="font-semibold text-sm mb-3 flex items-center justify-between">
                   <span>Groq Console (Llama & DeepSeek)</span>
-                  <a 
-                    href="https://console.groq.com/" 
-                    target="_blank" 
+                  <a
+                    href="https://console.groq.com/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-[var(--badge-blue-text)] flex items-center gap-1 hover:underline"
                   >
@@ -332,9 +324,9 @@ export default function ApiKeyOnboarding() {
               <div className="animate-fadeIn">
                 <h5 className="font-semibold text-sm mb-3 flex items-center justify-between">
                   <span>Tavily AI (OSINT Search Engine)</span>
-                  <a 
-                    href="https://tavily.com/" 
-                    target="_blank" 
+                  <a
+                    href="https://tavily.com/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-[var(--badge-blue-text)] flex items-center gap-1 hover:underline"
                   >
@@ -364,8 +356,8 @@ function GuideTabButton({ active, onClick, label }) {
     <button
       onClick={onClick}
       className={`px-3 py-1.5 text-xs font-semibold rounded-md border-none ${
-        active 
-          ? 'bg-[var(--text-primary)] text-[var(--bg)]' 
+        active
+          ? 'bg-[var(--text-primary)] text-[var(--bg)]'
           : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)]'
       }`}
       style={{ cursor: 'pointer' }}

@@ -6,7 +6,6 @@
   --font-brand: "Poppins", system-ui, sans-serif;
 }
 
-/* ── Light theme (default) ───────────────────────────────────────── */
 :root {
   --font-sans:     "Geist", "Inter", system-ui, sans-serif;
   --font-mono:     "Geist Mono", ui-monospace, monospace;
@@ -22,7 +21,6 @@
 
   --border-color:  #ebebeb;
 
-  /* Shadow-as-border — Vercel's signature technique */
   --sh-ring:    rgba(0,0,0,0.08)  0px 0px 0px 1px;
   --sh-ring-lt: rgb(235,235,235)  0px 0px 0px 1px;
   --sh-card:    rgba(0,0,0,0.08)  0px 0px 0px 1px,
@@ -34,13 +32,12 @@
                 #fafafa           0px 0px 0px 1px;
   --sh-modal:   rgba(0,0,0,0.12)  0px 0px 0px 1px,
                 rgba(0,0,0,0.08)  0px 8px 32px;
-  /* Directional hairlines */
+
   --sh-div-t:   rgba(0,0,0,0.08) 0px  1px 0px 0px;
   --sh-div-b:   rgba(0,0,0,0.08) 0px -1px 0px 0px;
   --sh-div-r:   rgba(0,0,0,0.08)  1px 0px 0px 0px;
   --sh-div-l:   rgba(0,0,0,0.08) -1px 0px 0px 0px;
 
-  /* Badge / pill */
   --badge-blue-bg:    #ebf5ff;
   --badge-blue-text:  #0068d6;
   --badge-green-bg:   #f0faf5;
@@ -52,29 +49,23 @@
   --badge-neutral-bg: rgba(0,0,0,0.06);
   --badge-neutral-text: #4d4d4d;
 
-  /* Nav active state */
   --nav-active-bg:   #171717;
   --nav-active-text: #ffffff;
 
-  /* Overlay */
   --overlay: hsla(0, 0%, 98%, 0.85);
 
-  /* Focus */
   --focus-ring: 0 0 0 2px hsla(212, 100%, 48%, 1);
 
-  /* Button primary */
   --btn-primary-bg:    #171717;
   --btn-primary-text:  #ffffff;
   --btn-primary-hover: #000000;
 
-  /* Button secondary */
   --btn-secondary-bg:    #ffffff;
   --btn-secondary-text:  #171717;
   --btn-secondary-hover: #fafafa;
   --btn-secondary-shadow: rgb(235,235,235) 0px 0px 0px 1px;
 }
 
-/* ── Dark theme ──────────────────────────────────────────────────── */
 [data-theme="dark"] {
   --font-sans:     "Geist", "Inter", system-ui, sans-serif;
   --font-mono:     "Geist Mono", ui-monospace, monospace;
@@ -134,7 +125,6 @@
   --btn-secondary-shadow: rgba(255,255,255,0.08) 0px 0px 0px 1px;
 }
 
-/* ── Base ────────────────────────────────────────────────────────── */
 @layer base {
   :focus-visible {
     outline: 2px solid hsla(212, 100%, 48%, 1);
@@ -215,7 +205,6 @@
   input::placeholder, textarea::placeholder { color: var(--text-placeholder); }
 }
 
-/* ── Body ────────────────────────────────────────────────────────── */
 body {
   background: var(--bg);
   color: var(--text-primary);
@@ -225,7 +214,6 @@ body {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* ── Scrollbar ───────────────────────────────────────────────────── */
 .custom-scrollbar::-webkit-scrollbar       { width: 4px; height: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -234,7 +222,6 @@ body {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-/* ── Mono label ──────────────────────────────────────────────────── */
 .mono-label {
   font-family: var(--font-mono);
   font-size: 11px; font-weight: 500;
@@ -242,13 +229,12 @@ body {
   color: var(--text-muted);
 }
 
-/* ── Theme transition ────────────────────────────────────────────── */
 *, *::before, *::after {
   transition-property: background-color, border-color, box-shadow, color;
   transition-duration: 0.2s;
   transition-timing-function: ease;
 }
-/* Disable transition on elements that shouldn't animate */
+
 .no-transition, .no-transition * {
   transition: none !important;
 }

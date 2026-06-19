@@ -27,7 +27,6 @@ async function generatePoWChallenge(project, userApiKeys = {}) {
     throw new Error('Groq or Gemini API key is required for Proof of Work challenge generation');
   }
 
-  // 1. Try Groq (Llama 3.3 / DeepSeek-R1 Distill)
   if (groqKey) {
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -51,7 +50,7 @@ async function generatePoWChallenge(project, userApiKeys = {}) {
           response_format: { type: 'json_object' }
         })
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         const content = JSON.parse(data.choices[0].message.content);
@@ -68,7 +67,6 @@ async function generatePoWChallenge(project, userApiKeys = {}) {
     }
   }
 
-  // 2. Try Gemini 2.5 Flash (Generous Free Tier)
   if (geminiKey) {
     try {
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
@@ -110,7 +108,6 @@ async function generatePoWChallenge(project, userApiKeys = {}) {
     }
   }
 
-  // 3. Fallback to local static questions
   return fallbackChallenges[Math.floor(Math.random() * fallbackChallenges.length)];
 }
 

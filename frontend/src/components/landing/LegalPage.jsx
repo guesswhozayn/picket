@@ -12,10 +12,10 @@ export default function LegalPage({ initialTab = 'privacy', onBack }) {
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col" style={{ fontFamily: 'var(--font-sans)' }}>
-      {/* Header */}
+
       <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-neutral-100 sticky top-0 bg-white/90 backdrop-blur-md z-40">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-600 hover:text-neutral-900 transition-colors"
             aria-label="Back to home"
@@ -48,9 +48,8 @@ export default function LegalPage({ initialTab = 'privacy', onBack }) {
         </button>
       </header>
 
-      {/* Main Content Area */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden max-w-[1200px] mx-auto w-full">
-        {/* Sidebar Nav */}
+
         <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-neutral-100 p-6 shrink-0 space-y-1">
           <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-4 px-2">
             Legal & Compliance
@@ -63,8 +62,8 @@ export default function LegalPage({ initialTab = 'privacy', onBack }) {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-left transition-all ${
-                  active 
-                    ? 'bg-neutral-950 text-white shadow-sm' 
+                  active
+                    ? 'bg-neutral-950 text-white shadow-sm'
                     : 'hover:bg-neutral-50 text-neutral-600 hover:text-neutral-900'
                 }`}
               >
@@ -75,7 +74,6 @@ export default function LegalPage({ initialTab = 'privacy', onBack }) {
           })}
         </aside>
 
-        {/* Scrollable Document Content */}
         <main className="flex-1 overflow-y-auto p-6 md:p-12 space-y-8 max-w-[760px] custom-scrollbar">
           {activeTab === 'privacy' && (
             <div className="space-y-6 text-sm text-neutral-600 leading-relaxed">

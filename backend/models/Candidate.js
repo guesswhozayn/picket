@@ -17,8 +17,8 @@ const candidateSchema = new mongoose.Schema({
     verified: Boolean,
     source: String
   }],
-  pipeline_status: { 
-    type: String, 
+  pipeline_status: {
+    type: String,
     enum: ['processing', 'high_signal', 'high_noise', 'audit_required', 'rejected'],
     default: 'processing'
   },

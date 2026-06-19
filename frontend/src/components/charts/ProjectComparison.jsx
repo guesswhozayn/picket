@@ -59,7 +59,7 @@ export default function ProjectComparison({ projects, onSelectProject }) {
             className="flex items-center gap-4 w-full text-left group"
             style={{ background: 'none', border: 'none', cursor: onSelectProject ? 'pointer' : 'default', padding: 0 }}
           >
-            {/* Project name */}
+
             <div className="w-40 shrink-0 min-w-0 text-right">
               <p
                 className="text-[12px] font-medium truncate"
@@ -72,14 +72,13 @@ export default function ProjectComparison({ projects, onSelectProject }) {
               </p>
             </div>
 
-            {/* Bar track */}
             <div className="flex-1 relative" style={{ height: '28px' }}>
-              {/* Total bar (grey track) */}
+
               <div
                 className="absolute inset-y-0 left-0 rounded-md"
                 style={{ background: 'var(--bg-hover)', width: '100%' }}
               />
-              {/* Total applicants bar */}
+
               <div
                 ref={el => {
                   barsRef.current[i] = el;
@@ -92,7 +91,7 @@ export default function ProjectComparison({ projects, onSelectProject }) {
                   width: 0,
                 }}
               />
-              {/* Strong match bar (overlaid) */}
+
               <div
                 ref={el => {
                   matchRef.current[i] = el;
@@ -106,7 +105,6 @@ export default function ProjectComparison({ projects, onSelectProject }) {
                 }}
               />
 
-              {/* Count inside bar */}
               <div className="absolute inset-0 flex items-center px-2.5">
                 <span
                   className="text-[11px] font-semibold tabular-nums"
@@ -117,7 +115,6 @@ export default function ProjectComparison({ projects, onSelectProject }) {
               </div>
             </div>
 
-            {/* Match rate + chevron */}
             <div className="w-16 shrink-0 flex items-center justify-end gap-1">
               <span
                 className="text-[12px] font-semibold tabular-nums"
@@ -143,7 +140,6 @@ export default function ProjectComparison({ projects, onSelectProject }) {
         );
       })}
 
-      {/* Legend */}
       <div className="flex items-center gap-4 pt-2" style={{ borderTop: '1px solid var(--border-color)' }}>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-2 rounded-sm inline-block" style={{ background: 'var(--text-placeholder)', opacity: 0.35 }} />

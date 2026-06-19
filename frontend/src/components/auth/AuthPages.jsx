@@ -8,7 +8,7 @@ export default function AuthPages({ initialView = 'login', onBack }) {
   return (
     <>
       {onBack && (
-        <button 
+        <button
           onClick={onBack}
           className="fixed top-4 left-4 z-50 text-xs font-mono font-medium hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 cursor-pointer"
           style={{ color: 'var(--text-muted)' }}

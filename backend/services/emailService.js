@@ -10,10 +10,10 @@ Subject: Technical Assessment Invitation - Picket
 ------------------------------------------------------------------------
 Hello ${candidate.name},
 
-Thank you for your application. We are pleased to invite you to the next 
-stage of our recruiting process. 
+Thank you for your application. We are pleased to invite you to the next
+stage of our recruiting process.
 
-Please complete a brief 5-minute interactive logic challenge to verify 
+Please complete a brief 5-minute interactive logic challenge to verify
 your application profile:
 
 Assessment Link: ${assessmentLink}

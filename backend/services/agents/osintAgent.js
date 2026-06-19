@@ -47,7 +47,6 @@ async function runOsintAgent(candidate, userApiKeys = {}) {
     }
   }
 
-  // If Gemini API Key is configured, perform a smart fact-check on the profile
   if (geminiKey) {
     try {
       const prompt = `You are an OSINT Fact-Checker agent. Analyze this candidate profile and their external web/social search results for inconsistencies, buzzword-stuffing, or synthetic styling:
@@ -75,7 +74,7 @@ Output a JSON object containing:
         const text = data.candidates[0].content.parts[0].text;
         const cleanedText = text.replace(/```json|```/g, '').trim();
         const result = JSON.parse(cleanedText);
-        
+
         score = typeof result.score === 'number' ? result.score : score;
         auditLogs.push({
           agent_name: 'OSINT Fact-Checker',
@@ -92,7 +91,6 @@ Output a JSON object containing:
     }
   }
 
-  // Fallback Rule-Based Checks
   const name = candidate.name.toLowerCase();
   if (name.includes('synthetic') || name.includes('bot')) {
     score = 0.6;

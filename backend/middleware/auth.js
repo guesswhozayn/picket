@@ -1,7 +1,6 @@
 const jwt  = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Attach user to req — abort if invalid
 async function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
@@ -14,7 +13,7 @@ async function requireAuth(req, res, next) {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(payload.userId)
       .select('-passwordHash +settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
-    
+
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
     }
@@ -27,7 +26,6 @@ async function requireAuth(req, res, next) {
   }
 }
 
-// Role guard — usage: requireRole('admin', 'recruiter')
 function requireRole(...roles) {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {

@@ -23,13 +23,13 @@ export default function LoginPage({ onSwitch }) {
   };
 
   return (
-    <AuthLayout 
-      title="Welcome back" 
+    <AuthLayout
+      title="Welcome back"
       subtitle="Sign in to your Picket dashboard"
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         {error && (
-          <div 
+          <div
             className="flex items-center gap-2 p-3 rounded-lg text-sm"
             style={{ background: 'var(--badge-red-bg)', color: 'var(--badge-red-text)' }}
           >
@@ -43,9 +43,9 @@ export default function LoginPage({ onSwitch }) {
             Email Address
           </label>
           <div className="relative">
-            <Mail 
-              size={16} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" 
+            <Mail
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]"
             />
             <input
               type="email"
@@ -65,9 +65,9 @@ export default function LoginPage({ onSwitch }) {
             </label>
           </div>
           <div className="relative">
-            <Lock 
-              size={16} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" 
+            <Lock
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]"
             />
             <input
               type="password"

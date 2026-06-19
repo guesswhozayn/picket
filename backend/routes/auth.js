@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { requireAuth } = require('../middleware/auth');
 
-// Generate JWT
 const generateToken = (userId) => {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET is missing from environment variables');
@@ -12,12 +11,10 @@ const generateToken = (userId) => {
   return jwt.sign({ userId: userId.toString() }, process.env.JWT_SECRET, { expiresIn: '15m' });
 };
 
-// POST /api/auth/register
 router.post('/register', async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     console.log('[Auth] Registration request:', { name, email, password: password ? '***' : 'missing' });
-    console.log('[Auth] next is function:', typeof next === 'function');
 
     if (!name || !email || !password) {
       return res.status(400).json({ error: 'All fields are required' });
@@ -28,14 +25,13 @@ router.post('/register', async (req, res, next) => {
       return res.status(400).json({ error: 'Email already in use' });
     }
 
-    // First user is admin
     const userCount = await User.countDocuments();
     const role = userCount === 0 ? 'admin' : 'recruiter';
 
     const user = new User({
       name,
       email,
-      passwordHash: password, // Will be hashed by pre-save hook
+      passwordHash: password,
       role
     });
 
@@ -50,7 +46,6 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-// POST /api/auth/login
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -76,19 +71,17 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-// GET /api/auth/me
 router.get('/me', requireAuth, async (req, res) => {
   res.json({ user: req.user });
 });
 
-// GET /api/auth/settings
 router.get('/settings', requireAuth, async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).select('+settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
     const apiKeys = user.settings?.apiKeys || {};
-    
+
     const maskKey = (key) => key ? `${key.slice(0, 4)}...${key.slice(-4)}` : '';
-    
+
     res.json({
       settings: {
         apiKeys: {
@@ -103,15 +96,14 @@ router.get('/settings', requireAuth, async (req, res, next) => {
   }
 });
 
-// PUT /api/auth/settings
 router.put('/settings', requireAuth, async (req, res, next) => {
   try {
     const { apiKeys } = req.body;
     const user = await User.findById(req.user._id).select('+settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
-    
+
     if (!user.settings) user.settings = {};
     if (!user.settings.apiKeys) user.settings.apiKeys = {};
-    
+
     const fields = ['gemini', 'groq', 'tavily'];
     fields.forEach(field => {
       if (apiKeys && apiKeys[field] !== undefined) {
@@ -120,7 +112,7 @@ router.put('/settings', requireAuth, async (req, res, next) => {
         }
       }
     });
-    
+
     await user.save();
     res.json({ message: 'Settings updated successfully' });
   } catch (err) {

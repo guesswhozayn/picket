@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   ArrowLeft, LayoutDashboard, Settings, Activity, Users, Download, Mail, Star
 } from 'lucide-react';
 
@@ -39,10 +39,10 @@ export default function FeaturesPage({ onBack }) {
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col" style={{ fontFamily: 'var(--font-sans)' }}>
-      {/* Header */}
+
       <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-neutral-100 sticky top-0 bg-white/90 backdrop-blur-md z-40">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-600 hover:text-neutral-900 transition-colors"
             aria-label="Back to home"
@@ -75,7 +75,6 @@ export default function FeaturesPage({ onBack }) {
         </button>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 max-w-[1000px] mx-auto w-full px-6 py-16">
         <div className="text-center max-w-xl mx-auto mb-16">
           <span className="text-xs font-mono font-bold text-[#0068d6] uppercase tracking-wider">Product Features</span>
@@ -87,13 +86,12 @@ export default function FeaturesPage({ onBack }) {
           </p>
         </div>
 
-        {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="bg-white p-6 rounded-xl border border-neutral-200 flex gap-4 hover:shadow-md transition-all duration-200"
               >
                 <span className="w-10 h-10 rounded-lg bg-neutral-50 border border-neutral-150 flex items-center justify-center shrink-0 text-blue-600">
@@ -108,7 +106,6 @@ export default function FeaturesPage({ onBack }) {
           })}
         </div>
 
-        {/* Highlighting Card */}
         <div className="mt-16 bg-neutral-50 p-6 md:p-8 rounded-2xl border border-neutral-250 flex flex-col md:flex-row items-center gap-6">
           <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
             <Star size={24} className="fill-current" />
@@ -119,7 +116,7 @@ export default function FeaturesPage({ onBack }) {
               Picket can integrate with existing applicant tracking platforms (ATS) such as Greenhouse, Lever, and Workday to trigger background verifications on candidate stage transitions.
             </p>
           </div>
-          <button 
+          <button
             onClick={onBack}
             className="bg-neutral-900 hover:bg-black text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition-all whitespace-nowrap"
           >

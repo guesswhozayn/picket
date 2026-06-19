@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  ArrowLeft, UploadCloud, Play, RotateCcw, 
-  Terminal, CheckCircle, AlertTriangle, User, RefreshCw 
+import {
+  ArrowLeft, UploadCloud, Play, RotateCcw,
+  Terminal, CheckCircle, AlertTriangle, User, RefreshCw
 } from 'lucide-react';
 
 const CANDIDATES = {
@@ -60,7 +60,7 @@ const CANDIDATES = {
       'AI confidence score: 1.3% human probability.',
       'Verdict: Suspicious Profile. Queueing interactive Proof of Work challenge for validation...'
     ],
-    challengeInput: 'const sum = (a, b) => a + b;', // pasted instantly
+    challengeInput: 'const sum = (a, b) => a + b;',
     challengeLogs: [
       'Sending Proof of Work challenge link to d.kovalenko@example.com...',
       'Candidate opened challenge session: Client Agent v2.4 initialized.',
@@ -90,12 +90,12 @@ export default function DemoPage({ onBack }) {
   const terminalEndRef = useRef(null);
 
   const currentCand = CANDIDATES[candidateType];
-  const { 
-    name: candName, 
-    role: candRole, 
-    logs: candLogs, 
-    challengeInput: candChallengeInput, 
-    challengeLogs: candChallengeLogs 
+  const {
+    name: candName,
+    role: candRole,
+    logs: candLogs,
+    challengeInput: candChallengeInput,
+    challengeLogs: candChallengeLogs
   } = currentCand;
 
   useEffect(() => {
@@ -108,12 +108,12 @@ export default function DemoPage({ onBack }) {
     let timer;
     if (isPlaying) {
       if (step === 1) {
-        // Step 1: Uploading - logs are initialized in handleStartDemo
+
         timer = setTimeout(() => {
           setStep(2);
         }, 2000);
       } else if (step === 2) {
-        // Step 2: Running pipeline logs sequentially
+
         let logIndex = 0;
         const interval = setInterval(() => {
           if (logIndex < candLogs.length) {
@@ -129,12 +129,12 @@ export default function DemoPage({ onBack }) {
         }, 800);
         return () => clearInterval(interval);
       } else if (step === 3) {
-        // Step 3: Telemetry Typing simulation
+
         let charIndex = 0;
         const textToType = candChallengeInput;
-        
+
         if (candidateType === 'human') {
-          // Human types one by one
+
           const typingInterval = setInterval(() => {
             if (charIndex <= textToType.length) {
               setTypingSim(textToType.substring(0, charIndex));
@@ -147,7 +147,7 @@ export default function DemoPage({ onBack }) {
               charIndex++;
             } else {
               clearInterval(typingInterval);
-              // Append challenge logs
+
               let challengeLogIdx = 0;
               const challLogInt = setInterval(() => {
                 if (challengeLogIdx < candChallengeLogs.length) {
@@ -165,7 +165,7 @@ export default function DemoPage({ onBack }) {
           }, 100);
           return () => clearInterval(typingInterval);
         } else {
-          // Bot pastes instantly
+
           timer = setTimeout(() => {
             setTypingSim(textToType);
             setTelemetry({
@@ -212,10 +212,10 @@ export default function DemoPage({ onBack }) {
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 flex flex-col" style={{ fontFamily: 'var(--font-sans)' }}>
-      {/* Header */}
+
       <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-neutral-100 sticky top-0 bg-white/90 backdrop-blur-md z-40">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-600 hover:text-neutral-900 transition-colors"
             aria-label="Back to home"
@@ -248,9 +248,8 @@ export default function DemoPage({ onBack }) {
         </button>
       </header>
 
-      {/* Main Container */}
       <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10 flex flex-col lg:flex-row gap-8">
-        {/* Left Column: Control Panel & Settings */}
+
         <div className="w-full lg:w-[360px] shrink-0 space-y-6">
           <div className="bg-neutral-50 p-6 rounded-2xl border border-neutral-200 space-y-5">
             <div>
@@ -265,18 +264,17 @@ export default function DemoPage({ onBack }) {
               </p>
             </div>
 
-            {/* Profile Selection */}
             <div className="space-y-2.5">
               <span className="text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-widest block">
                 Select Candidate Scenario
               </span>
-              
-              <button 
+
+              <button
                 disabled={isPlaying}
                 onClick={() => setCandidateType('human')}
                 className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-start gap-3 ${
-                  candidateType === 'human' 
-                    ? 'border-emerald-500 bg-emerald-50/30' 
+                  candidateType === 'human'
+                    ? 'border-emerald-500 bg-emerald-50/30'
                     : 'border-neutral-200 bg-white hover:bg-neutral-50 hover:border-neutral-300'
                 }`}
               >
@@ -290,12 +288,12 @@ export default function DemoPage({ onBack }) {
                 </div>
               </button>
 
-              <button 
+              <button
                 disabled={isPlaying}
                 onClick={() => setCandidateType('bot')}
                 className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-start gap-3 ${
-                  candidateType === 'bot' 
-                    ? 'border-red-500 bg-red-50/30' 
+                  candidateType === 'bot'
+                    ? 'border-red-500 bg-red-50/30'
                     : 'border-neutral-200 bg-white hover:bg-neutral-50 hover:border-neutral-300'
                 }`}
               >
@@ -310,10 +308,9 @@ export default function DemoPage({ onBack }) {
               </button>
             </div>
 
-            {/* Action buttons */}
             <div className="pt-2 flex gap-3">
               {step === 0 ? (
-                <button 
+                <button
                   onClick={handleStartDemo}
                   className="flex-1 bg-neutral-900 hover:bg-black text-white py-3 rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2"
                 >
@@ -321,7 +318,7 @@ export default function DemoPage({ onBack }) {
                   Run Verification
                 </button>
               ) : (
-                <button 
+                <button
                   onClick={handleResetDemo}
                   className="flex-1 bg-white hover:bg-neutral-50 border border-neutral-200 text-neutral-800 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2"
                 >
@@ -332,7 +329,6 @@ export default function DemoPage({ onBack }) {
             </div>
           </div>
 
-          {/* Context Details Card */}
           <div className="bg-neutral-50 p-4 rounded-xl border border-neutral-150 space-y-2.5">
             <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block">
               Scenario Parameters
@@ -354,9 +350,8 @@ export default function DemoPage({ onBack }) {
           </div>
         </div>
 
-        {/* Right Column: Visual Stage Progress & Real-Time Outputs */}
         <div className="flex-1 space-y-6">
-          {/* Progress Tracker */}
+
           <div className="border border-neutral-200 p-5 rounded-2xl bg-white shadow-sm flex items-center justify-between">
             {[
               { label: 'Upload', activeStep: 1 },
@@ -369,9 +364,9 @@ export default function DemoPage({ onBack }) {
               return (
                 <div key={idx} className="flex items-center gap-2">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center font-mono text-[10px] font-extrabold border transition-all ${
-                    active 
+                    active
                       ? 'border-cyan-500 bg-cyan-50 text-cyan-600 ring-2 ring-cyan-100'
-                      : completed 
+                      : completed
                       ? 'border-emerald-500 bg-emerald-50 text-emerald-600'
                       : 'border-neutral-200 bg-white text-neutral-400'
                   }`}>
@@ -388,7 +383,6 @@ export default function DemoPage({ onBack }) {
             })}
           </div>
 
-          {/* Step content area */}
           <div className="border border-neutral-200 rounded-2xl bg-white shadow-sm overflow-hidden flex flex-col min-h-[380px]">
             {step === 0 && (
               <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
@@ -421,13 +415,12 @@ export default function DemoPage({ onBack }) {
 
             {step >= 2 && (
               <div className="flex-1 flex flex-col">
-                {/* Console Log Header */}
+
                 <div className="bg-neutral-900 text-neutral-400 h-10 px-4 flex items-center justify-between border-b border-neutral-800 font-mono text-[10px] font-bold uppercase tracking-wider shrink-0">
                   <span className="flex items-center gap-1.5"><Terminal size={12} /> Agent verification logs</span>
                   {isPlaying && <span className="text-cyan-400 animate-pulse">Running Workers...</span>}
                 </div>
 
-                {/* Console Content */}
                 <div className="flex-1 bg-neutral-950 p-4 font-mono text-[11px] text-neutral-300 space-y-1.5 overflow-y-auto max-h-[200px]">
                   {logs.map((log, i) => (
                     <div key={i} className="leading-relaxed whitespace-pre-wrap">
@@ -440,7 +433,6 @@ export default function DemoPage({ onBack }) {
                   <div ref={terminalEndRef} />
                 </div>
 
-                {/* Challenge and Verdict Step Overlays */}
                 {step === 3 && (
                   <div className="p-5 border-t border-neutral-100 bg-neutral-50 space-y-4 shrink-0">
                     <div className="flex justify-between items-center">
@@ -451,7 +443,7 @@ export default function DemoPage({ onBack }) {
                         Capturing Keyboard Events
                       </span>
                     </div>
-                    
+
                     <div className="bg-white p-3 rounded-lg border border-neutral-200">
                       <span className="text-[9px] font-mono font-bold text-neutral-400 block mb-1">PROMPT CHALLENGE RESPONSE</span>
                       <div className="p-2.5 bg-neutral-50 border border-neutral-100 rounded text-xs font-mono font-bold min-h-[34px] text-neutral-800">
@@ -460,7 +452,6 @@ export default function DemoPage({ onBack }) {
                       </div>
                     </div>
 
-                    {/* Telemetry Numbers */}
                     <div className="grid grid-cols-4 gap-3 text-center">
                       {[
                         { label: 'KEYSTROKES', val: telemetry.keystrokes },
@@ -501,8 +492,8 @@ export default function DemoPage({ onBack }) {
                             {currentCand.verdict.botIndex}
                           </span>
                         </div>
-                        
-                        <div 
+
+                        <div
                           className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono border ${currentCand.verdict.badge}`}
                         >
                           {currentCand.verdict.status}
