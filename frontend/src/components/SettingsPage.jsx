@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { 
-  User, Lock, Shield, Mail, CheckCircle, 
+import {
+  User, Lock, Shield, Mail, CheckCircle,
   AlertCircle, RefreshCw, Trash2, UserPlus,
   ChevronRight, Key, LogOut
 } from 'lucide-react';
@@ -9,7 +9,7 @@ import api from '../api';
 
 export default function SettingsPage() {
   const { user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'security' | 'team'
+  const [activeTab, setActiveTab] = useState('profile');
 
   return (
     <div className="flex flex-col gap-8 max-w-4xl">
@@ -21,36 +21,36 @@ export default function SettingsPage() {
       </header>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Tabs Sidebar */}
+
         <nav className="w-full md:w-56 flex flex-col gap-1">
-          <TabButton 
-            active={activeTab === 'profile'} 
+          <TabButton
+            active={activeTab === 'profile'}
             onClick={() => setActiveTab('profile')}
             icon={User}
             label="My Profile"
           />
-          <TabButton 
-            active={activeTab === 'security'} 
+          <TabButton
+            active={activeTab === 'security'}
             onClick={() => setActiveTab('security')}
             icon={Lock}
             label="Security"
           />
-          <TabButton 
-            active={activeTab === 'apiKeys'} 
+          <TabButton
+            active={activeTab === 'apiKeys'}
             onClick={() => setActiveTab('apiKeys')}
             icon={Key}
             label="API Keys (BYOK)"
           />
           {user?.role === 'admin' && (
-            <TabButton 
-              active={activeTab === 'team'} 
+            <TabButton
+              active={activeTab === 'team'}
               onClick={() => setActiveTab('team')}
               icon={Shield}
               label="Team Management"
             />
           )}
           <div className="mt-4 pt-4 border-t border-[var(--bg-hover)]">
-            <TabButton 
+            <TabButton
               onClick={logout}
               icon={LogOut}
               label="Sign Out"
@@ -59,7 +59,6 @@ export default function SettingsPage() {
           </div>
         </nav>
 
-        {/* Content Area */}
         <div className="flex-1 bg-[var(--bg)] rounded-xl border border-[var(--bg-hover)] overflow-hidden shadow-[var(--sh-card)]">
           {activeTab === 'profile' && <ProfileSettings user={user} />}
           {activeTab === 'security' && <SecuritySettings />}
@@ -76,8 +75,8 @@ function TabButton({ active, onClick, icon: Icon, label, className = '' }) {
     <button
       onClick={onClick}
       className={`flex items-center gap-2.5 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-        active 
-          ? 'bg-[var(--text-primary)] text-[var(--bg)]' 
+        active
+          ? 'bg-[var(--text-primary)] text-[var(--bg)]'
           : 'text-[var(--text-body)] hover:bg-[var(--bg-hover)]'
       } ${className}`}
       style={{ border: 'none', cursor: 'pointer' }}
@@ -109,8 +108,8 @@ function ProfileSettings({ user }) {
       <h4 className="mb-6">Profile Information</h4>
       <form onSubmit={handleUpdate} className="flex flex-col gap-6 max-w-md">
         <div className="flex items-center gap-6 mb-2">
-          <img 
-            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.avatarSeed || user?.email}`} 
+          <img
+            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.avatarSeed || user?.email}`}
             alt={user?.name}
             className="w-20 h-20 rounded-2xl border-2 border-[var(--bg-hover)]"
           />
@@ -126,10 +125,10 @@ function ProfileSettings({ user }) {
 
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-medium text-[var(--text-primary)]">Full Name</label>
-          <input 
-            type="text" 
-            value={name} 
-            onChange={e => setName(e.target.value)} 
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
             className="w-full"
           />
         </div>
@@ -236,10 +235,10 @@ function TeamSettings({ adminUser }) {
                 </td>
                 <td className="px-4 py-3 capitalize">{member.role}</td>
                 <td className="px-4 py-3">
-                  <span 
+                  <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                      member.status === 'active' 
-                        ? 'bg-[var(--badge-green-bg)] text-[var(--badge-green-text)]' 
+                      member.status === 'active'
+                        ? 'bg-[var(--badge-green-bg)] text-[var(--badge-green-text)]'
                         : 'bg-[var(--badge-blue-bg)] text-[var(--badge-blue-text)]'
                     }`}
                   >
@@ -309,37 +308,37 @@ function ApiKeySettings() {
       <p className="text-xs text-[var(--text-muted)] mb-6">
         Optionally bring your own API keys. If provided, Picket agents will use your keys and quotas. If left blank, Picket will run on platform default keys.
       </p>
-      
+
       <form onSubmit={handleUpdate} className="flex flex-col gap-6 max-w-md">
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-medium text-[var(--text-primary)]">Gemini API Key</label>
-          <input 
-            type="password" 
-            value={keys.gemini} 
+          <input
+            type="password"
+            value={keys.gemini}
             placeholder={keys.gemini ? "••••••••••••••••" : "AI Studio Gemini Key"}
-            onChange={e => setKeys(prev => ({ ...prev, gemini: e.target.value }))} 
+            onChange={e => setKeys(prev => ({ ...prev, gemini: e.target.value }))}
             className="w-full"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-medium text-[var(--text-primary)]">Groq API Key</label>
-          <input 
-            type="password" 
-            value={keys.groq} 
+          <input
+            type="password"
+            value={keys.groq}
             placeholder={keys.groq ? "••••••••••••••••" : "gsk_... Key"}
-            onChange={e => setKeys(prev => ({ ...prev, groq: e.target.value }))} 
+            onChange={e => setKeys(prev => ({ ...prev, groq: e.target.value }))}
             className="w-full"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-medium text-[var(--text-primary)]">Tavily API Key</label>
-          <input 
-            type="password" 
-            value={keys.tavily} 
+          <input
+            type="password"
+            value={keys.tavily}
             placeholder={keys.tavily ? "••••••••••••••••" : "tvly-... Key"}
-            onChange={e => setKeys(prev => ({ ...prev, tavily: e.target.value }))} 
+            onChange={e => setKeys(prev => ({ ...prev, tavily: e.target.value }))}
             className="w-full"
           />
         </div>

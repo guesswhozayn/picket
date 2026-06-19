@@ -97,7 +97,7 @@ export default function PoWChallenge({ candidateId, candidate: initialCandidate,
 
   return (
     <div className="p-6 flex flex-col gap-5">
-      {/* PoW header */}
+
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Zap size={16} style={{ color: 'var(--badge-blue-text)' }} />
@@ -118,7 +118,6 @@ export default function PoWChallenge({ candidateId, candidate: initialCandidate,
         </span>
       </div>
 
-      {/* Challenge */}
       <div
         className="rounded-lg p-5"
         style={{ background: 'var(--bg-surface)', boxShadow: 'var(--sh-ring)' }}
@@ -144,7 +143,6 @@ export default function PoWChallenge({ candidateId, candidate: initialCandidate,
         />
       </div>
 
-      {/* Live stats */}
       <div className="grid grid-cols-2 gap-3">
         {[{ label: 'Latency', value: '24ms' }, { label: 'Entropy', value: '0.842' }].map(s => (
           <div

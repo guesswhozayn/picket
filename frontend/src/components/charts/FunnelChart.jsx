@@ -17,7 +17,6 @@ const STEP_COLORS = [
 export default function FunnelChart({ summary }) {
   const barsRef = useRef([]);
 
-  // Compute values for each step
   const { values, max } = React.useMemo(() => {
     const screened = (summary?.strong_match ?? 0) + (summary?.needs_attention ?? 0) + (summary?.poor_match ?? 0);
     const vals = [
@@ -29,7 +28,6 @@ export default function FunnelChart({ summary }) {
     return { values: vals, max: vals[0] || 1 };
   }, [summary]);
 
-  // Animate bars in on mount
   useEffect(() => {
     barsRef.current.forEach((el, i) => {
       if (!el) return;
@@ -67,7 +65,7 @@ export default function FunnelChart({ summary }) {
 
         return (
           <div key={step.key} className="flex items-center gap-4">
-            {/* Step label */}
+
             <div className="w-32 shrink-0 text-right">
               <span
                 className="text-[11px] font-semibold uppercase"
@@ -77,7 +75,6 @@ export default function FunnelChart({ summary }) {
               </span>
             </div>
 
-            {/* Bar track */}
             <div className="flex-1 relative" style={{ height: '36px' }}>
               <div
                 className="absolute inset-y-0 left-0 rounded-lg"
@@ -102,7 +99,6 @@ export default function FunnelChart({ summary }) {
               </div>
             </div>
 
-            {/* Drop-off / rate */}
             <div className="w-14 shrink-0 text-right">
               {drop !== null ? (
                 <span

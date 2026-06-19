@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 
-const CHART_HEIGHT = 120; // px
+const CHART_HEIGHT = 120;
 
 export default function VolumeBarChart({ volumeByDay, days }) {
   const barsRef = useRef([]);
 
-  // Fill in any missing days within the window so the axis is continuous
   const filled = useMemo(() => {
     if (!volumeByDay?.length) return [];
 
@@ -25,7 +24,6 @@ export default function VolumeBarChart({ volumeByDay, days }) {
 
   const max = useMemo(() => Math.max(...filled.map(d => d.count), 1), [filled]);
 
-  // Animate bars in on mount / data change
   useEffect(() => {
     barsRef.current.forEach((el, i) => {
       if (!el) return;
@@ -64,12 +62,11 @@ export default function VolumeBarChart({ volumeByDay, days }) {
     </div>
   );
 
-  // Show every Nth label to avoid crowding
   const labelEvery = filled.length <= 14 ? 2 : filled.length <= 30 ? 5 : 10;
 
   return (
     <div className="flex flex-col gap-1">
-      {/* Bars */}
+
       <div className="flex items-end gap-0.5" style={{ height: CHART_HEIGHT }}>
         {filled.map((day, i) => {
           const heightPct = (day.count / max) * 100;
@@ -79,7 +76,7 @@ export default function VolumeBarChart({ volumeByDay, days }) {
               className="flex-1 flex flex-col items-center justify-end group relative"
               style={{ height: '100%' }}
             >
-              {/* Tooltip on hover */}
+
               {day.count > 0 && (
                 <div
                   className="absolute bottom-full mb-1.5 px-2 py-1 rounded text-[10px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10"
@@ -96,7 +93,6 @@ export default function VolumeBarChart({ volumeByDay, days }) {
                 </div>
               )}
 
-              {/* Bar */}
               <div
                 ref={el => { barsRef.current[i] = el; }}
                 className="w-full rounded-t-sm"
@@ -114,7 +110,6 @@ export default function VolumeBarChart({ volumeByDay, days }) {
         })}
       </div>
 
-      {/* X-axis labels */}
       <div className="flex items-start gap-0.5">
         {filled.map((day, i) => {
           const show = i % labelEvery === 0;

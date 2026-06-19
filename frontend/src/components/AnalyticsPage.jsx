@@ -10,14 +10,12 @@ import ConfidenceDonut  from './charts/ConfidenceDonut';
 import VolumeBarChart   from './charts/VolumeBarChart';
 import ProjectComparison from './charts/ProjectComparison';
 
-/* ── Fetch ──────────────────────────────────────────────────────────── */
 const fetchAnalytics = (projectId, days) => {
   const params = new URLSearchParams({ days });
   if (projectId) params.set('projectId', projectId);
   return api.get(`/api/analytics?${params}`).then(r => r.data);
 };
 
-/* ── KPI card ───────────────────────────────────────────────────────── */
 function KpiCard({ label, value, sub, icon: Icon, accentBg, accentText, loading }) {
   return (
     <div
@@ -103,7 +101,6 @@ function fmtDuration(ms) {
   return `${(hrs / 24).toFixed(1)}d`;
 }
 
-/* ── Main page ──────────────────────────────────────────────────────── */
 export default function AnalyticsPage({ projectId, project, onBack, onSelectProject }) {
   const [days, setDays] = useState(30);
 
@@ -116,7 +113,6 @@ export default function AnalyticsPage({ projectId, project, onBack, onSelectProj
   const summary    = analytics?.summary;
   const confidence = analytics?.confidence;
 
-  // KPI derived values
   const matchRate = summary?.total
     ? Math.round((summary.strong_match / summary.total) * 100)
     : 0;
@@ -126,13 +122,11 @@ export default function AnalyticsPage({ projectId, project, onBack, onSelectProj
 
   const isGlobal = !projectId;
 
-  // Global-mode KPIs derived from analytics
   const totalProjects = analytics?.projects?.length ?? 0;
 
   return (
     <div className="flex flex-col gap-8">
 
-      {/* ── Header ──────────────────────────────────────────────── */}
       <div>
         <button
           onClick={onBack}
@@ -173,7 +167,6 @@ export default function AnalyticsPage({ projectId, project, onBack, onSelectProj
         </div>
       </div>
 
-      {/* ── KPI cards ───────────────────────────────────────────── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           label="Total Applicants"
@@ -224,12 +217,10 @@ export default function AnalyticsPage({ projectId, project, onBack, onSelectProj
         )}
       </div>
 
-      {/* ── Application funnel (full width) ─────────────────────── */}
       <ChartPanel title="Application Funnel" loading={isLoading && !analytics}>
         <FunnelChart summary={summary} />
       </ChartPanel>
 
-      {/* ── Middle row: donut + bar chart ───────────────────────── */}
       <div className={`grid gap-4 ${isGlobal ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 lg:grid-cols-2'}`}>
         <ChartPanel title="AI Confidence Distribution" loading={isLoading && !analytics}>
           <ConfidenceDonut confidence={confidence} />
@@ -240,7 +231,6 @@ export default function AnalyticsPage({ projectId, project, onBack, onSelectProj
         </ChartPanel>
       </div>
 
-      {/* ── Project comparison (global mode only) ───────────────── */}
       {isGlobal && (
         <ChartPanel title="Project Comparison" loading={isLoading && !analytics}>
           <ProjectComparison

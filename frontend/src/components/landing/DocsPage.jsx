@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { 
+import {
   BookOpen, Briefcase, UploadCloud, ShieldCheck, Activity, Sparkles, HelpCircle,
   Search, ArrowLeft, Lightbulb
 } from 'lucide-react';
@@ -7,7 +7,6 @@ import {
 export default function DocsPage({ initialSection = 'welcome', onBack }) {
   const [activeSection, setActiveSection] = useState(initialSection);
   const [searchQuery, setSearchQuery] = useState('');
-
 
   const docSections = useMemo(() => [
     {
@@ -166,20 +165,20 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
             <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)] mb-3">Understanding Pipeline Statuses</h2>
             <div className="space-y-3">
               {[
-                { 
-                  status: 'High Signal', 
-                  color: 'text-[var(--badge-green-text)] bg-[var(--badge-green-bg)]', 
-                  desc: 'The resume shows organic language patterns, and online claims successfully match digital footprints. Low synthetic probability.' 
+                {
+                  status: 'High Signal',
+                  color: 'text-[var(--badge-green-text)] bg-[var(--badge-green-bg)]',
+                  desc: 'The resume shows organic language patterns, and online claims successfully match digital footprints. Low synthetic probability.'
                 },
-                { 
-                  status: 'Audit Required', 
-                  color: 'text-[var(--badge-blue-text)] bg-[var(--badge-blue-bg)]', 
-                  desc: 'Minor inconsistencies detected (e.g. social footprint match has low confidence, or slight AI writing indicators). We suggest reviewing this profile manually or waiting for the Proof of Work challenge result.' 
+                {
+                  status: 'Audit Required',
+                  color: 'text-[var(--badge-blue-text)] bg-[var(--badge-blue-bg)]',
+                  desc: 'Minor inconsistencies detected (e.g. social footprint match has low confidence, or slight AI writing indicators). We suggest reviewing this profile manually or waiting for the Proof of Work challenge result.'
                 },
-                { 
-                  status: 'High Noise', 
-                  color: 'text-[var(--badge-red-text)] bg-[var(--badge-red-bg)]', 
-                  desc: 'Highly likely to be a bot or synthetic applicant. The resume matches standard AI templates or prompt-injection text blocks were discovered.' 
+                {
+                  status: 'High Noise',
+                  color: 'text-[var(--badge-red-text)] bg-[var(--badge-red-bg)]',
+                  desc: 'Highly likely to be a bot or synthetic applicant. The resume matches standard AI templates or prompt-injection text blocks were discovered.'
                 }
               ].map((item, idx) => (
                 <div key={idx} className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg)] flex items-start gap-3.5">
@@ -305,8 +304,8 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
   const filteredSections = useMemo(() => {
     if (!searchQuery.trim()) return docSections;
     const q = searchQuery.toLowerCase();
-    return docSections.filter(s => 
-      s.title.toLowerCase().includes(q) || 
+    return docSections.filter(s =>
+      s.title.toLowerCase().includes(q) ||
       s.keywords.includes(q)
     );
   }, [searchQuery, docSections]);
@@ -315,17 +314,17 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text-primary)] flex flex-col" style={{ fontFamily: 'var(--font-sans)' }}>
-      {/* Navbar header */}
+
       <header className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-[var(--border-color)] sticky top-0 bg-[var(--bg)]/90 backdrop-blur-md z-40">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-1.5 rounded-lg border border-[var(--border-color)] hover:bg-[var(--bg-hover)] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
             aria-label="Back to previous page"
           >
             <ArrowLeft size={16} />
           </button>
-          
+
           <div onClick={onBack} className="flex items-center gap-2 cursor-pointer">
             <svg width="20" height="24" viewBox="0 0 44 54" fill="none">
               <defs>
@@ -349,7 +348,7 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
         </div>
 
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={onBack}
             className="text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
           >
@@ -358,15 +357,14 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
         </div>
       </header>
 
-      {/* Workspace container */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
+
         <aside className="w-64 border-r border-[var(--border-color)] bg-[var(--bg-surface)] flex flex-col p-4 shrink-0 hidden md:flex">
-          {/* Search bar */}
+
           <div className="relative mb-5">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" size={14} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Search help topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -386,8 +384,8 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
                   key={sec.id}
                   onClick={() => setActiveSection(sec.id)}
                   className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-left transition-all duration-150 ${
-                    active 
-                      ? 'bg-[var(--text-primary)] text-[var(--bg)] font-semibold' 
+                    active
+                      ? 'bg-[var(--text-primary)] text-[var(--bg)] font-semibold'
                       : 'hover:bg-[var(--bg-hover)] text-[var(--text-body)] hover:text-[var(--text-primary)]'
                   }`}
                 >
@@ -402,9 +400,8 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
           </div>
         </aside>
 
-        {/* Content Area */}
         <main className="flex-1 overflow-y-auto custom-scrollbar bg-[var(--bg)] p-6 md:p-12">
-          {/* Mobile navigation header */}
+
           <div className="md:hidden mb-6 flex gap-2 overflow-x-auto pb-2 border-b border-[var(--border-color)] custom-scrollbar">
             {filteredSections.map((sec) => {
               const active = sec.id === activeSection;
@@ -413,8 +410,8 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
                   key={sec.id}
                   onClick={() => setActiveSection(sec.id)}
                   className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap shrink-0 transition-colors ${
-                    active 
-                      ? 'bg-[var(--text-primary)] text-[var(--bg)] font-semibold' 
+                    active
+                      ? 'bg-[var(--text-primary)] text-[var(--bg)] font-semibold'
                       : 'bg-[var(--bg-surface)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                   }`}
                 >

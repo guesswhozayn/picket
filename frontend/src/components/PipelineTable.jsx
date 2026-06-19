@@ -8,7 +8,6 @@ import {
   Clock, User,
 } from 'lucide-react';
 
-/* ── Data fetching ─────────────────────────────────────────────────── */
 const fetchCandidates = async (projectId) => {
   const url = projectId
     ? `/api/candidates?projectId=${projectId}`
@@ -17,7 +16,6 @@ const fetchCandidates = async (projectId) => {
   return data;
 };
 
-/* ── Stage config ───────────────────────────────────────────────────── */
 const STAGES = [
   {
     id: 'processing',
@@ -66,7 +64,6 @@ const STAGES = [
   },
 ];
 
-/* ── Score pill ─────────────────────────────────────────────────────── */
 function ScorePill({ score }) {
   const bgVar   = score < 30 ? '--badge-green-bg'  : score < 70 ? '--badge-blue-bg'  : '--badge-red-bg';
   const textVar = score < 30 ? '--badge-green-text' : score < 70 ? '--badge-blue-text' : '--badge-red-text';
@@ -112,7 +109,7 @@ function ScoreBar({ score }) {
 function AgentLogDrawer({ candidate }) {
   const trail = candidate.agent_audit_trail || [];
   const pow = candidate.pow_data;
-  
+
   return (
     <div
       className="px-6 py-4 space-y-4"
@@ -121,7 +118,7 @@ function AgentLogDrawer({ candidate }) {
         borderTop: '1px solid var(--border-color)',
       }}
     >
-      {/* Proof of Work Section */}
+
       {pow && (
         <div className="p-4 rounded-lg border border-[var(--bg-hover)] bg-[var(--bg)] flex flex-col gap-2 shadow-sm">
           <div className="flex items-center justify-between">
@@ -140,7 +137,7 @@ function AgentLogDrawer({ candidate }) {
               </span>
             )}
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-1 text-[12px]">
             <div>
               <span className="text-[var(--text-placeholder)]">Assessment Type:</span> <strong className="capitalize">{pow.challenge_type?.replace('_', ' ') || 'Logic'}</strong>
@@ -166,7 +163,6 @@ function AgentLogDrawer({ candidate }) {
         </div>
       )}
 
-      {/* Audit Trail Section */}
       {trail.length > 0 && (
         <div>
           <p
@@ -239,7 +235,7 @@ function CandidateRow({ candidate, stage, index }) {
           e.currentTarget.style.background = expanded ? 'var(--bg-surface)' : 'var(--bg)';
         }}
       >
-        {/* Expand / index */}
+
         <td className="pl-4 pr-2 py-3 w-8">
           <div className="flex items-center justify-center w-5 h-5">
             {hasLog ? (
@@ -256,7 +252,6 @@ function CandidateRow({ candidate, stage, index }) {
           </div>
         </td>
 
-        {/* Avatar + Name + Email */}
         <td className="px-4 py-3">
           <div className="flex items-center gap-3">
             <div
@@ -283,12 +278,10 @@ function CandidateRow({ candidate, stage, index }) {
           </div>
         </td>
 
-        {/* Synthetic score */}
         <td className="px-4 py-3 hidden sm:table-cell">
           <ScoreBar score={score} />
         </td>
 
-        {/* Submitted */}
         <td
           className="px-4 py-3 hidden md:table-cell text-[12px]"
           style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
@@ -296,7 +289,6 @@ function CandidateRow({ candidate, stage, index }) {
           {submittedAt}
         </td>
 
-        {/* Audit entries */}
         <td className="px-4 py-3 hidden lg:table-cell">
           {hasLog ? (
             <span
@@ -311,7 +303,6 @@ function CandidateRow({ candidate, stage, index }) {
           )}
         </td>
 
-        {/* Chevron hint */}
         <td className="pr-4 py-3 text-right w-6">
           {hasLog && (
             <span style={{ color: 'var(--text-placeholder)' }}>
@@ -321,7 +312,6 @@ function CandidateRow({ candidate, stage, index }) {
         </td>
       </tr>
 
-      {/* Inline drawer */}
       {expanded && (
         <tr>
           <td colSpan={6} style={{ padding: 0 }}>
@@ -384,7 +374,7 @@ function StageSection({ stage, candidates, sortKey, sortDir, onSort }) {
       className="rounded-lg overflow-hidden"
       style={{ boxShadow: 'var(--sh-card)' }}
     >
-      {/* Section header */}
+
       <button
         onClick={() => setCollapsed(c => !c)}
         className="w-full flex items-center justify-between px-4 py-3"
@@ -422,7 +412,6 @@ function StageSection({ stage, candidates, sortKey, sortDir, onSort }) {
         </span>
       </button>
 
-      {/* Table */}
       {!collapsed && (
         candidates.length === 0 ? (
           <div
@@ -465,7 +454,7 @@ function StageSection({ stage, candidates, sortKey, sortDir, onSort }) {
                       stage={stage}
                       index={i}
                     />
-                    {/* Row divider */}
+
                     {i < sorted.length - 1 && (
                       <tr aria-hidden="true">
                         <td
@@ -505,7 +494,6 @@ export default function PipelineTable({ socket, projectId }) {
     return () => socket.off('candidate_updated', refetch);
   }, [socket, refetch]);
 
-        {/* ── Loading ────────────────────────── */}
   if (isLoading) return (
     <div
       className="flex items-center justify-center py-16 text-[13px]"

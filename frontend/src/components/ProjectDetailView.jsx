@@ -10,7 +10,6 @@ import PipelineTable from './PipelineTable';
 const fetchProject = (id) =>
   api.get(`/api/projects/${id}`).then(r => r.data);
 
-/* ── Stat card ─────────────────────────────────────────────────────── */
 function StatCard({ label, value, loading, accentBg, accentText, icon: Icon }) {
   return (
     <div
@@ -43,7 +42,6 @@ function StatCard({ label, value, loading, accentBg, accentText, icon: Icon }) {
   );
 }
 
-/* ── Headcount progress ─────────────────────────────────────────────── */
 function HeadcountProgress({ filled, total }) {
   const pct = total > 0 ? Math.min((filled / total) * 100, 100) : 0;
   const color = pct >= 100 ? 'var(--badge-green-text)' : 'var(--badge-blue-text)';
@@ -150,7 +148,7 @@ export default function ProjectDetailView({ project: initialProject, socket, onB
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Breadcrumb + meta */}
+
       <div>
         <button
           onClick={onBack}
@@ -190,7 +188,6 @@ export default function ProjectDetailView({ project: initialProject, socket, onB
         </div>
       </div>
 
-      {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Total Applicants" value={stats.total} loading={isLoading}
@@ -207,10 +204,8 @@ export default function ProjectDetailView({ project: initialProject, socket, onB
         <HeadcountProgress filled={stats.high_signal ?? 0} total={project.headcount} />
       </div>
 
-      {/* Workflow summary */}
       <WorkflowSummary stats={stats} loading={isLoading} />
 
-      {/* Pipeline table */}
       <div>
         <div className="flex justify-between items-center mb-5">
           <h3>Applicants</h3>
@@ -225,7 +220,6 @@ export default function ProjectDetailView({ project: initialProject, socket, onB
         <PipelineTable socket={socket} projectId={project._id} />
       </div>
 
-      {/* ── Danger zone ─────────────────────────────────────────────── */}
       <div
         className="rounded-lg p-5"
         style={{ boxShadow: confirm ? 'var(--sh-card)' : 'var(--sh-ring)', transition: 'box-shadow 0.2s' }}
@@ -253,7 +247,7 @@ export default function ProjectDetailView({ project: initialProject, socket, onB
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            {/* Warning banner */}
+
             <div
               className="rounded-md px-4 py-3 text-[12px] leading-relaxed"
               style={{ background: 'var(--badge-red-bg)', color: 'var(--badge-red-text)' }}

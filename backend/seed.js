@@ -18,11 +18,10 @@ async function seed() {
     await User.deleteMany({});
     console.log('Cleared existing data');
 
-    // Create a default admin user
     const user = await User.create({
       name: 'Admin Recruiter',
       email: 'admin@picket.ai',
-      passwordHash: 'password', // will be hashed by user pre-save hook
+      passwordHash: 'password',
       role: 'admin',
       settings: {
         apiKeys: {
@@ -34,7 +33,6 @@ async function seed() {
     });
     console.log('Created default user:', user.email);
 
-    // Create a default project
     const project = await Project.create({
       title: 'Senior Frontend Engineer',
       department: 'Engineering',
@@ -129,4 +127,3 @@ async function seed() {
 }
 
 seed();
-

@@ -9,7 +9,6 @@ import { useQueryClient, useQuery } from '@tanstack/react-query';
 const fetchProjects = () =>
   api.get('/api/projects').then(r => r.data);
 
-/** Guess a clean display name from a PDF filename */
 function guessName(filename) {
   return filename
     .replace(/\.(pdf|docx?|txt)$/i, '')
@@ -23,7 +22,6 @@ function guessName(filename) {
     .join(' ') || 'Unknown Applicant';
 }
 
-/* ── Shared role dropdown ──────────────────────────────────────────── */
 function RoleSelect({ value, onChange, projects }) {
   return (
     <div>
@@ -55,31 +53,23 @@ function RowStatus({ status }) {
   return <div className="w-3.5 h-3.5 rounded-full" style={{ background: 'var(--bg-hover)' }} />;
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   Main modal
-══════════════════════════════════════════════════════════════════════ */
 export default function UploadModal({ onClose, projectId: initialProjectId, projectTitle }) {
   const queryClient = useQueryClient();
 
-  /* ── Shared state ───────────────────────────────────── */
-  const [mode, setMode] = useState('single'); // 'single' | 'bulk'
+  const [mode, setMode] = useState('single');
   const [selectedRoleId, setSelectedRoleId] = useState(initialProjectId || '');
   const dropRef = useRef(null);
 
-  /* ── Single-upload state ─────────────────────────────── */
   const [singleFile, setSingleFile] = useState(null);
   const [name, setName]   = useState('');
   const [email, setEmail] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [showChallenge, setShowChallenge] = useState(false);
 
-  /* ── Bulk-upload state ────────────────────────────────── */
-  // Each entry: { id, file, name, email, status: 'idle'|'uploading'|'done'|'error', error }
   const [bulkRows, setBulkRows] = useState([]);
   const [bulkDone, setBulkDone] = useState(false);
   const [isBulkUploading, setIsBulkUploading] = useState(false);
 
-  /* ── Projects query (only needed when no projectId prop) */
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
     queryFn: fetchProjects,
@@ -89,7 +79,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
 
   const roleId = initialProjectId || selectedRoleId;
 
-  /* ── Helpers ─────────────────────────────────────────── */
   const invalidate = () => {
     queryClient.invalidateQueries(['candidates']);
     queryClient.invalidateQueries(['analytics']);
@@ -117,7 +106,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
   const removeRow = (id) =>
     setBulkRows(prev => prev.filter(r => r.id !== id));
 
-  /* ── Single upload ───────────────────────────────────── */
   const handleSingleUpload = async (e) => {
     e.preventDefault();
     if (!name || !email) return alert('Name and email are required');
@@ -141,13 +129,11 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
     }
   };
 
-  /* ── Bulk upload ─────────────────────────────────────── */
   const handleBulkUpload = async () => {
     if (!roleId) return alert('Please select a role');
     if (bulkRows.length === 0) return alert('Add at least one file');
     setIsBulkUploading(true);
 
-    // Upload each file individually so we can track per-row status
     for (const row of bulkRows) {
       updateRow(row.id, { status: 'uploading' });
       try {
@@ -170,7 +156,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
     setIsBulkUploading(false);
   };
 
-  /* ── Drag & drop ─────────────────────────────────────── */
   const handleDrop = useCallback((e) => {
     e.preventDefault();
     dropRef.current?.classList.remove('drag-over');
@@ -190,11 +175,9 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
   };
   const handleDragLeave = () => dropRef.current?.classList.remove('drag-over');
 
-  /* ── Bulk summary stats ──────────────────────────────── */
   const doneCount  = bulkRows.filter(r => r.status === 'done').length;
   const errorCount = bulkRows.filter(r => r.status === 'error').length;
 
-  /* ═══════════════ RENDER ═══════════════════════════════ */
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -210,7 +193,7 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
           transition: 'max-width 0.25s ease',
         }}
       >
-        {/* ── Header ─────────────────────────────────── */}
+
         <div
           className="flex items-center justify-between px-6 py-4 shrink-0"
           style={{ boxShadow: 'var(--sh-div-t)' }}
@@ -219,7 +202,7 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
             <h4 style={{ letterSpacing: '-0.32px' }}>
               {mode === 'bulk' ? 'Bulk Upload Resumes' : 'Add New Applicant'}
             </h4>
-            {/* Mode toggle */}
+
             {!showChallenge && !bulkDone && (
               <div
                 className="flex items-center rounded-md overflow-hidden text-[11px] font-medium"
@@ -255,10 +238,9 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
           </button>
         </div>
 
-        {/* ══════════ SINGLE MODE ══════════════════════ */}
         {mode === 'single' && !showChallenge && (
           <form onSubmit={handleSingleUpload} className="p-6 flex flex-col gap-5 overflow-y-auto">
-            {/* Role: locked label when scoped, dropdown when global */}
+
             {initialProjectId ? (
               <div>
                 <label className="flex items-center gap-1.5 mb-1.5">
@@ -293,7 +275,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="jane@company.com" />
             </div>
 
-            {/* Drop zone */}
             <div>
               <label className="mb-1.5 block">Resume (PDF)</label>
               <div
@@ -342,7 +323,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
           </form>
         )}
 
-        {/* ── Single: Success screen ─────────────────── */}
         {mode === 'single' && showChallenge && (
           <div className="p-8 flex flex-col items-center text-center gap-4">
             <div
@@ -363,10 +343,9 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
           </div>
         )}
 
-        {/* ══════════ BULK MODE ════════════════════════ */}
         {mode === 'bulk' && !bulkDone && (
           <div className="p-6 flex flex-col gap-5 overflow-y-auto">
-            {/* Role: locked label when scoped, dropdown when global */}
+
             {initialProjectId ? (
               <div>
                 <label className="flex items-center gap-1.5 mb-1.5">
@@ -391,7 +370,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
               <RoleSelect value={selectedRoleId} onChange={setSelectedRoleId} projects={projects} />
             )}
 
-            {/* Drop zone / file picker */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label>Resumes (PDF · up to 20 files)</label>
@@ -437,13 +415,12 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
               </div>
             </div>
 
-            {/* File rows */}
             {bulkRows.length > 0 && (
               <div
                 className="rounded-lg overflow-hidden"
                 style={{ boxShadow: 'var(--sh-ring)', maxHeight: '280px', overflowY: 'auto' }}
               >
-                {/* Table header */}
+
                 <div
                   className="grid text-[10px] font-semibold uppercase px-3 py-2"
                   style={{ gridTemplateColumns: '16px 1fr 1fr 1fr 28px', gap: '8px', fontFamily: 'var(--font-mono)', letterSpacing: '0.3px', color: 'var(--text-muted)', background: 'var(--bg-surface)' }}
@@ -465,15 +442,13 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
                       boxShadow: 'var(--sh-div-t)',
                     }}
                   >
-                    {/* Status */}
+
                     <RowStatus status={row.status} />
 
-                    {/* Filename */}
                     <p className="text-[11px] truncate" style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                       {row.file.name}
                     </p>
 
-                    {/* Name */}
                     <input
                       type="text"
                       value={row.name}
@@ -484,7 +459,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
                       style={{ background: 'var(--bg)', boxShadow: 'var(--sh-ring-lt)', border: 'none', outline: 'none', color: 'var(--text-primary)', width: '100%' }}
                     />
 
-                    {/* Email */}
                     <input
                       type="email"
                       value={row.email}
@@ -495,7 +469,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
                       style={{ background: 'var(--bg)', boxShadow: 'var(--sh-ring-lt)', border: 'none', outline: 'none', color: 'var(--text-primary)', width: '100%' }}
                     />
 
-                    {/* Remove */}
                     {row.status === 'idle' && (
                       <button
                         type="button"
@@ -512,7 +485,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
               </div>
             )}
 
-            {/* Actions */}
             <div className="flex items-center justify-between pt-1">
               <p className="text-[12px]" style={{ color: 'var(--text-muted)' }}>
                 {bulkRows.length > 0
@@ -537,7 +509,6 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
           </div>
         )}
 
-        {/* ── Bulk: Done summary ────────────────────── */}
         {mode === 'bulk' && bulkDone && (
           <div className="p-8 flex flex-col items-center text-center gap-4">
             <div

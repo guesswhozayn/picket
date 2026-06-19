@@ -11,7 +11,6 @@ export function AuthProvider({ children }) {
     return !!localStorage.getItem('picket_token');
   });
 
-  // Restore session on mount
   useEffect(() => {
     const token = localStorage.getItem('picket_token');
     if (!token) return;
@@ -28,8 +27,6 @@ export function AuthProvider({ children }) {
       setLoading(false);
     });
   }, []);
-
-
 
   const login = async (email, password) => {
     try {

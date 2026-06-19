@@ -4,8 +4,8 @@ import { Briefcase } from 'lucide-react';
 export default function AuthLayout({ children, title, subtitle }) {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[var(--bg)]">
-      {/* Animated background element */}
-      <div 
+
+      <div
         className="fixed inset-0 pointer-events-none opacity-20"
         style={{
           background: 'radial-gradient(circle at 50% 50%, var(--badge-blue-bg) 0%, transparent 70%)',
@@ -26,10 +26,10 @@ export default function AuthLayout({ children, title, subtitle }) {
           </p>
         </div>
 
-        <div 
+        <div
           className="rounded-2xl p-8 border border-[var(--bg-hover)]"
-          style={{ 
-            background: 'var(--bg)', 
+          style={{
+            background: 'var(--bg)',
             boxShadow: 'var(--sh-modal)',
           }}
         >

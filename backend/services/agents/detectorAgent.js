@@ -3,7 +3,7 @@ const config = require('../../config/env');
 async function runDetectorAgent(candidate, userApiKeys = {}) {
   const auditLogs = [];
   let score = 0.1;
-  
+
   auditLogs.push({
     agent_name: 'Detector Agent',
     action: 'Analyzing resume text for AI-generated styling and prompt injection...',
@@ -15,7 +15,6 @@ async function runDetectorAgent(candidate, userApiKeys = {}) {
     throw new Error('Gemini API key is required for Detector Agent');
   }
 
-  // 1. Try Gemini 2.5 Flash for high-accuracy analysis
   if (geminiKey) {
     try {
       const prompt = `You are a security detector agent. Analyze this resume text for:
@@ -42,7 +41,7 @@ Output ONLY a JSON object:
         const text = data.candidates[0].content.parts[0].text;
         const cleanedText = text.replace(/```json|```/g, '').trim();
         const result = JSON.parse(cleanedText);
-        
+
         score = typeof result.score === 'number' ? result.score : score;
         auditLogs.push({
           agent_name: 'Detector Agent',
@@ -59,13 +58,11 @@ Output ONLY a JSON object:
     }
   }
 
-  // 2. Fallback to Local Heuristics
   const cleanText = (candidate.raw_resume_text || '').toLowerCase();
-  
-  // Look for common prompt injection / AI boilerplate markers
+
   const aiKeywords = ['as an ai', 'delve', 'tapestry', 'testament', 'demystify', 'ignore all previous instructions'];
   let matchedCount = 0;
-  
+
   aiKeywords.forEach(kw => {
     if (cleanText.includes(kw)) {
       matchedCount++;

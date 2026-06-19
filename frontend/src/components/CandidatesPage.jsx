@@ -10,7 +10,6 @@ import {
 import CandidatesToolbar from './CandidatesToolbar';
 import CandidateDrawer from './CandidateDrawer';
 
-/* ── Fetch ──────────────────────────────────────────────────────────── */
 const fetchCandidates = (projectId) => {
   const url = projectId
     ? `/api/candidates?projectId=${projectId}`
@@ -21,7 +20,6 @@ const fetchCandidates = (projectId) => {
 const fetchProject = (id) =>
   id ? api.get(`/api/projects/${id}`).then(r => r.data) : null;
 
-/* ── Stage meta (shared) ────────────────────────────────────────────── */
 const STAGE_META = {
   processing:     { label: 'Under Review',    bg: 'var(--badge-blue-bg)',    text: 'var(--badge-blue-text)',    Icon: Activity,      animate: true  },
   high_signal:    { label: 'Strong Match',    bg: 'var(--badge-green-bg)',   text: 'var(--badge-green-text)',   Icon: CheckCircle,   animate: false },
@@ -30,14 +28,12 @@ const STAGE_META = {
   rejected:       { label: 'Declined',        bg: 'var(--badge-neutral-bg)', text: 'var(--badge-neutral-text)', Icon: XCircle,       animate: false },
 };
 
-/* ── Score helpers ──────────────────────────────────────────────────── */
 function scoreBand(score) {
   if (score < 30) return 'low';
   if (score < 70) return 'medium';
   return 'high';
 }
 
-/* ── Sort button ────────────────────────────────────────────────────── */
 function SortButton({ label, colKey, sortKey, sortDir, onSort }) {
   const active = sortKey === colKey;
   const Icon = active ? (sortDir === 'asc' ? ArrowUp : ArrowDown) : ArrowUpDown;
@@ -86,7 +82,7 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         transition: 'background 0.12s ease',
       }}
     >
-      {/* Avatar + name + email */}
+
       <td className="px-5 py-3">
         <div className="flex items-center gap-3">
           <div
@@ -106,7 +102,6 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         </div>
       </td>
 
-      {/* Stage badge */}
       <td className="px-4 py-3">
         <span
           className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
@@ -117,7 +112,6 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         </span>
       </td>
 
-      {/* Score */}
       <td className="px-4 py-3 hidden sm:table-cell">
         <div className="flex items-center gap-2">
           <div className="h-1 rounded-full" style={{ background: 'var(--bg-hover)', width: '64px' }}>
@@ -136,7 +130,6 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         </div>
       </td>
 
-      {/* Project (global mode only) */}
       {showProject && (
         <td className="px-4 py-3 hidden md:table-cell">
           <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>
@@ -145,7 +138,6 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         </td>
       )}
 
-      {/* Submitted */}
       <td
         className="px-4 py-3 hidden md:table-cell text-[12px]"
         style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
@@ -153,7 +145,6 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         {submittedAt}
       </td>
 
-      {/* Audit entries */}
       <td className="px-4 py-3 hidden lg:table-cell pr-5">
         {candidate.agent_audit_trail?.length > 0 ? (
           <span
@@ -167,7 +158,6 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
         )}
       </td>
 
-      {/* Re-screen action (visible on row hover) */}
       <td className="px-3 py-3 text-right" style={{ width: '44px' }}>
         {candidate.pipeline_status !== 'processing' && (
           <button
@@ -213,7 +203,6 @@ function SkeletonRows() {
   ));
 }
 
-/* ── Empty state ────────────────────────────────────────────────────── */
 function EmptyState({ filtered, onClear, onUpload }) {
   if (filtered) {
     return (
@@ -264,18 +253,15 @@ function EmptyState({ filtered, onClear, onUpload }) {
   );
 }
 
-/* ── Main page ──────────────────────────────────────────────────────── */
 export default function CandidatesPage({ projectId, onBack, onUpload, socket }) {
   const qc = useQueryClient();
 
-  // Data — filter out orphans (no projectId) in global view
   const { data: rawCandidates = [], isLoading, refetch } = useQuery({
     queryKey: ['candidates', projectId ?? 'all'],
     queryFn: () => fetchCandidates(projectId),
     staleTime: 10_000,
   });
 
-  // In global mode, hide candidates with no project (orphans)
   const candidates = useMemo(
     () => projectId ? rawCandidates : rawCandidates.filter(c => c.projectId),
     [rawCandidates, projectId]
@@ -288,7 +274,6 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
     staleTime: 30_000,
   });
 
-  // Toolbar state
   const [search, setSearch] = useState('');
   const [stageFilter, setStageFilter] = useState([]);
   const [scoreFilter, setScoreFilter] = useState([]);
@@ -296,21 +281,18 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
   const [sortDir, setSortDir] = useState('asc');
   const [drawerCandidate, setDrawerCandidate] = useState(null);
 
-  // Debounced search
   const [debouncedSearch, setDebouncedSearch] = useState('');
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 180);
     return () => clearTimeout(t);
   }, [search]);
 
-  // Socket live updates
   useEffect(() => {
     if (!socket) return;
     socket.on('candidate_updated', refetch);
     return () => socket.off('candidate_updated', refetch);
   }, [socket, refetch]);
 
-  // Filter + sort
   const filtered = useMemo(() => {
     let list = [...candidates];
 
@@ -348,7 +330,7 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
         av = ORDER.indexOf(a.pipeline_status); bv = ORDER.indexOf(b.pipeline_status);
         return sortDir === 'asc' ? av - bv : bv - av;
       }
-      // name
+
       av = a.name?.toLowerCase() ?? ''; bv = b.name?.toLowerCase() ?? '';
       return sortDir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
     });
@@ -363,9 +345,8 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
 
   const clearFilters = () => { setSearch(''); setStageFilter([]); setScoreFilter([]); };
   const isFiltered = search || stageFilter.length > 0 || scoreFilter.length > 0;
-  const showProject = !projectId; // show project column in global mode
+  const showProject = !projectId;
 
-  // Re-screen a single candidate
   const handleScreen = useCallback(async (candidateId) => {
     try {
       await api.post(`/api/candidates/${candidateId}/screen`);
@@ -379,7 +360,6 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
   return (
     <div className="flex flex-col gap-6">
 
-      {/* Page header */}
       <div>
         {projectId && (
           <button
@@ -427,7 +407,6 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
         </div>
       </div>
 
-      {/* Toolbar */}
       <CandidatesToolbar
         search={search}
         onSearch={setSearch}
@@ -439,7 +418,6 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
         totalAll={candidates.length}
       />
 
-      {/* Table */}
       <div className="rounded-lg overflow-hidden" style={{ boxShadow: 'var(--sh-card)' }}>
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full border-collapse">
@@ -505,7 +483,6 @@ export default function CandidatesPage({ projectId, onBack, onUpload, socket }) 
         </div>
       </div>
 
-      {/* Drawer */}
       {drawerCandidate && (
         <CandidateDrawer
           candidate={drawerCandidate}

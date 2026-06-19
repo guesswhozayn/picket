@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, X, ChevronDown } from 'lucide-react';
 
-/* ── Stage options ─────────────────────────────────────────────────── */
 const STAGE_OPTIONS = [
   { value: 'processing',     label: 'Under Review'    },
   { value: 'high_signal',    label: 'Strong Match'    },
@@ -16,7 +15,6 @@ const SCORE_OPTIONS = [
   { value: 'high',   label: 'Low Confidence (70–100%)'  },
 ];
 
-/* ── Dropdown filter ───────────────────────────────────────────────── */
 function FilterDropdown({ label, options, selected, onChange }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -127,7 +125,6 @@ function ActiveChip({ label, onRemove }) {
   );
 }
 
-/* ── Toolbar ───────────────────────────────────────────────────────── */
 export default function CandidatesToolbar({
   search, onSearch,
   stageFilter, onStageFilter,
@@ -137,16 +134,15 @@ export default function CandidatesToolbar({
   const anyActive = stageFilter.length > 0 || scoreFilter.length > 0 || search;
   const clearAll  = () => { onSearch(''); onStageFilter([]); onScoreFilter([]); };
 
-  /* Stage chip labels */
   const stageLabels = stageFilter.map(v => STAGE_OPTIONS.find(o => o.value === v)?.label ?? v);
-  /* Score chip labels */
+
   const scoreLabels = scoreFilter.map(v => SCORE_OPTIONS.find(o => o.value === v)?.label ?? v);
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Row 1 — search + dropdowns */}
+
       <div className="flex items-center gap-2 flex-wrap">
-        {/* Search */}
+
         <div className="relative flex-1 min-w-[180px] max-w-[320px]">
           <Search
             size={13}
@@ -173,7 +169,6 @@ export default function CandidatesToolbar({
           )}
         </div>
 
-        {/* Filter dropdowns */}
         <FilterDropdown
           label="Stage"
           options={STAGE_OPTIONS}
@@ -187,7 +182,6 @@ export default function CandidatesToolbar({
           onChange={onScoreFilter}
         />
 
-        {/* Clear all */}
         {anyActive && (
           <button
             onClick={clearAll}
@@ -200,7 +194,6 @@ export default function CandidatesToolbar({
           </button>
         )}
 
-        {/* Results count */}
         <span className="ml-auto text-[12px]" style={{ color: 'var(--text-muted)' }}>
           {totalShown === totalAll
             ? `${totalAll} candidate${totalAll !== 1 ? 's' : ''}`
@@ -208,7 +201,6 @@ export default function CandidatesToolbar({
         </span>
       </div>
 
-      {/* Row 2 — active chips */}
       {(stageLabels.length > 0 || scoreLabels.length > 0) && (
         <div className="flex items-center gap-2 flex-wrap">
           {stageLabels.map((label, i) => (

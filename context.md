@@ -3,7 +3,7 @@
 > [!NOTE]
 > This file serves as the single source of truth for the project's structure, tech stack, and workflows. **AI Coding Assistants should read this file first** to avoid scanning the entire project, which conserves token usage.
 
-*Last Refactored / Updated:* 2026-06-12 18:14:23 UTC
+*Last Refactored / Updated:* 2026-06-19 10:11:51 UTC
 *Automated Update Script:* Run `node scripts/update-context.js` to refresh the directory map and timestamp.
 
 ---
@@ -67,15 +67,11 @@ Below is the directory map. This tree is automatically generated and updated.
 │   └── server.js
 ├── frontend
 │   ├── public
-│   │   ├── favicon.svg
-│   │   └── icons.svg
+│   │   └── favicon.svg
 │   ├── src
 │   │   ├── api
 │   │   │   └── index.js
 │   │   ├── assets
-│   │   │   ├── hero.png
-│   │   │   ├── react.svg
-│   │   │   └── vite.svg
 │   │   ├── components
 │   │   │   ├── auth
 │   │   │   │   ├── ApiKeyOnboarding.jsx
@@ -111,7 +107,6 @@ Below is the directory map. This tree is automatically generated and updated.
 │   │   │   └── UploadModal.jsx
 │   │   ├── context
 │   │   │   └── AuthContext.jsx
-│   │   ├── App.css
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   ├── landing.css
@@ -124,7 +119,8 @@ Below is the directory map. This tree is automatically generated and updated.
 │   └── vite.config.js
 ├── scripts
 │   └── update-context.js
-└── context.md
+├── context.md
+└── README.md
 <!-- DIRECTORY_TREE_END -->
 
 ---

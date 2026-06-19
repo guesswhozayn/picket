@@ -35,13 +35,13 @@ export default function RegisterPage({ onSwitch }) {
   };
 
   return (
-    <AuthLayout 
-      title="Create account" 
+    <AuthLayout
+      title="Create account"
       subtitle="Join the future of HR screening"
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         {error && (
-          <div 
+          <div
             className="flex items-center gap-2 p-3 rounded-lg text-sm"
             style={{ background: 'var(--badge-red-bg)', color: 'var(--badge-red-text)' }}
           >
@@ -55,9 +55,9 @@ export default function RegisterPage({ onSwitch }) {
             Full Name
           </label>
           <div className="relative">
-            <User 
-              size={16} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" 
+            <User
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]"
             />
             <input
               type="text"
@@ -75,9 +75,9 @@ export default function RegisterPage({ onSwitch }) {
             Email Address
           </label>
           <div className="relative">
-            <Mail 
-              size={16} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" 
+            <Mail
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]"
             />
             <input
               type="email"
@@ -95,9 +95,9 @@ export default function RegisterPage({ onSwitch }) {
             Password
           </label>
           <div className="relative">
-            <Lock 
-              size={16} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" 
+            <Lock
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]"
             />
             <input
               type="password"
@@ -115,9 +115,9 @@ export default function RegisterPage({ onSwitch }) {
             Confirm Password
           </label>
           <div className="relative">
-            <CheckCircle2 
-              size={16} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]" 
+            <CheckCircle2
+              size={16}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-placeholder)]"
             />
             <input
               type="password"
