@@ -1,4 +1,4 @@
-# Picket — Automated Candidate Verification & Assessment Platform
+# Picket: Automated Candidate Verification & Assessment Platform
 
 Picket is a modern, automated talent verification platform designed to screen out noise and verify candidate capabilities. By combining asynchronous queues, multi-agent AI verification, and dynamic Proof-of-Work (PoW) challenges, Picket helps hiring managers quickly separate high-signal candidates from automated bots, AI-generated spam, and resume embellishments.
 
