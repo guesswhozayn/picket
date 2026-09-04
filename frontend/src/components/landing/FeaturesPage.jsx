@@ -16,9 +16,9 @@ export default function FeaturesPage({ onBack }) {
       desc: 'Watch candidate records update instantly. The pipeline dashboard updates confidence index metrics as background queue workers compile reports.'
     },
     {
-      title: 'Custom API Settings (BYOK)',
+      title: 'Free High-Performance Models',
       icon: Settings,
-      desc: 'Configure Google Gemini, Tavily Search, and Groq API keys to run verification agents on your personal resource limits.'
+      desc: 'Picket routing provides native integration with advanced Llama and Gemini models entirely out-of-the-box for free.'
     },
     {
       title: 'In-Depth Candidate Drawer Audits',

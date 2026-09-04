@@ -19,7 +19,7 @@ import { useAuth } from './context/AuthContext';
 import AuthPages from './components/auth/AuthPages';
 import SplashScreen from './components/auth/SplashScreen';
 import ProfileMenu from './components/auth/ProfileMenu';
-import ApiKeyOnboarding from './components/auth/ApiKeyOnboarding';
+
 import LandingPage from './components/landing/LandingPage';
 import DocsPage from './components/landing/DocsPage';
 import HowItWorksPage from './components/landing/HowItWorksPage';
@@ -398,11 +398,7 @@ function App() {
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         {user ? (
-          !(user.settings?.apiKeysStatus?.gemini && user.settings?.apiKeysStatus?.groq && user.settings?.apiKeysStatus?.tavily) ? (
-            <ApiKeyOnboarding />
-          ) : (
-            <Dashboard />
-          )
+          <Dashboard />
         ) : authMode === 'landing' ? (
           <LandingPage
             onStartHiring={() => setAuthMode('register')}

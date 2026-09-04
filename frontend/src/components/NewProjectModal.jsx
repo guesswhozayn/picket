@@ -138,7 +138,7 @@ export default function NewProjectModal({ onClose, onCreated }) {
             <label htmlFor="proj-desc">
               Job Description
               <span className="ml-1 text-[11px] font-normal" style={{ color: 'var(--text-muted)' }}>
-                — optional
+                - optional
               </span>
             </label>
             <textarea

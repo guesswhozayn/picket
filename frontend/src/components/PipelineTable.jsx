@@ -169,7 +169,7 @@ function AgentLogDrawer({ candidate }) {
             className="mono-label mb-2"
             style={{ color: 'var(--text-placeholder)' }}
           >
-            Agent Audit Trail — {trail.length} entries
+            Agent Audit Trail - {trail.length} entries
           </p>
           <div className="grid gap-2">
             {trail.map((log, i) => (
@@ -217,7 +217,7 @@ function CandidateRow({ candidate, stage, index }) {
     ? new Date(candidate.submitted_at).toLocaleDateString('en-US', {
         month: 'short', day: 'numeric', year: 'numeric',
       })
-    : '—';
+    : '-';
 
   return (
     <>
@@ -299,7 +299,7 @@ function CandidateRow({ candidate, stage, index }) {
               {candidate.agent_audit_trail.length}
             </span>
           ) : (
-            <span className="text-[11px]" style={{ color: 'var(--text-placeholder)' }}>—</span>
+            <span className="text-[11px]" style={{ color: 'var(--text-placeholder)' }}>-</span>
           )}
         </td>
 

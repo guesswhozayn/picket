@@ -108,7 +108,7 @@ export default function FunnelChart({ summary }) {
                   {drop}%
                 </span>
               ) : (
-                <span className="text-[11px]" style={{ color: 'var(--text-placeholder)', fontFamily: 'var(--font-mono)' }}>—</span>
+                <span className="text-[11px]" style={{ color: 'var(--text-placeholder)', fontFamily: 'var(--font-mono)' }}>-</span>
               )}
             </div>
           </div>

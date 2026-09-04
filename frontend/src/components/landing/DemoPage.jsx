@@ -86,7 +86,7 @@ export default function DemoPage({ onBack }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [logs, setLogs] = useState([]);
   const [typingSim, setTypingSim] = useState('');
-  const [telemetry, setTelemetry] = useState({ keystrokes: 0, pasteEvents: 0, latency: '—', entropy: '—' });
+  const [telemetry, setTelemetry] = useState({ keystrokes: 0, pasteEvents: 0, latency: '-', entropy: '-' });
   const terminalEndRef = useRef(null);
 
   const currentCand = CANDIDATES[candidateType];
@@ -197,7 +197,7 @@ export default function DemoPage({ onBack }) {
   const handleStartDemo = () => {
     setStep(1);
     setTypingSim('');
-    setTelemetry({ keystrokes: 0, pasteEvents: 0, latency: '—', entropy: '—' });
+    setTelemetry({ keystrokes: 0, pasteEvents: 0, latency: '-', entropy: '-' });
     setLogs(['[SYSTEM] Initializing Ingestion pipeline...', `[SYSTEM] Target: ${candName} - ${candRole}`]);
     setIsPlaying(true);
   };
@@ -205,7 +205,7 @@ export default function DemoPage({ onBack }) {
   const handleResetDemo = () => {
     setStep(0);
     setTypingSim('');
-    setTelemetry({ keystrokes: 0, pasteEvents: 0, latency: '—', entropy: '—' });
+    setTelemetry({ keystrokes: 0, pasteEvents: 0, latency: '-', entropy: '-' });
     setLogs([]);
     setIsPlaying(false);
   };

@@ -86,14 +86,14 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)] mb-3">Settings & Custom API Keys</h2>
+            <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)] mb-3">Centralized Agent Inference</h2>
             <p className="text-sm text-[var(--text-body)] leading-relaxed mb-3">
-              Picket allows you to "Bring Your Own Key" (BYOK) in the Settings page to power verification agents. You can enter your personal keys for:
+              Picket's backend handles all LLM inference automatically, so you don't need to configure your own API keys. Picket uses:
             </p>
             <ul className="space-y-2 text-xs text-[var(--text-muted)] bg-[var(--bg-surface)] p-4 rounded-xl border border-[var(--border-color)]">
-              <li>• <strong>Google Gemini Key:</strong> Powers the synthetic profile detector and social footprint audit.</li>
-              <li>• <strong>Tavily Search Key:</strong> Powers the social footprint crawler to verify candidate claims online.</li>
-              <li>• <strong>Groq API Key:</strong> Powers the dynamic logic challenges generated for your candidates.</li>
+              <li>• <strong>Google Gemini 2.0:</strong> Powers the synthetic profile detector and social footprint audit (Free Tier).</li>
+              <li>• <strong>Tavily Search:</strong> Powers the social footprint crawler to verify candidate claims online.</li>
+              <li>• <strong>Llama 3.3:</strong> Powers the dynamic logic challenges generated for your candidates (Free Tier).</li>
             </ul>
           </div>
         </div>
@@ -286,8 +286,8 @@ export default function DocsPage({ initialSection = 'welcome', onBack }) {
                 desc: 'Click on any candidate card in the pipeline table to slide open their detailed drawer view. Here, you can review the specific actions taken by the Detector and OSINT agents, and read the verified claims report.'
               },
               {
-                title: 'Setup Custom API Keys Early',
-                desc: 'For optimum footprint checking accuracy, go to the Settings panel and configure your personal Gemini and Tavily keys. This unlocks the full power of real-time web searches and advanced social validation.'
+                title: 'Monitor Verification Status',
+                desc: 'Keep an eye on the Bot Index score as it populates. High noise candidates can often be rejected outright, saving your team hours of manual screening time.'
               }
             ].map((tip, i) => (
               <div key={i} className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg)] shadow-sm">
