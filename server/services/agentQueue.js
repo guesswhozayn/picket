@@ -6,27 +6,30 @@ const IORedis = require('ioredis');
 
 dotenv.config();
 
+const redisUrl = process.env.REDIS_URL ? process.env.REDIS_URL.replace(/^"|"$/g, '').trim() : null;
+
 const redisOptions = {
   maxRetriesPerRequest: null,
+  family: 4, // Force IPv4 to resolve getaddrinfo ENOTFOUND on platforms like Render
 };
 
-if (process.env.REDIS_URL && process.env.REDIS_URL.startsWith('rediss://')) {
+if (redisUrl && (redisUrl.startsWith('rediss://') || redisUrl.includes('upstash.io'))) {
   redisOptions.tls = {
     rejectUnauthorized: false
   };
 }
 
-const connection = process.env.REDIS_URL
-  ? new IORedis(process.env.REDIS_URL, redisOptions)
+const connection = redisUrl
+  ? new IORedis(redisUrl, redisOptions)
   : new IORedis({
       host: process.env.REDIS_HOST || '127.0.0.1',
       port: process.env.REDIS_PORT || 6379,
       ...redisOptions
     });
 
-if (process.env.REDIS_URL) {
+if (redisUrl) {
   try {
-    const parsed = new URL(process.env.REDIS_URL);
+    const parsed = new URL(redisUrl);
     const maskedUrl = `${parsed.protocol}//${parsed.username ? parsed.username + ':***@' : ''}${parsed.host}`;
     console.log(`[Redis] Connecting to database at: ${maskedUrl}`);
   } catch (err) {
