@@ -59,16 +59,13 @@ router.post('/upload', requireAuth, upload.single('resume'), async (req, res) =>
 
     const { generatePoWChallenge } = require('../services/agents/powAgent');
     const Project = require('../models/Project');
-    const User = require('../models/User');
 
-    const dbUser = await User.findById(req.user._id).select('+settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily');
-    const userApiKeys = dbUser?.settings?.apiKeys || {};
 
     let pow_challenge = { type: 'logic_arithmetic', question: 'In a sequence of numbers, if the first is 3, the second is 6, and the third is 9… What is the fifth?', answer: '15' };
     if (projectId) {
       const project = await Project.findById(projectId);
       if (project) {
-        pow_challenge = await generatePoWChallenge(project, userApiKeys);
+        pow_challenge = await generatePoWChallenge(project);
       }
     }
 
