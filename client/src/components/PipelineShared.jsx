@@ -49,7 +49,7 @@ export const STAGES = [
   },
 ];
 
-export function ScorePill({ score }) {
+function ScorePill({ score }) {
   const bgVar   = score < 30 ? '--badge-green-bg'  : score < 70 ? '--badge-blue-bg'  : '--badge-red-bg';
   const textVar = score < 30 ? '--badge-green-text' : score < 70 ? '--badge-blue-text' : '--badge-red-text';
   return (

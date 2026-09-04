@@ -5,6 +5,8 @@ node_modules/
 # Production build / distribution directories
 dist/
 **/dist/
+dist-ssr/
+**/dist-ssr/
 build/
 **/build/
 out/

@@ -31,7 +31,7 @@ import LegalPage from './components/landing/LegalPage';
 const queryClient = new QueryClient();
 const socket = io(BASE_URL);
 
-export const ThemeContext = createContext({ dark: false, toggle: () => {} });
+const ThemeContext = createContext({ dark: false, toggle: () => {} });
 
 function ThemeProvider({ children }) {
   const [dark, setDark] = useState(() => {
