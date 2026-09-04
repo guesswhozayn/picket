@@ -94,7 +94,7 @@ function DateRangePicker({ value, onChange }) {
 
 /* ── Format helpers ─────────────────────────────────────────────────── */
 function fmtDuration(ms) {
-  if (ms === null || ms === undefined) return '—';
+  if (ms === null || ms === undefined) return '-';
   const hrs  = ms / 3_600_000;
   if (hrs < 1)   return `${Math.round(ms / 60_000)}m`;
   if (hrs < 24)  return `${hrs.toFixed(1)}h`;
@@ -226,7 +226,7 @@ export default function AnalyticsPage({ projectId, project, onBack, onSelectProj
           <ConfidenceDonut confidence={confidence} />
         </ChartPanel>
 
-        <ChartPanel title={`Applications Over Time — last ${days} days`} loading={isLoading && !analytics}>
+        <ChartPanel title={`Applications Over Time - last ${days} days`} loading={isLoading && !analytics}>
           <VolumeBarChart volumeByDay={analytics?.volume_by_day} days={days} />
         </ChartPanel>
       </div>

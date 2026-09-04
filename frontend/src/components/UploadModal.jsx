@@ -406,7 +406,7 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
                     <Users size={16} style={{ color: bulkRows.length ? 'var(--badge-blue-text)' : 'var(--text-muted)' }} />
                   </div>
                   <p className="text-[13px] font-medium" style={{ color: 'var(--text-primary)' }}>
-                    {bulkRows.length ? `${bulkRows.length} file${bulkRows.length !== 1 ? 's' : ''} selected — click to add more` : 'Click or drag PDFs here'}
+                    {bulkRows.length ? `${bulkRows.length} file${bulkRows.length !== 1 ? 's' : ''} selected - click to add more` : 'Click or drag PDFs here'}
                   </p>
                   <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
                     Names are auto-detected from filenames · Add emails per row below
@@ -523,7 +523,7 @@ export default function UploadModal({ onClose, projectId: initialProjectId, proj
               </p>
               <p className="text-[13px] mt-1" style={{ color: 'var(--text-body)' }}>
                 {doneCount > 0 && `${doneCount} applicant${doneCount !== 1 ? 's' : ''} added to the screening queue.`}
-                {errorCount > 0 && ` ${errorCount} failed — check emails or retry.`}
+                {errorCount > 0 && ` ${errorCount} failed - check emails or retry.`}
               </p>
             </div>
             <button onClick={onClose} className="btn-primary text-sm">Done</button>

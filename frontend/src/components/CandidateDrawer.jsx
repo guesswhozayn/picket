@@ -172,9 +172,9 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
                   {stage.label}
                 </span>
               </div>
-              <MetaRow icon={Briefcase}  label="Role"        value={projectTitle ?? '—'} />
+              <MetaRow icon={Briefcase}  label="Role"        value={projectTitle ?? '-'} />
               <MetaRow icon={Calendar}   label="Applied"     value={submittedAt} />
-              <MetaRow icon={Shield}     label="Verification" value={powScore ?? '—'} />
+              <MetaRow icon={Shield}     label="Verification" value={powScore ?? '-'} />
               <MetaRow
                 icon={Clock}
                 label="Checks Run"
@@ -188,7 +188,7 @@ export default function CandidateDrawer({ candidate, onClose, projectTitle }) {
           {candidate.agent_audit_trail?.length > 0 && (
             <div>
               <p className="mono-label mb-3" style={{ color: 'var(--text-placeholder)' }}>
-                AI Screening Log — {candidate.agent_audit_trail.length}
+                AI Screening Log - {candidate.agent_audit_trail.length}
               </p>
               <div className="flex flex-col gap-2">
                 {candidate.agent_audit_trail.map((log, i) => (

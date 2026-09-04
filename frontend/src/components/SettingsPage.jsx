@@ -35,12 +35,7 @@ export default function SettingsPage() {
             icon={Lock}
             label="Security"
           />
-          <TabButton
-            active={activeTab === 'apiKeys'}
-            onClick={() => setActiveTab('apiKeys')}
-            icon={Key}
-            label="API Keys (BYOK)"
-          />
+
           {user?.role === 'admin' && (
             <TabButton
               active={activeTab === 'team'}
@@ -62,7 +57,7 @@ export default function SettingsPage() {
         <div className="flex-1 bg-[var(--bg)] rounded-xl border border-[var(--bg-hover)] overflow-hidden shadow-[var(--sh-card)]">
           {activeTab === 'profile' && <ProfileSettings user={user} />}
           {activeTab === 'security' && <SecuritySettings />}
-          {activeTab === 'apiKeys' && <ApiKeySettings />}
+
           {activeTab === 'team' && <TeamSettings adminUser={user} />}
         </div>
       </div>
@@ -259,102 +254,4 @@ function TeamSettings({ adminUser }) {
   );
 }
 
-function ApiKeySettings() {
-  const [keys, setKeys] = useState({
-    gemini: '',
-    groq: '',
-    tavily: ''
-  });
-  const [loading, setLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    api.get('/api/auth/settings')
-      .then(res => {
-        if (res.data?.settings?.apiKeys) {
-          setKeys(res.data.settings.apiKeys);
-        }
-      })
-      .catch(err => console.error('Failed to load settings', err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setIsUpdating(true);
-    try {
-      await api.put('/api/auth/settings', { apiKeys: keys });
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (err) {
-      alert(err.response?.data?.error || err.message);
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="p-6 flex items-center justify-center">
-        <RefreshCw size={24} className="animate-spin text-[var(--text-muted)]" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="p-6">
-      <h4 className="mb-6">Integrate Your Own API Keys</h4>
-      <p className="text-xs text-[var(--text-muted)] mb-6">
-        Optionally bring your own API keys. If provided, Picket agents will use your keys and quotas. If left blank, Picket will run on platform default keys.
-      </p>
-
-      <form onSubmit={handleUpdate} className="flex flex-col gap-6 max-w-md">
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[13px] font-medium text-[var(--text-primary)]">Gemini API Key</label>
-          <input
-            type="password"
-            value={keys.gemini}
-            placeholder={keys.gemini ? "••••••••••••••••" : "AI Studio Gemini Key"}
-            onChange={e => setKeys(prev => ({ ...prev, gemini: e.target.value }))}
-            className="w-full"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[13px] font-medium text-[var(--text-primary)]">Groq API Key</label>
-          <input
-            type="password"
-            value={keys.groq}
-            placeholder={keys.groq ? "••••••••••••••••" : "gsk_... Key"}
-            onChange={e => setKeys(prev => ({ ...prev, groq: e.target.value }))}
-            className="w-full"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[13px] font-medium text-[var(--text-primary)]">Tavily API Key</label>
-          <input
-            type="password"
-            value={keys.tavily}
-            placeholder={keys.tavily ? "••••••••••••••••" : "tvly-... Key"}
-            onChange={e => setKeys(prev => ({ ...prev, tavily: e.target.value }))}
-            className="w-full"
-          />
-        </div>
-
-        <div className="pt-2 flex items-center gap-4">
-          <button type="submit" disabled={isUpdating} className="btn-primary px-6">
-            {isUpdating ? <RefreshCw size={14} className="animate-spin mr-2" /> : null}
-            Save Keys
-          </button>
-          {success && (
-            <span className="flex items-center gap-1 text-[12px] text-[var(--badge-green-text)] font-medium">
-              <CheckCircle size={14} /> Updated Settings
-            </span>
-          )}
-        </div>
-      </form>
-    </div>
-  );
-}

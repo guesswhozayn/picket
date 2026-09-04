@@ -105,7 +105,7 @@ export default function LegalPage({ initialTab = 'privacy', onBack }) {
                 </p>
                 <ul className="list-disc pl-5 space-y-1.5 text-xs text-neutral-500">
                   <li><strong>Synthetic Pattern Analysis:</strong> Resumes are analyzed via secure AI integrations to catch template copying and prompt injections.</li>
-                  <li><strong>Biometric Validation:</strong> Telemetry is processed on our servers to evaluate the likelihood of automated script inputs. We do <strong>not</strong> collect or store keystroke content—only the intervals and copy-paste signals.</li>
+                  <li><strong>Biometric Validation:</strong> Telemetry is processed on our servers to evaluate the likelihood of automated script inputs. We do <strong>not</strong> collect or store keystroke content - only the intervals and copy-paste signals.</li>
                 </ul>
               </div>
 
@@ -175,9 +175,9 @@ export default function LegalPage({ initialTab = 'privacy', onBack }) {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-lg font-bold text-neutral-900">2. Bring Your Own Key (BYOK) Isolation</h2>
+                <h2 className="text-lg font-bold text-neutral-900">2. Centralized Model Architecture</h2>
                 <p>
-                  Recruiters can supply their own API keys for Google Gemini, Tavily, and Groq. Keys are encrypted client-side using industry standards before being stored securely on our database, ensuring no unauthorized access or leakage.
+                  Picket acts as a central proxy for all LLM requests, meaning recruiters do not need to supply or manage their own API keys. Picket securely routes candidate inference requests to OpenRouter's free tier endpoints without exposing external API tokens to the client.
                 </p>
               </div>
 

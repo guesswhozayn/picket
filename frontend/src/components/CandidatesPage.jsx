@@ -69,7 +69,7 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
 
   const submittedAt = candidate.createdAt
     ? new Date(candidate.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    : '—';
+    : '-';
 
   return (
     <tr
@@ -133,7 +133,7 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
       {showProject && (
         <td className="px-4 py-3 hidden md:table-cell">
           <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>
-            {projectTitle ?? '—'}
+            {projectTitle ?? '-'}
           </span>
         </td>
       )}
@@ -154,7 +154,7 @@ function CandidateRow({ candidate, onOpen, onScreen, showProject, projectTitle }
             {candidate.agent_audit_trail.length}
           </span>
         ) : (
-          <span style={{ color: 'var(--text-placeholder)', fontSize: '11px' }}>—</span>
+          <span style={{ color: 'var(--text-placeholder)', fontSize: '11px' }}>-</span>
         )}
       </td>
 

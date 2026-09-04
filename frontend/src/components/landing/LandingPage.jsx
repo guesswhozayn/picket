@@ -1,9 +1,54 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight, Shield, Globe, Brain, UploadCloud, CheckCircle,
-  ChevronRight, Users, Play, Terminal, Activity, Zap, Check, ExternalLink
+  ChevronRight, Users, Play, Terminal, Activity, Zap, Check, ExternalLink,
+  LayoutGrid, Kanban
 } from 'lucide-react';
+import PipelineGrid from '../PipelineGrid';
+import PipelineBoard from '../PipelineBoard';
 import '../../landing.css';
+
+function LandingPipelineDemo() {
+  const [viewMode, setViewMode] = useState('grid');
+  const mockCandidates = [
+    { _id: '1', name: 'Nadia Petrova', email: 'nadia.p@example.com', pipeline_status: 'high_signal', synthetic_probability: 0.12, submitted_at: new Date().toISOString(), agent_audit_trail: [{ agent_name: 'Detector', action: 'Verified organic text patterns', timestamp: Date.now() }], pow_data: null },
+    { _id: '3', name: 'Aris Thorne', email: 'aris.t@example.com', pipeline_status: 'audit_required', synthetic_probability: 0.65, submitted_at: new Date(Date.now() - 7200000).toISOString(), agent_audit_trail: [{ agent_name: 'OSINT', action: 'Flagged footprint mismatch', timestamp: Date.now() }], pow_data: { completed: false } },
+    { _id: '4', name: 'Marcus Vance', email: 'm.vance@example.com', pipeline_status: 'processing', synthetic_probability: 0.45, submitted_at: new Date().toISOString(), agent_audit_trail: [], pow_data: null },
+    { _id: '2', name: 'Unknown Dev', email: 'dev99@proton.me', pipeline_status: 'high_noise', synthetic_probability: 0.89, submitted_at: new Date(Date.now() - 3600000).toISOString(), agent_audit_trail: [{ agent_name: 'OSINT', action: 'No public repos found', timestamp: Date.now() }], pow_data: null },
+  ];
+
+  return (
+    <div data-pk-animate data-pk-delay="2" className="bg-white/40 backdrop-blur-md border border-neutral-200/60 p-5 rounded-2xl w-full" style={{ boxShadow: 'var(--sh-card-lg)' }}>
+      <div className="bg-white border border-neutral-100 rounded-xl p-4 shadow-sm">
+        <div className="flex justify-between items-center pb-3 border-b border-neutral-50 mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-widest">Active Screening</span>
+            <span className="flex items-center gap-1 text-[9px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded-full">
+              Queue worker #3
+            </span>
+          </div>
+          
+          <div className="flex items-center bg-[var(--bg-surface)] border border-[var(--border-color)] rounded-lg p-0.5 shadow-sm">
+            <button onClick={() => setViewMode('grid')} className={`flex items-center gap-1.5 px-2 py-1 text-[10px] font-semibold rounded transition-all ${viewMode === 'grid' ? 'bg-white text-neutral-900 shadow-sm border border-neutral-200' : 'text-neutral-500 hover:text-neutral-900'}`}>
+              <LayoutGrid size={12} /> Grid
+            </button>
+            <button onClick={() => setViewMode('board')} className={`flex items-center gap-1.5 px-2 py-1 text-[10px] font-semibold rounded transition-all ${viewMode === 'board' ? 'bg-white text-neutral-900 shadow-sm border border-neutral-200' : 'text-neutral-500 hover:text-neutral-900'}`}>
+              <Kanban size={12} /> Board
+            </button>
+          </div>
+        </div>
+        
+        <div className="overflow-hidden" style={{ maxHeight: '380px', overflowY: 'auto' }}>
+          {viewMode === 'grid' ? (
+            <PipelineGrid candidates={mockCandidates} />
+          ) : (
+            <PipelineBoard candidates={mockCandidates} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function useIntersectionObserver() {
   const containerRef = useRef(null);
@@ -206,7 +251,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
             data-pk-delay="2"
             className="mt-6 text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed"
           >
-            Stop wasting interview cycles on synthetic applicants. Deploy background verification agents to audit resume files, cross-verify skill claims, and run interactive keystroke integrity challenges.
+            Stop wasting interview cycles on synthetic applicants. Automatically verify candidate skills, check online profiles, and ensure real humans - not bots - are applying to your jobs.
           </p>
 
           <div
@@ -245,7 +290,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
           >
             <div className="flex justify-between items-center mb-3">
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
-                Live Telemetry Sandbox
+                Try It Live: Typing Detection
               </span>
               {(typedText.length > 0 || telemetry.pasteCount > 0) && (
                 <button
@@ -295,13 +340,13 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
                 </span>
               </div>
               <div className="bg-neutral-50 p-2.5 rounded border border-neutral-100 flex flex-col justify-between">
-                <span className="text-neutral-400 uppercase tracking-widest text-[8px] font-bold">AVG INTERVAL</span>
-                <span className="font-extrabold text-neutral-900 text-xs mt-0.5">{telemetry.avgLatency ? `${telemetry.avgLatency}ms` : '—'}</span>
+                <span className="text-neutral-400 uppercase tracking-widest text-[8px] font-bold">AVERAGE SPEED</span>
+                <span className="font-extrabold text-neutral-900 text-xs mt-0.5">{telemetry.avgLatency ? `${telemetry.avgLatency}ms` : '-'}</span>
               </div>
             </div>
 
             <div className="mt-4 border-t border-neutral-100 pt-3">
-              <span className="text-[8px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-2">Live Keystroke Rhythm Cadence</span>
+              <span className="text-[8px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-2">Live Typing Speed Analysis</span>
               <div className="h-10 flex items-end gap-[2px] bg-neutral-50 rounded-lg p-2 border border-neutral-150">
                 {telemetry.latencyList.length === 0 ? (
                   <span className="text-[9px] text-neutral-400 font-mono italic m-auto">Start typing to draw graph...</span>
@@ -326,7 +371,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
             </div>
 
             <div className="mt-4 flex items-center justify-between">
-              <span className="text-[9px] text-neutral-400 font-mono">TELEMETRY STATS</span>
+              <span className="text-[9px] text-neutral-400 font-mono">TYPING STATS</span>
               {telemetry.status === 'idle' && (
                 <span className="text-[10px] font-bold text-neutral-500 font-mono">WAITING FOR INPUT...</span>
               )}
@@ -337,7 +382,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
               )}
               {telemetry.status === 'pasted' && (
                 <span className="text-[10px] font-bold text-red-600 font-mono flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" /> PASTE DETECTED (HIGH RISK)
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" /> COPY-PASTE DETECTED
                 </span>
               )}
             </div>
@@ -513,9 +558,9 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { tag: 'AGENT 01', icon: Shield, title: 'Synthetic Detector', desc: 'Analyzes CV structures and layout metadata using Gemini to catch auto-generated templates and prompt injection attempts.', footer: 'Gemini 2.5 Flash API', color: '#db2777', bg: 'rgba(219, 39, 119, 0.1)' },
-              { tag: 'AGENT 02', icon: Globe, title: 'OSINT Verifier', desc: 'Performs automated digital footprint verification by querying Tavily for candidate profiles and validating active repositories.', footer: 'Tavily + Gemini API', color: '#2563eb', bg: 'rgba(37, 99, 235, 0.1)' },
-              { tag: 'AGENT 03', icon: Brain, title: 'Proof of Work', desc: 'Dispatches custom logic challenges generated via Groq (Llama 3.3) and verifies keystroke/paste telemetry to guarantee human origin.', footer: 'Groq / Gemini + Telemetry', color: '#059669', bg: 'rgba(5, 150, 105, 0.1)' }
+              { tag: 'AGENT 01', icon: Shield, title: 'Resume Checker', desc: 'Scans resumes to catch AI-generated applications and fake credentials.', footer: 'OpenRouter Free Tier', color: '#db2777', bg: 'rgba(219, 39, 119, 0.1)' },
+              { tag: 'AGENT 02', icon: Globe, title: 'Profile Checker', desc: "Searches the web to verify candidates' online profiles, portfolios, and work history.", footer: 'Tavily + OpenRouter API', color: '#2563eb', bg: 'rgba(37, 99, 235, 0.1)' },
+              { tag: 'AGENT 03', icon: Brain, title: 'Skill Challenge', desc: 'Sends quick skill quizzes to ensure applicants are real humans who actually know their stuff.', footer: 'Llama 3.3 + Typing Stats', color: '#059669', bg: 'rgba(5, 150, 105, 0.1)' }
             ].map((agent, i) => (
               <div key={i} data-pk-animate data-pk-delay={i+1} className="bg-white p-6 rounded-xl border border-neutral-200 flex flex-col justify-between pk-card-hover" style={{ boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)' }}>
                 <div>
@@ -548,10 +593,10 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
             </p>
             <ul className="space-y-4 mb-8">
               {[
-                'Parallel background execution with BullMQ',
-                'Live WebSockets status streaming',
-                'Full audit logs and confidence index per candidate',
-                'One-click biometric Proof of Work challenge dispatch'
+                'Instant background screening',
+                'Real-time candidate updates',
+                'Clear human-or-bot confidence scores',
+                'One-click candidate skill challenges'
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-xs font-medium text-neutral-700">
                   <Check size={14} className="text-emerald-600 shrink-0" />
@@ -568,30 +613,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
 
           </div>
 
-          <div data-pk-animate data-pk-delay="2" className="bg-white/40 backdrop-blur-md border border-neutral-200/60 p-5 rounded-2xl" style={{ boxShadow: 'var(--sh-card-lg)' }}>
-            <div className="bg-white border border-neutral-100 rounded-xl p-4 space-y-3 shadow-sm">
-              <div className="flex justify-between items-center pb-3 border-b border-neutral-50 mb-1">
-                <span className="text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-widest">Active Screening</span>
-                <span className="flex items-center gap-1 text-[9px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded-full">
-                  Queue worker #3
-                </span>
-              </div>
-              {[
-                { name: 'Nadia Petrova', status: 'High Signal', bg: 'rgba(16, 185, 129, 0.1)', text: '#059669', c: 'pk-row-1' },
-                { name: 'Unknown Dev Profile', status: 'High Noise', bg: 'rgba(239, 68, 68, 0.1)', text: '#dc2626', c: 'pk-row-2' },
-                { name: 'Aris Thorne', status: 'Audit Req.', bg: 'rgba(59, 130, 246, 0.1)', text: '#2563eb', c: 'pk-row-3' },
-                { name: 'Marcus Vance', status: 'Verifying...', bg: 'rgba(59, 130, 246, 0.1)', text: '#2563eb', c: 'pk-row-4 pk-badge-pulse' },
-              ].map((row, i) => (
-                <div key={i} className={`flex items-center justify-between p-3 border border-neutral-100 rounded-lg text-xs bg-white hover:bg-neutral-50 transition-all ${row.c}`}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-full bg-neutral-100 flex items-center justify-center font-bold text-neutral-600">{row.name[0]}</div>
-                    <span className="font-semibold text-neutral-800">{row.name}</span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider font-mono" style={{ background: row.bg, color: row.text }}>{row.status}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <LandingPipelineDemo />
         </div>
       </section>
 
@@ -712,7 +734,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
                       <td className="p-4 font-bold text-neutral-900">Application Filter</td>
                       <td className="p-4 border-l border-neutral-100">Static keyword matching (leads to keyword stuffing and candidate gaming).</td>
                       <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
-                        Sentence entropy analysis, synthetic signature matching, and prompt injection defense.
+                        Smart AI detection that flags auto-generated applications.
                       </td>
                     </tr>
                     <tr>
@@ -726,14 +748,14 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
                       <td className="p-4 font-bold text-neutral-900">Cheating Detection</td>
                       <td className="p-4 border-l border-neutral-100">Intrusive screen recordings and tab-locking that frustrate candidates.</td>
                       <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
-                        Passive keyboard biometric entropy (typing rhythm intervals) and instant paste telemetry.
+                        Analyzes typing patterns to instantly catch copy-pasting and bots.
                       </td>
                     </tr>
                     <tr>
                       <td className="p-4 font-bold text-neutral-900">Platform Cost</td>
                       <td className="p-4 border-l border-neutral-100">High markups on API execution and fixed per-candidate pricing tiers.</td>
                       <td className="p-4 border-l border-neutral-150 bg-cyan-50/10 text-neutral-800">
-                        Bring Your Own Key (BYOK) database isolation—pay only for the exact token usage of your models.
+                        Zero cost for API usage - we route to free, high-performance models by default.
                       </td>
                     </tr>
                   </tbody>
@@ -759,16 +781,16 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
           <div className="space-y-4">
             {[
               {
-                q: "Does Picket record candidate keystroke content?",
-                a: "No. Picket never captures or transmits the characters entered by candidates. We only measure the time intervals between keypresses (typing rhythm latency) and paste events. Your candidates' sensitive typing contents remain 100% private."
+                q: "Does Picket record what candidates type?",
+                a: "No. Picket never captures or transmits the actual characters entered by candidates. We only measure how fast they type and if they copy-paste. Your candidates' sensitive answers remain 100% private."
               },
               {
-                q: "How does Bring Your Own Key (BYOK) work?",
-                a: "You supply your own API keys for Google Gemini, Tavily, or Groq. These keys are client-side encrypted before being written to our database. When background pipeline workers execute, they query keys securely to process requests, so you pay only for raw token usage."
+                q: "Do I need to pay for AI API usage?",
+                a: "No! Picket uses OpenRouter's free tier endpoints (like Llama 3.3 Instruct) by default. The backend is configured centrally, so individual recruiters don't have to worry about supplying API keys or managing inference costs."
               },
               {
-                q: "How does the telemetry check detect scripts and cheating?",
-                a: "Automated scripts paste text instantly or type with mathematically uniform delays (e.g. exactly 50ms between characters). Organic human typing exhibits natural entropy, speed adjustments, and backspace trends. Picket analyzes this cadence to calculate a Bot Index."
+                q: "How does the typing check detect bots and cheating?",
+                a: "Bots typically paste text instantly or type at mathematically perfect speeds. Real humans naturally change speeds, pause to think, and use backspace. Picket checks these typing habits to accurately spot the fakes."
               },
               {
                 q: "What integrations does Picket support?",
