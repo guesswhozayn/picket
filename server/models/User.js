@@ -7,13 +7,7 @@ const userSchema = new mongoose.Schema({
   passwordHash: { type: String, required: true },
   role:         { type: String, enum: ['admin', 'recruiter'], default: 'recruiter' },
   avatarSeed:   { type: String, default: () => Math.random().toString(36).slice(2) },
-  settings: {
-    apiKeys: {
-      gemini:    { type: String, select: false },
-      groq:      { type: String, select: false },
-      tavily:    { type: String, select: false }
-    }
-  }
+
 }, { timestamps: true });
 
 userSchema.pre('save', async function () {
@@ -37,27 +31,7 @@ userSchema.methods.comparePassword = function (plain) {
 };
 
 userSchema.set('toJSON', {
-  transform: (_, obj) => {
-    delete obj.passwordHash;
-    if (obj.settings) {
-      const apiKeys = obj.settings.apiKeys || {};
-      obj.settings.apiKeysStatus = {
-        gemini: !!apiKeys.gemini,
-        groq: !!apiKeys.groq,
-        tavily: !!apiKeys.tavily
-      };
-      delete obj.settings.apiKeys;
-    } else {
-      obj.settings = {
-        apiKeysStatus: {
-          gemini: false,
-          groq: false,
-          tavily: false
-        }
-      };
-    }
-    return obj;
-  },
+
 });
 
 module.exports = mongoose.models.User || mongoose.model('User', userSchema);

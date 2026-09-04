@@ -69,16 +69,11 @@ try {
       if (candidate) {
         const { runDetectorAgent } = require('./agents/detectorAgent');
         const { runOsintAgent } = require('./agents/osintAgent');
-        const User = require('../models/User');
 
-        const user = await User.findById(candidate.uploadedBy).select(
-          '+settings.apiKeys.gemini +settings.apiKeys.groq +settings.apiKeys.tavily'
-        );
-        const userApiKeys = user?.settings?.apiKeys || {};
 
         const [detectorResult, osintResult] = await Promise.all([
-          runDetectorAgent(candidate, userApiKeys),
-          runOsintAgent(candidate, userApiKeys)
+          runDetectorAgent(candidate),
+          runOsintAgent(candidate)
         ]);
 
         const auditTrail = [...detectorResult.auditLogs, ...osintResult.auditLogs];
