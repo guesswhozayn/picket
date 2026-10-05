@@ -22,6 +22,7 @@ import ProfileMenu from './components/auth/ProfileMenu';
 
 import LandingPage from './components/landing/LandingPage';
 import DocsPage from './components/landing/DocsPage';
+import PicketLogo from './components/common/PicketLogo';
 import HowItWorksPage from './components/landing/HowItWorksPage';
 import AIAgentsPage from './components/landing/AIAgentsPage';
 import FeaturesPage from './components/landing/FeaturesPage';
@@ -162,50 +163,7 @@ function Dashboard() {
           style={{ boxShadow: 'var(--sh-div-t)' }}
         >
 
-          <svg
-            width="26" height="32" viewBox="0 0 44 54" fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-label="Picket logo"
-            className="shrink-0"
-          >
-            <defs>
-
-              <linearGradient id="pk-g-back" x1="6" y1="6" x2="20" y2="48" gradientUnits="userSpaceOnUse">
-                <stop offset="0%"   stopColor="#1565C0" />
-                <stop offset="100%" stopColor="#1E88E5" />
-              </linearGradient>
-
-              <linearGradient id="pk-g-front" x1="22" y1="2" x2="34" y2="46" gradientUnits="userSpaceOnUse">
-                <stop offset="0%"   stopColor="#26C6DA" />
-                <stop offset="100%" stopColor="#1565C0" />
-              </linearGradient>
-            </defs>
-
-            <rect
-              x="4" y="6" width="17" height="40" rx="8.5"
-              fill="url(#pk-g-back)"
-              transform="rotate(14 12.5 26)"
-            />
-
-            <rect
-              x="20" y="3" width="15" height="38" rx="7.5"
-              fill="url(#pk-g-front)"
-              transform="rotate(-6 27.5 22)"
-            />
-          </svg>
-
-          <span
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontWeight: 700,
-              fontSize: '18px',
-              letterSpacing: '-0.8px',
-              color: 'var(--text-primary)',
-              lineHeight: 1,
-            }}
-          >
-            picket
-          </span>
+          <PicketLogo size={30} showWordmark />
 
           <button
             className="ml-auto lg:hidden"

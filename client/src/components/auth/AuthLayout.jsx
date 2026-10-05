@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase } from 'lucide-react';
+import PicketLogo from '../common/PicketLogo';
 
 export default function AuthLayout({ children, title, subtitle }) {
   return (
@@ -15,9 +15,7 @@ export default function AuthLayout({ children, title, subtitle }) {
 
       <div className="w-full max-w-[400px] relative z-10">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--text-primary)] text-[var(--bg)] mb-4 shadow-[var(--sh-card)]">
-            <Briefcase size={24} />
-          </div>
+          <PicketLogo size={36} variant="badge" className="mb-4" />
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-2">
             {title}
           </h1>
