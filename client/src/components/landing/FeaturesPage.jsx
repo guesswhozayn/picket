@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ArrowLeft, LayoutDashboard, Settings, Activity, Users, Download, Mail, Star
 } from 'lucide-react';
+import PicketLogo from '../common/PicketLogo';
 
 export default function FeaturesPage({ onBack }) {
   const features = [
@@ -50,21 +51,7 @@ export default function FeaturesPage({ onBack }) {
             <ArrowLeft size={16} />
           </button>
           <div onClick={onBack} className="flex items-center gap-2 cursor-pointer">
-            <svg width="20" height="24" viewBox="0 0 44 54" fill="none">
-              <defs>
-                <linearGradient id="features-g-back" x1="6" y1="6" x2="20" y2="48" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#1565C0" />
-                  <stop offset="100%" stopColor="#1E88E5" />
-                </linearGradient>
-                <linearGradient id="features-g-front" x1="22" y1="2" x2="34" y2="46" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#26C6DA" />
-                  <stop offset="100%" stopColor="#1565C0" />
-                </linearGradient>
-              </defs>
-              <rect x="4" y="6" width="17" height="40" rx="8.5" fill="url(#features-g-back)" transform="rotate(14 12.5 26)" />
-              <rect x="20" y="3" width="15" height="38" rx="7.5" fill="url(#features-g-front)" transform="rotate(-6 27.5 22)" />
-            </svg>
-            <span className="font-bold text-base tracking-tight" style={{ letterSpacing: '-0.6px' }}>picket</span>
+            <PicketLogo size={22} showWordmark light />
             <span className="text-xs bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full font-mono font-bold uppercase tracking-wider text-[9px]">
               Features
             </span>

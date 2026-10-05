@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import PipelineGrid from '../PipelineGrid';
 import PipelineBoard from '../PipelineBoard';
+import PicketLogo from '../common/PicketLogo';
 import '../../landing.css';
 
 function LandingPipelineDemo() {
@@ -177,21 +178,7 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
           }}
         >
           <div className="flex items-center gap-2.5">
-            <svg width="24" height="28" viewBox="0 0 44 54" fill="none" className="shrink-0 transition-transform hover:scale-105 duration-300">
-              <defs>
-                <linearGradient id="nav-pk-g-back" x1="6" y1="6" x2="20" y2="48" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#1565C0" />
-                  <stop offset="100%" stopColor="#1E88E5" />
-                </linearGradient>
-                <linearGradient id="nav-pk-g-front" x1="22" y1="2" x2="34" y2="46" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#26C6DA" />
-                  <stop offset="100%" stopColor="#1565C0" />
-                </linearGradient>
-              </defs>
-              <rect x="4" y="6" width="17" height="40" rx="8.5" fill="url(#nav-pk-g-back)" transform="rotate(14 12.5 26)" />
-              <rect x="20" y="3" width="15" height="38" rx="7.5" fill="url(#nav-pk-g-front)" transform="rotate(-6 27.5 22)" />
-            </svg>
-            <span className="font-bold text-[18px] tracking-tight" style={{ fontFamily: 'var(--font-sans)', letterSpacing: '-0.8px' }}>picket</span>
+            <PicketLogo size={28} showWordmark light />
           </div>
 
           <div className="hidden md:flex items-center gap-1 bg-neutral-100/50 p-1 rounded-xl border border-neutral-200/50">
@@ -848,23 +835,14 @@ export default function LandingPage({ onStartHiring, onLogin, onDocs, onHowItWor
         </div>
 
         <div className="pk-spin-logo mx-auto w-14 h-14 flex items-center justify-center bg-white rounded-full border border-neutral-200 shadow-sm">
-          <svg width="22" height="26" viewBox="0 0 44 54" fill="none">
-            <rect x="4" y="6" width="17" height="40" rx="8.5" fill="url(#nav-pk-g-back)" transform="rotate(14 12.5 26)" />
-            <rect x="20" y="3" width="15" height="38" rx="7.5" fill="url(#nav-pk-g-front)" transform="rotate(-6 27.5 22)" />
-          </svg>
+          <PicketLogo size={26} light />
         </div>
       </section>
 
       <footer className="py-12 border-t border-neutral-200 bg-white relative z-10 px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-12 text-left">
           <div className="col-span-2">
-            <div className="flex items-center gap-2.5 mb-4">
-              <svg width="18" height="22" viewBox="0 0 44 54" fill="none">
-                <rect x="4" y="6" width="17" height="40" rx="8.5" fill="url(#nav-pk-g-back)" transform="rotate(14 12.5 26)" />
-                <rect x="20" y="3" width="15" height="38" rx="7.5" fill="url(#nav-pk-g-front)" transform="rotate(-6 27.5 22)" />
-              </svg>
-              <span className="font-bold text-base tracking-tight text-neutral-900">picket</span>
-            </div>
+            <PicketLogo size={24} showWordmark light className="mb-4" />
             <p className="text-xs text-neutral-600 leading-relaxed max-w-[200px]">
               AI-powered candidate screening pipelines and biometric verification challenges.
             </p>

@@ -1,13 +1,12 @@
 import React from 'react';
-import { Briefcase, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
+import PicketLogo from '../common/PicketLogo';
 
 export default function SplashScreen() {
   return (
     <div className="fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-[var(--bg)]">
       <div className="flex flex-col items-center gap-6">
-        <div className="w-16 h-16 rounded-2xl bg-[var(--text-primary)] text-[var(--bg)] flex items-center justify-center shadow-[var(--sh-card)] animate-pulse">
-          <Briefcase size={32} />
-        </div>
+        <PicketLogo size={48} variant="badge" className="animate-pulse" />
         <div className="flex flex-col items-center gap-2">
           <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)]">
             picket
