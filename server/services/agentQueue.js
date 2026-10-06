@@ -10,7 +10,7 @@ const redisUrl = process.env.REDIS_URL ? process.env.REDIS_URL.replace(/^"|"$/g,
 
 const redisOptions = {
   maxRetriesPerRequest: null,
-  family: 4, // Force IPv4 to resolve getaddrinfo ENOTFOUND on platforms like Render
+  family: 4,
 };
 
 if (redisUrl && (redisUrl.startsWith('rediss://') || redisUrl.includes('upstash.io'))) {
